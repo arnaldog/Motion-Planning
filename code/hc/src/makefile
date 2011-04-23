@@ -1,12 +1,10 @@
-
 SRC= motionplanning.c
 OBJ= $(SRC:.c=.o)
 
-BIN= hcmp
+BIN= hcmp.exe
 
 all:	$(OBJ)
-		gcc -o $(BIN)  $(SRC) -lm 
-
+		gcc -o -Wall $(BIN)  $(SRC) -lm 
 
 clean:
 	rm -rf $(OBJ) $(BIN)
