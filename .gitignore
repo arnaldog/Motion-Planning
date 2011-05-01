@@ -32,3 +32,9 @@
 ehthumbs.db
 Icon?
 Thumbs.db
+
+#netbeans ignore personal stuff
+nbproject/
+nbproject/private/
+nbactions.xml
+.dep.inc
