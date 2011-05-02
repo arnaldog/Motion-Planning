@@ -3,12 +3,14 @@ CC=g++
 #Flags que usara el compilador
 CFLAGS=-c -Wall
 #Ejecutable
-EXE=psomp.exe
+BIN=psomp.bin
+SRC=main.cpp Map.cpp Swarm.cpp Particle.cpp Point.cpp
+OBJ=$(SRC:.cpp=.o)
 
-all: $(EXE)
+all: $(BIN)
 
-$(EXE): main.o Map.o Swarm.o Particle.o Point.o
-	g++ main.o Map.o Swarm.o Particle.o Point.o -o $(EXE)
+$(BIN): $(OBJ)
+	g++  $(OBJ) -o $(BIN)
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp
@@ -26,4 +28,4 @@ Point.o: Point.cpp
 	$(CC) $(CFLAGS) Point.cpp
 
 clean:
-	rm *.o $(EXE)
+	rm $(OBJ) $(BIN)

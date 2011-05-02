@@ -1,9 +1,11 @@
 using namespace std;
 
 #include "Swarm.h"
+#include "Particle.h"
 #include <iostream>
 
 #define MAX_VALUE 9999
+#define PARTICLE_LENGTH 20
 
 Swarm::Swarm() {
 }
@@ -15,24 +17,38 @@ Swarm::~Swarm() {
 }
 
 void Swarm::initialize(int cantidad_particulas = 10){
-	//crear las particulas
-	this->population = vector<Particle> (cantidad_particulas);
 	
-	//que el mejor fitness al momento de creacion sea un valor alto
-	this->best_fitness = MAX_VALUE;
+        //crear las particulas
+        this->population = vector<Particle> (cantidad_particulas);
+    	//que el mejor fitness al momento de creacion sea un valor alto
+	this->bestFitness = MAX_VALUE;
+        
+        for(unsigned int i=0; i < this->population.size(); i++){
+            
+            // Referencia al objeto de la poblacion
+            Particle &p = this->population[i];
 
-	//buscar cual de todas las particulas es la mejor
-	for (unsigned int i=0; i < this->population.size(); i++){
-		Particle p = this->population[i];
-		int bf = p.fitness();
-		
-		if(bf <= this->best_fitness){
-			this->best_fitness = bf;
-			this->best_particle = p;
-		}
-	}
+            // Inicializacion de la posicion
+            p.createRandomRoute();
+
+            // Inicializacion mejor posicion
+            p.setBestPosition(p.getPosition()); 
+
+            // Mejor solucion conocida
+            if(p.getFitness() <= this->bestFitness) {
+                
+                this->setBestFitness(p.getFitness());
+                this->bestParticle = i;
+            }   
+        }
 }
 
 void Swarm::init(){
 	
+}
+
+// GETTERS AND SETTERS
+void Swarm::setBestFitness(int newBestFitness){
+    this->bestFitness = newBestFitness;
+    return;
 }

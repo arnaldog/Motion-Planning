@@ -17,6 +17,8 @@ class Particle {
 public:
 	Particle();
 	Particle(const Particle& orig);
+        Particle(vector <Point> position);
+
 	virtual ~Particle();
 
 	/* Metodos para particulas a considerar
@@ -28,26 +30,33 @@ public:
 	 *  - Restricciones de la particula
 	 */
 
-	void createRandomRoute(Point start, Point goal);
-	
-	//debug
-	void hablar();
-	
-	//funcion objetivo
-	int fitness();
+	void createRandomRoute(); /* ruta inicial */
+        void updatePosition(); /* Actualiza posicion */
+        void updateVelocity(); /* Actualiza velocidad */
+        void evaluateFitness(); /* Evalua funcion objetivo */
+        void particleConstraints(); /* Chequea restricciones de particulas */
+
+        // Getters and setters ...
+
+        void setPosition(vector <Point> newPosition);
+        void setBestPosition(vector <Point> newBestPosition);
+        void setVelocity(vector <Point> newVelocity);
+        void setFitness(int newFitness);
+        void setSize(int newSize);
+
+        vector <Point> getPosition();
+        vector <Point> getBestPosition();
+        vector <Point> getVelocity();
+        int getFitness();
+        int getSize();
+
 private:
 
-	/* Atributos para la clase particula
-	 * - posicion
-	 * - mejor posicion
-	 * - velocidad actual
-	 * - funcion objetivo
-	 */
-	vector <Point> position;
-	vector <Point> best_position;
-	vector <Point> velocity;
-	int actual_fitness;
-	int size;
+	vector <Point> position; /* vector de posiciones */
+	vector <Point> bestPosition; /* vector que guarda la mejor posicion */
+	vector <Point> velocity; /* vector de velocidades */
+	int fitness; /* valor de la funcion objetivo actual */
+	int size; /* tamano de la ruta */
 };
 
 #endif	/* PARTICLE_H */

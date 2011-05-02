@@ -20,10 +20,12 @@ class Swarm {
 		*/
 		void initialize(int cantidad_particulas);
 		void init();
+                void setBestFitness(int newBestFitness);
+                
 	private:
 		vector <Particle> population;	//particle population
-		Particle best_particle;		//best positioned particle
-		int best_fitness;		//fitness de la mejor particula
+		int bestParticle;		//best positioned particle
+		int bestFitness;		//fitness de la mejor particula
 };
 
 #endif	/* SWARM_H */
