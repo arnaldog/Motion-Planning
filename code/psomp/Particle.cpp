@@ -25,5 +25,3 @@ void Particle::Init(Point start, Point goal){
     }
 
 }
-
-

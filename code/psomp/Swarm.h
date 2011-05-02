@@ -14,27 +14,22 @@ using namespace std;
 #define	SWARM_H
 
 class Swarm {
-    
-public:
-    Swarm();
-    Swarm(const Swarm& orig);
-    virtual ~Swarm();
+	public:
+		Swarm();
+		Swarm(const Swarm& orig);
+		virtual ~Swarm();
 
-    /*
-     * Metodos a implementar:
-     * - Inicializacion de cada particula considerando una distribucion uniforme
-     * -
-     * -
-     */
-private:
-    
-    vector <Particle> population; // particle population
-    Particle bestPositioned; // best positioned particle
-    Point start;
-    Point goal;
-
-
+		/*
+		* Metodos a implementar:
+		* - Inicializacion de cada particula considerando una distribucion uniforme
+		* -
+		* -
+		*/
+	private:
+		vector <Particle> population; // particle population
+		Particle bestPositioned; // best positioned particle
+		Point start;
+		Point goal;
 };
 
 #endif	/* SWARM_H */
-

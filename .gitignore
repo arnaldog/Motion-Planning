@@ -34,7 +34,12 @@ Icon?
 Thumbs.db
 
 #netbeans ignore personal stuff
-nbproject/
-nbproject/private/
-nbactions.xml
-.dep.inc
+code/psomp/debug/
+code/psomp/bulid/
+code/psomp/dist/
+code/psomp/nbproject/
+code/psomp/nbproject/private/
+code/psomp/nbactions.xml
+*.dep.inc
+*.mk
+*.o.d

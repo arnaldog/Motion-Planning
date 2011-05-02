@@ -6,19 +6,11 @@
 CND_BASEDIR=`pwd`
 CND_BUILDDIR=build
 CND_DISTDIR=dist
-# Debug configuration
-CND_PLATFORM_Debug=GNU-MacOSX
-CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-MacOSX
-CND_ARTIFACT_NAME_Debug=psomp
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-MacOSX/psomp
-CND_PACKAGE_DIR_Debug=dist/Debug/GNU-MacOSX/package
-CND_PACKAGE_NAME_Debug=psomp.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-MacOSX/package/psomp.tar
-# Release configuration
-CND_PLATFORM_Release=GNU-MacOSX
-CND_ARTIFACT_DIR_Release=dist/Release/GNU-MacOSX
-CND_ARTIFACT_NAME_Release=psomp
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/psomp
-CND_PACKAGE_DIR_Release=dist/Release/GNU-MacOSX/package
-CND_PACKAGE_NAME_Release=psomp.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/psomp.tar
+# Default configuration
+CND_PLATFORM_Default=GNU-Linux-x86
+CND_ARTIFACT_DIR_Default=
+CND_ARTIFACT_NAME_Default=
+CND_ARTIFACT_PATH_Default=
+CND_PACKAGE_DIR_Default=dist/Default/GNU-Linux-x86/package
+CND_PACKAGE_NAME_Default=psomp.tar
+CND_PACKAGE_PATH_Default=dist/Default/GNU-Linux-x86/package/psomp.tar

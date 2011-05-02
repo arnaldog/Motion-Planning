@@ -16,11 +16,6 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-
-
-    Swarm swarm = Swarm();
-    
-
-    return 0;
+	Swarm swarm = Swarm();
+	return 0;
 }
-
