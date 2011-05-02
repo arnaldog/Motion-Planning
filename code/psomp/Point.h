@@ -1,10 +1,3 @@
-/* 
- * File:   Point.h
- * Author: alejandrasuarez
- *
- * Created on 1 de mayo de 2011, 18:00
- */
-
 #ifndef POINT_H
 #define	POINT_H
 

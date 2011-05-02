@@ -1,13 +1,8 @@
-    /* 
- * File:   Particle.cpp
- * Author: alejandrasuarez
- * 
- * Created on 1 de mayo de 2011, 17:57
- */
+#include <iostream>
 
 #include "Particle.h"
 
-Particle::Particle() {
+Particle::Particle(){
 }
 
 Particle::Particle(const Particle& orig) {
@@ -16,7 +11,7 @@ Particle::Particle(const Particle& orig) {
 Particle::~Particle() {
 }
 
-void Particle::Init(Point start, Point goal){
+void Particle::createRandomRoute(Point start, Point goal){
 
     for (int i = 0; i < this->size; i++){
         // initiallling the particle
@@ -24,4 +19,12 @@ void Particle::Init(Point start, Point goal){
         this->position.push_back(p);
     }
 
+}
+
+void Particle::hablar(){
+	cout << this->actual_fitness << endl;
+}
+
+int Particle::fitness(){
+	return 8;
 }
