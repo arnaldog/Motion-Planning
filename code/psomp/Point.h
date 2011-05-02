@@ -8,6 +8,16 @@ public:
     Point(int x, int y, int m); // point with magnitude for velocity 
     Point(int x, int y);
     virtual ~Point();
+
+
+    // GETTERS AND SETTERS
+    int getX();
+    int getY();
+
+    void setX(int x);
+    void setY(int y);
+
+
 private:
     int x;
     int y;
