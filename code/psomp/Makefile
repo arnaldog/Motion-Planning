@@ -4,19 +4,22 @@ CC=g++
 CFLAGS=-c -Wall
 #Ejecutable
 BIN=psomp.bin
-SRC=main.cpp Map.cpp Swarm.cpp Particle.cpp Point.cpp
+SRC=main.cpp Map.cpp Parser.cpp Swarm.cpp Particle.cpp Point.cpp
 OBJ=$(SRC:.cpp=.o)
 
 all: $(BIN)
 
 $(BIN): $(OBJ)
-	g++  $(OBJ) -o $(BIN)
+	$(CC)  $(OBJ) -o $(BIN)
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp
 
 Map.o: Map.cpp
 	$(CC) $(CFLAGS) Map.cpp
+
+Parser.o: Parser.cpp
+	$(CC) $(CFLAGS) Parser.cpp
 
 Swarm.o: Swarm.cpp
 	$(CC) $(CFLAGS) Swarm.cpp

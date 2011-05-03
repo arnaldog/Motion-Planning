@@ -1,17 +1,17 @@
 using namespace std;
 
-#include <iostream>
-
-#include "vector"
 #include "Map.h"
-#include "Point.h"
 
 Map::Map(string url){
-	this->url = url;
-	
+	this->map_file_url = url;
 	this->parseMapFile();
 }
 
 void Map::parseMapFile(){
-	cout << "abriendo y parseando mapa: " << this->url << endl;
+	//debug
+	cout << "Map::parseMapFile: abriendo y parseando mapa: " << this->map_file_url << endl;
+
+	Parser p;
+	p.setMapFile(this->map_file_url);
+	p.parsear();
 }

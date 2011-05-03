@@ -57,7 +57,6 @@ void Particle::particleConstraints(){
 }
 
 // GETTERS AND SETTERS
-#ifndef GET_AND_SET
 void Particle::setPosition(vector <Point> newPosition){
     this->position = newPosition;
     return;
@@ -101,5 +100,3 @@ int Particle::getFitness(){
 int Particle::getSize(){
     return this->size;
 }
-
-#endif GET_AND_SET
