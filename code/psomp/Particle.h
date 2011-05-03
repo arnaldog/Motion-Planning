@@ -41,13 +41,15 @@ public:
         void setPosition(vector <Point> newPosition);
         void setBestPosition(vector <Point> newBestPosition);
         void setVelocity(vector <Point> newVelocity);
-        void setFitness(int newFitness);
+        void setPositionFitness(int newFitness);
+        void setBestPositionFitness(int newFitness);
         void setSize(int newSize);
 
         vector <Point> getPosition();
         vector <Point> getBestPosition();
         vector <Point> getVelocity();
-        int getFitness();
+        int getPositionFitness();
+        int getBestPositionFitness();
         int getSize();
 
 private:
@@ -55,7 +57,8 @@ private:
 	vector <Point> position; /* vector de posiciones */
 	vector <Point> bestPosition; /* vector que guarda la mejor posicion */
 	vector <Point> velocity; /* vector de velocidades */
-	int fitness; /* valor de la funcion objetivo actual */
+	int positionFitness; /* valor de la funcion objetivo actual */
+        int bestPositionFitness; /* el valor de la f.o. de la mejor posicion */
 	int size; /* tamano de la ruta */
 };
 

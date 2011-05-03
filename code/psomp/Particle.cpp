@@ -47,7 +47,7 @@ void Particle::evaluateFitness(){
         newFitness+=1; // replace this by a evaluation function
     }
 
-    this->setFitness(newFitness);
+    this->setPositionFitness(newFitness);
     return;
 }
 
@@ -71,10 +71,16 @@ void Particle::setVelocity(vector <Point> newVelocity){
     return;
 }
 
-void Particle::setFitness(int newFitness){
-    this->fitness = newFitness;
+void Particle::setPositionFitness(int newFitness){
+    this->positionFitness = newFitness;
     return;
 }
+
+void Particle::setBestPositionFitness(int newFitness){
+    this->bestPositionFitness = newFitness;
+    return;
+}
+
 
 void Particle::setSize(int newSize){
     this->size = newSize;
@@ -93,8 +99,12 @@ vector <Point> Particle::getVelocity(){
     return this->velocity;
 }
 
-int Particle::getFitness(){
-    return this->fitness;
+int Particle::getPositionFitness(){
+    return this->positionFitness;
+}
+
+int Particle::getBestPositionFitness(){
+    return this->bestPositionFitness;
 }
 
 int Particle::getSize(){

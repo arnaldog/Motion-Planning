@@ -19,6 +19,7 @@ class Swarm {
 		* -
 		*/
 		void initialize(int cantidad_particulas);
+                void iteration();
 		void init();
                 void setBestFitness(int newBestFitness);
                 
@@ -26,6 +27,7 @@ class Swarm {
 		vector <Particle> population;	//particle population
 		int bestParticle;		//best positioned particle
 		int bestFitness;		//fitness de la mejor particula
+                int iterations;
 };
 
 #endif	/* SWARM_H */
