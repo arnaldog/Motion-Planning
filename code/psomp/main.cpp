@@ -31,6 +31,9 @@ int main(int argc, char** argv) {
 	//crear mapa
 	Map mapa = Map(argv[1]);
 	
+	//imprimir mapa (opcional)
+	mapa.printMap();
+	
 	//crear enjambre de particulas
 	Swarm swarm = Swarm();
 	

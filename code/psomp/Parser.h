@@ -20,10 +20,10 @@ class Parser {
 		void setMapFile(string url);
 		void parsear();
 		
-		matrixInt getMap();
+		matrixInt getMatrix();
 	private:
 		//mapa
-		matrixInt map;
+		matrixInt matrix;
 
 		//archivo de entrada
 		string map_file_url;

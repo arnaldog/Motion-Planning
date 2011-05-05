@@ -19,14 +19,15 @@ void Parser::parsear(){
 
 void Parser::reservarMemoria(){
 	for(int i = 0; i < this->width; i++){
-		this->map.push_back( vector<int>() );
+		this->matrix.push_back( vector<int>() );
 
 		for (int j = 0; j < this->height; j++ )
-			this->map[i].push_back(-1);
+			this->matrix[i].push_back(-1);
 	}
 }
 
 void Parser::obtenerSize(){
+	cout << "Parser: Obteniendo dimension del mapa" << endl;
 
 	this->file.open(this->map_file_url.c_str(), ios::in);
 
@@ -71,25 +72,19 @@ void Parser::leerArchivo(){
 		i = 0;
 		while(this->file >> line){
 			//cout << "linea: " << line << endl;
-
-			cout << i << endl;
 			
 			//agregar nueva fila al vector
-			//this->map.push_back(vector<int>());
+			//this->matrix.push_back(vector<int>());
 
 			//por cada elemento de la fila...
 			for(unsigned int j=0; j<line.length(); j++){
-				cout << line[j] << ",";
-				this->map[i][j] = line[j];
+				//TODO: no esta transformando bien a ints, toma 0 = 48 y 1 = 49, alguna relacion ASCII quiza?
+				cout << int(line[j]) << ",";
+				this->matrix[i][j] = int(line[j]);
 			}
-			cout << endl;
-
-			//cout << line.length() << endl;
-			//cout << "C[" << i/this->size << "][" << i%this->size << "] = " << x << endl;
-
+			//cout << endl;
 			i++;
 		}
-
 		this->file.close();
 	} else {
 		//cout << "ERROR: no se pudo abrir el archivo: " << this->map_file_url.c_str() << endl;
@@ -100,6 +95,6 @@ void Parser::setMapFile(string url){
 	this->map_file_url = url;
 }
 
-matrixInt Parser::getMap(){
-	return this->map;
+matrixInt Parser::getMatrix(){
+	return this->matrix;
 }

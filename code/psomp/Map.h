@@ -6,7 +6,6 @@ using namespace std;
 #include "Point.h"
 #include "Parser.h"
 
-
 #ifndef MAP_H
 #define	MAP_H
 
@@ -17,7 +16,8 @@ class Map {
 		
 		//parsear archivo
 		void parseMapFile();
-	private:
+		void printMap();
+	private:		
 		vector < vector <int> > map;
 		string map_file_url;
 		Point start;
