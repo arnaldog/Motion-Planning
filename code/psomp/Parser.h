@@ -32,8 +32,8 @@ class Parser {
 		ifstream file;
 		
 		//tamaño de la matriz
-		int width;
-		int height;
+		unsigned int width;
+		unsigned int height;
 
 		//metodos
 

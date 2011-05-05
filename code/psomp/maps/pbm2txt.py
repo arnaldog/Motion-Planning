@@ -44,12 +44,6 @@ for i in range(len(table)):
 
 	#para cada columna
 	for j in range(len(fila)):
-		###reemplazar cualquier valor distinto de 0 con un 0 (espacio libre)
-		##if (table[i][j] != 0):
-		##	table[i][j] = 0
-		###reemplazar cualquier valor igual a 0 con un 1 (obstaculo)
-		##elif (table[i][j] == 0):
-		##	table[i][j] = 1
 		file_output.write(str(table[i][j]))
 	file_output.write('\n')
 

@@ -21,8 +21,8 @@ void Map::parseMapFile(){
 void Map::printMap(){
 	for(unsigned int i = 0; i<this->map.size(); i++){
 		for(unsigned int j = 0; j<this->map[i].size(); j++){
-			//cout << this->map[i][j];
+			cout << this->map[i][j];
 		}
-		//cout << endl;
+		cout << endl;
 	}
 }

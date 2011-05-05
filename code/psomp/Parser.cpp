@@ -11,17 +11,17 @@ void Parser::parsear(){
 	this->obtenerSize();
 	
 	//reservar memoria para el vector
-	this->reservarMemoria();
+	//this->reservarMemoria();
 
 	//parsear archivo de tiempos
 	this->leerArchivo();
 }
 
 void Parser::reservarMemoria(){
-	for(int i = 0; i < this->width; i++){
+	for(unsigned int i = 0; i < this->width; i++){
 		this->matrix.push_back( vector<int>() );
 
-		for (int j = 0; j < this->height; j++ )
+		for (unsigned int j = 0; j < this->height; j++ )
 			this->matrix[i].push_back(-1);
 	}
 }
@@ -62,28 +62,25 @@ void Parser::leerArchivo(){
 		
 		//leyendolo
 		string line;
-		unsigned int i = 0;
 		
 		//saltar las primeras 2 lineas, que son de informacion
-		for(i=0; i<2; i++){
+		for(unsigned int i=0; i<2; i++){
 			this->file >> line;
 		}
-
-		i = 0;
-		while(this->file >> line){
+		
+		char number;
+		
+		for(unsigned int i=0; i < this->height; i++){
 			//cout << "linea: " << line << endl;
 			
 			//agregar nueva fila al vector
-			//this->matrix.push_back(vector<int>());
+			this->matrix.push_back(vector<int>());
 
 			//por cada elemento de la fila...
-			for(unsigned int j=0; j<line.length(); j++){
-				//TODO: no esta transformando bien a ints, toma 0 = 48 y 1 = 49, alguna relacion ASCII quiza?
-				cout << int(line[j]) << ",";
-				this->matrix[i][j] = int(line[j]);
+			for(unsigned int j=0; j < this->width; j++){
+				this->file >> number;
+				this->matrix[i].push_back((int)number - '0');
 			}
-			//cout << endl;
-			i++;
 		}
 		this->file.close();
 	} else {
