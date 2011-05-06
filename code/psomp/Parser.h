@@ -22,8 +22,8 @@ class Parser {
 
 		matrixInt getMatrix();
 
-		Point getStart();
-		Point getGoal();
+		Point& getStart();
+		Point& getGoal();
 	private:
 		//mapa
 		matrixInt matrix;

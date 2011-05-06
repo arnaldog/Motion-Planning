@@ -89,20 +89,18 @@ void Parser::leerArchivo(){
 
 				//ver si se trata del caracter de inicio "S" (Start)
 				if (caracter == 'S'){
-					cout << "Detectado caracter \"S\" en i: " << i << endl;
 					this->matrix[i].push_back(2);
 					this->start = Point(i,j);
 
-					cout << "Start: " << this->start.toString() << endl;
+					cout << "Detectado caracter \"S\" en coordenadas: " << this->start.toString() << endl;
 				}
 
 				//ver si se trata del caracter de termino "E" (End)
 				if (caracter == 'G'){
-					cout << "Detectado caracter \"G\" en i: " << i << endl;
 					this->matrix[i].push_back(3);
 					this->goal = Point(i,j);
 
-					cout << "Goal: " << this->goal.toString() << endl;
+					cout << "Detectado caracter \"G\" en coordenadas: " << this->goal.toString() << endl;
 				}
 
 				//this->matrix[i].push_back((int)caracter - '0');
@@ -113,8 +111,8 @@ void Parser::leerArchivo(){
 		//cout << "ERROR: no se pudo abrir el archivo: " << this->map_file_url.c_str() << endl;
 	}
 
-	cout << "this->getStart().toString(): " << this->getStart().toString() << endl;//
-	cout << "this->start.toString(): " << this->start.toString() << endl;//
+	//cout << "this->getStart().toString(): " << this->getStart().toString() << endl;//
+	//cout << "this->start.toString(): " << this->start.toString() << endl;//
 }
 
 void Parser::setMapFile(string url){
@@ -125,10 +123,9 @@ matrixInt Parser::getMatrix(){
 	return this->matrix;
 }
 
-Point Parser::getStart(){
-	//cout << "getStart: " << this->start.toString() << endl;
+Point& Parser::getStart(){
 	return this->start;
 }
-Point Parser::getGoal(){
+Point& Parser::getGoal(){
 	return this->goal;
 }
