@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include "Particle.h"
 
 Particle::Particle(){
@@ -20,14 +21,15 @@ Particle::~Particle() {
 // boundaries of the search-space
 void Particle::createRandomRoute(){
 
+	Config &config = Config::getInstance();
 
-   // for (unsigned int i = 0; i < this->position.size(); i++){
+   //for (unsigned int i = 0; i < this->position.size(); i++){
     for (unsigned int i = 0; i < 20 ; i++){
         Point p = Point(i,i);
         this->position.push_back(p);
     }
 
-     this->evaluateFitness(); // evaluating fitness 
+     this->evaluateFitness(); // evaluating fitness
 
 }
 

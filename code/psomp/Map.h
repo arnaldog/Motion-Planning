@@ -13,16 +13,16 @@ class Map {
 	public:
 		//constructor
 		Map(string url);
-		
+
 		//parsear archivo
 		void parseMapFile();
 		void printMap();
-	private:		
+	private:
 		vector < vector <int> > map;
 		string map_file_url;
 		Point start;
 		Point goal;
-		
+
 		//parseador
 		//Parser parser;
 };

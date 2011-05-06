@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   Point.cpp
  * Author: alejandrasuarez
- * 
+ *
  * Created on 1 de mayo de 2011, 18:00
  */
 
@@ -45,3 +45,12 @@ void Point::setY(int y){
     return;
 }
 
+string Point::toString(){
+
+	std::stringstream _x;
+	std::stringstream _y;
+	_x << this->x;
+	_y << this->y;
+
+	return string("(") + _x.str() + string(",") + _y.str() + string(")");
+}

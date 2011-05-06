@@ -26,8 +26,9 @@ void Swarm::initialize(int cantidad_particulas = 10){
 
 	// inicializar cada particula de la poblacion
 	for(unsigned int i=0; i < this->population.size(); i++){
-		
-		cout << "inicializando particula: " << i << endl;
+
+		//cout << "inicializando particula: " << i << endl;
+
 		// Referencia al objeto de la poblacion
 		Particle &p = this->population[i];
 
@@ -43,7 +44,7 @@ void Swarm::initialize(int cantidad_particulas = 10){
 
 		// Mejor solucion conocida
 		if(p.getPositionFitness() <= this->bestFitness) {
-			
+
 			// actualizar la mejor solucion de la poblaion
 			this->setBestFitness(p.getPositionFitness());
 			this->bestParticle = i;
@@ -52,17 +53,17 @@ void Swarm::initialize(int cantidad_particulas = 10){
 }
 
 void Swarm::init(){
-	
+
 }
 
 void Swarm::iteration(){
 
     // Criterio de parada: numero de iteraciones.
     int iteration=0;
-    
+
     while(iteration < this->iterations){
 
-        //Para cada partícula, hacer: 
+        //Para cada partícula, hacer:
         for(unsigned int i=0; i < this->population.size(); i++){
 
             // referencia a la particula para ser modificada.
@@ -75,7 +76,7 @@ void Swarm::iteration(){
             //Update the particle's velocity:
             //vi ← ω vi + φp rp (pi-xi) + φg rg (g-xi)
             p.updateVelocity();
-            
+
             //Update the particle's position: xi ← xi + vi
             p.updatePosition();
 

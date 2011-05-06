@@ -5,11 +5,10 @@ Parser::Parser(){
 	cout << "PARSER::constructor inicializado" << endl;
 }
 
-
 void Parser::parsear(){
 	//obtener tamaño de la matrices
 	this->obtenerSize();
-	
+
 	//reservar memoria para el vector
 	//this->reservarMemoria();
 
@@ -40,7 +39,7 @@ void Parser::obtenerSize(){
 		//extraer la cantidad de nodos
 		this->file >> width;
 		this->file >> height;
-		
+
 		this->width = width;
 		this->height = height;
 
@@ -59,33 +58,63 @@ void Parser::leerArchivo(){
 
 	if(this->file.is_open()){
 		cout << "parseando el archivo: " << this->map_file_url.c_str() << endl;
-		
+
 		//leyendolo
 		string line;
-		
+
 		//saltar las primeras 2 lineas, que son de informacion
 		for(unsigned int i=0; i<2; i++){
 			this->file >> line;
 		}
-		
-		char number;
-		
+
+		char caracter;
+
 		for(unsigned int i=0; i < this->height; i++){
 			//cout << "linea: " << line << endl;
-			
+
 			//agregar nueva fila al vector
 			this->matrix.push_back(vector<int>());
 
 			//por cada elemento de la fila...
 			for(unsigned int j=0; j < this->width; j++){
-				this->file >> number;
-				this->matrix[i].push_back((int)number - '0');
+				this->file >> caracter;
+
+				//ver si se trata de un espacio libre (0)
+				if (caracter == '0')
+					this->matrix[i].push_back(0);
+
+				//ver si se trata de un obstaculo (1)
+				if (caracter == '1')
+					this->matrix[i].push_back(1);
+
+				//ver si se trata del caracter de inicio "S" (Start)
+				if (caracter == 'S'){
+					cout << "Detectado caracter \"S\" en i: " << i << endl;
+					this->matrix[i].push_back(2);
+					this->start = Point(i,j);
+
+					cout << "Start: " << this->start.toString() << endl;
+				}
+
+				//ver si se trata del caracter de termino "E" (End)
+				if (caracter == 'G'){
+					cout << "Detectado caracter \"G\" en i: " << i << endl;
+					this->matrix[i].push_back(3);
+					this->goal = Point(i,j);
+
+					cout << "Goal: " << this->goal.toString() << endl;
+				}
+
+				//this->matrix[i].push_back((int)caracter - '0');
 			}
 		}
 		this->file.close();
 	} else {
 		//cout << "ERROR: no se pudo abrir el archivo: " << this->map_file_url.c_str() << endl;
 	}
+
+	cout << "this->getStart().toString(): " << this->getStart().toString() << endl;//
+	cout << "this->start.toString(): " << this->start.toString() << endl;//
 }
 
 void Parser::setMapFile(string url){
@@ -94,4 +123,12 @@ void Parser::setMapFile(string url){
 
 matrixInt Parser::getMatrix(){
 	return this->matrix;
+}
+
+Point Parser::getStart(){
+	//cout << "getStart: " << this->start.toString() << endl;
+	return this->start;
+}
+Point Parser::getGoal(){
+	return this->goal;
 }

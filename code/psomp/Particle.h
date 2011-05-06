@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Particle.h
  * Author: joecabezas
  *
@@ -8,6 +8,7 @@
 using namespace std;
 #include "vector"
 #include "Point.h"
+#include "Config.h"
 
 
 #ifndef PARTICLE_H

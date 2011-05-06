@@ -14,8 +14,13 @@ void Map::parseMapFile(){
 	Parser p;
 	p.setMapFile(this->map_file_url);
 	p.parsear();
-	
+
 	this->map = p.getMatrix();
+
+	//this->start = p.getStart();
+	//this->goal = p.getGoal();
+
+	//cout << "p.getStart().toString(): " << p.getStart().toString() << endl;
 }
 
 void Map::printMap(){
@@ -25,4 +30,8 @@ void Map::printMap(){
 		}
 		cout << endl;
 	}
+
+	//imprimir puntos de inicio y meta
+	//cout << "punto de inicio: " << this->start.toString() << endl;
+	//cout << "punto de meta: " << this->goal.toString() << endl;
 }
