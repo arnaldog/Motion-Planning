@@ -17,51 +17,53 @@ Swarm::~Swarm() {
 }
 
 void Swarm::initialize(int cantidad_particulas = 10){
-	
-        //crear las particulas
-        this->population = vector<Particle> (cantidad_particulas);
 
-    	//que el mejor fitness al momento de creacion sea un valor alto
+	//crear las particulas
+	this->population = vector<Particle> (cantidad_particulas);
+
+	//que el mejor fitness al momento de creacion sea un valor alto
 	this->bestFitness = MAX_VALUE;
 
-        // inicializar cada particula de la poblacion
-        for(unsigned int i=0; i < this->population.size(); i++){
-            
-            // Referencia al objeto de la poblacion
-            Particle &p = this->population[i];
+	// inicializar cada particula de la poblacion
+	for(unsigned int i=0; i < this->population.size(); i++){
 
-            // Inicializacion de la posicion
-            p.createRandomRoute(); // se necesita especificar
+		//cout << "inicializando particula: " << i << endl;
 
-            // evaluar función objetivo
-            p.evaluateFitness();
+		// Referencia al objeto de la poblacion
+		Particle &p = this->population[i];
 
-            // Inicializacion mejor posicion
-            p.setBestPosition(p.getPosition());
-            p.setBestPositionFitness(p.getPositionFitness());
+		// Inicializacion de la posicion
+		p.createRandomRoute(); // se necesita especificar (implementar?)
 
-            // Mejor solucion conocida
-            if(p.getPositionFitness() <= this->bestFitness) {
+		// evaluar función objetivo
+		p.evaluateFitness();
 
-                // actualizar la mejor solucion de la poblaion
-                this->setBestFitness(p.getPositionFitness());
-                this->bestParticle = i;
-            }   
-        }
+		// Inicializacion mejor posicion
+		p.setBestPosition(p.getPosition());
+		p.setBestPositionFitness(p.getPositionFitness());
+
+		// Mejor solucion conocida
+		if(p.getPositionFitness() <= this->bestFitness) {
+
+			// actualizar la mejor solucion de la poblaion
+			this->setBestFitness(p.getPositionFitness());
+			this->bestParticle = i;
+		}
+	}
 }
 
 void Swarm::init(){
-	
+
 }
 
 void Swarm::iteration(){
 
     // Criterio de parada: numero de iteraciones.
     int iteration=0;
-    
+
     while(iteration < this->iterations){
 
-        //Para cada partícula, hacer: 
+        //Para cada partícula, hacer:
         for(unsigned int i=0; i < this->population.size(); i++){
 
             // referencia a la particula para ser modificada.
@@ -74,7 +76,7 @@ void Swarm::iteration(){
             //Update the particle's velocity:
             //vi ← ω vi + φp rp (pi-xi) + φg rg (g-xi)
             p.updateVelocity();
-            
+
             //Update the particle's position: xi ← xi + vi
             p.updatePosition();
 
