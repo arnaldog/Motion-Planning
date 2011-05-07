@@ -29,7 +29,6 @@ int main(int argc, char** argv) {
 	
 	//crear enjambre de particulas
 	Swarm swarm = Swarm();
-	
 	//inicializar
 	swarm.initialize(CANTIDAD_PARTICULAS);
 	
