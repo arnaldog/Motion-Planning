@@ -24,6 +24,9 @@ public:
 
 	//print methods
 	string toString();
+
+	//verifica si el punto es valido o no (-1,-1) = no valido
+	bool isValid();
 private:
     int x;
     int y;

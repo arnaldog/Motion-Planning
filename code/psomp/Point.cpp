@@ -8,6 +8,9 @@
 #include "Point.h"
 
 Point::Point() {
+	//set to a not valid value
+	this->x = -1;
+	this->y = -1;
 }
 
 Point::Point(const Point& orig) {
@@ -53,4 +56,14 @@ string Point::toString(){
 	_y << this->y;
 
 	return string("(") + _x.str() + string(",") + _y.str() + string(")");
+}
+
+bool Point::isValid(){
+	if(this->x == -1)
+		return false;
+
+	if(this->y == -1)
+		return false;
+
+	return true;
 }

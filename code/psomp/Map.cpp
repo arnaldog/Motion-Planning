@@ -3,6 +3,8 @@ using namespace std;
 #include "Map.h"
 
 Map::Map(string url){
+	this->isValid = false;
+
 	this->map_file_url = url;
 	this->parseMapFile();
 }
@@ -19,6 +21,8 @@ void Map::parseMapFile(){
 
 	this->start = p.getStart();
 	this->goal = p.getGoal();
+
+	this->isValid = p.validarMapFile();
 }
 
 void Map::printMap(){
@@ -30,6 +34,13 @@ void Map::printMap(){
 	}
 
 	//imprimir puntos de inicio y meta
-	cout << "punto de inicio: " << this->start.toString() << endl;
-	cout << "punto de meta: " << this->goal.toString() << endl;
+	cout << "punto de inicio: " << this->start->toString() << endl;
+	cout << "punto de meta: " << this->goal->toString() << endl;
+}
+
+Point* Map::getStart(){
+	return this->start;
+}
+Point* Map::getGoal(){
+	return this->goal;
 }

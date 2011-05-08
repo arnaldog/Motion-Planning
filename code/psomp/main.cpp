@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
 	Map mapa = Map(argv[1]);
 
 	//imprimir mapa (opcional)
-	mapa.printMap();
+	//mapa.printMap();
 
 	//agregar mapa a los datos de configuracion global
 	config.setMap(&mapa);

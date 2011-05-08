@@ -23,13 +23,10 @@ void Particle::createRandomRoute(){
 
 	Config &config = Config::getInstance();
 
-   //for (unsigned int i = 0; i < this->position.size(); i++){
-    for (unsigned int i = 0; i < 20 ; i++){
-        Point p = Point(i,i);
-        this->position.push_back(p);
-    }
+	Point* start = config.getMap()->getStart();
 
-     this->evaluateFitness(); // evaluating fitness
+	cout << "PUNTO start: " << start->toString() << endl;
+	this->evaluateFitness(); // evaluating fitness
 
 }
 

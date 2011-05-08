@@ -17,14 +17,18 @@ class Map {
 		//parsear archivo
 		void parseMapFile();
 		void printMap();
+
+		Point* getStart();
+		Point* getGoal();
 	private:
 		vector < vector <int> > map;
 		string map_file_url;
-		Point start;
-		Point goal;
+		Point* start;
+		Point* goal;
 
-		//parseador
-		//Parser parser;
+		//variable que indica si un mapa es valido o no
+		//(si tiene puntos de entrada y meta)
+		bool isValid;
 };
 
 #endif	/* MAP_H */
