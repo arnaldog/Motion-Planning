@@ -25,46 +25,44 @@ void Particle::createRandomRoute(){
 
 	Map* mapa = config.getMap();
 	Point* start = mapa->getStart();
-	//Point* goal = mapa->getGoal();
+	Point* goal = mapa->getGoal();
 
 	//cout << "Particle:createRandomRoute(): map[1][0]: " << mapa->getMap()[1][0] << endl;
 	cout << "Particle:createRandomRoute(): start: " << start->toString() << endl;
+	cout << "Particle:createRandomRoute(): goal: " << goal->toString() << endl;
 
 	//ruta generada
-	vector<Point> ruta;
+	vector<Point*> ruta;
+
+	//agregar el primer elemento de la ruta (start)
+	ruta.push_back(start);
 
 	//obtener camino hasta llegar a la meta
 	bool llega_a_meta = false;
 
 	Point* punto_actual = start;
-	Point next = Point(7,7);
 
-	//next.setX(8);
-	//next.setY(9);
-	ruta.push_back(next);
-	cout << "Particle:createRandomRoute(): ruta[" << 0 << "] = " << ruta[0].toString() << endl; //TODO: porqué esto devuelve 1,-1 ???
-
-	/*
-	int i = 0;
+	//int i = 0;
 	while(!llega_a_meta){
 		Point* p = new Point();
 		*p = mapa->selectRandomNextStep(punto_actual, &ruta);
 
-		next.setX(3);
-		next.setY(8);
+		punto_actual = p;
 
-		cout << "Particle:createRandomRoute(): agregando punto " << next.toString() << " a la ruta" << endl;
-		ruta.push_back(next);
+		cout << "Particle:createRandomRoute(): agregando punto " << punto_actual->toString() << " a la ruta" << endl;
+		ruta.push_back(punto_actual);
 
-		cout << "Particle:createRandomRoute(): ruta[" << i << "] = " << ruta[i].toString() << endl;cout << "Particle:createRandomRoute(): ruta[" << i << "] = " << ruta[i].toString() << endl;
+		cout << "Particle:createRandomRoute(): ruta[" << ruta.size()-1 << "] = " << ruta[ruta.size()-1]->toString() << endl;
 
-		i++;
-		if(i>=3)
+		//i++;
+		if(*punto_actual == *goal)
 			llega_a_meta = true;
 	}
-	*/
 
-	//cout << "Particle:createRandomRoute(): siguiente paso: " << mapa->selectRandomNextStep(start, ruta).toString() << endl;
+	for(unsigned int i=0; i<ruta.size(); i++){
+		cout << "Particle:createRandomRoute(): ruta[" << i << "] = " << ruta[i]->toString() << endl;
+	}
+	cout << "Particle:createRandomRoute(): ruta completa en " << ruta.size() << " pasos" << endl;
 
 	this->evaluateFitness(); // evaluating fitness
 }

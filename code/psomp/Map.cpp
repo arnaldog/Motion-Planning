@@ -66,12 +66,8 @@ int Map::getValue(Point* p){
 	return this->map[p->getX()][p->getY()];
 }
 
-Point Map::selectRandomNextStep(Point* p, vector<Point>* camino_actual){
+Point Map::selectRandomNextStep(Point* p, vector<Point*>* camino_actual){
 	cout << "Map:selectRandomNextStep(): seleccionando siguiente paso para el punto " << p->toString() << endl;
-
-	for(unsigned int i=0; i<camino_actual->size(); i++){
-		cout << "Map:selectRandomNextStep(): camino_actual[" << i << "] = " << camino_actual->at(i).toString() << endl;
-	}
 
 	//punto a entregar
 	Point next;
@@ -97,42 +93,53 @@ Point Map::selectRandomNextStep(Point* p, vector<Point>* camino_actual){
 
 	//norte
 	//cout << "Map:selectRandomNextStep(): revisando norte " << norte.toString() << endl;
-	if(norte.isValid(this->width, this->height)){
+	if( (norte.isValid(this->width, this->height)) && !norte.isInVector(*camino_actual) ){
 		factibles++;
 		//puntos_factibles.push_back(norte);
 
 		//solucion rapida
 		ticket_norte = factibles;
+	} else {
+		cout << "Map:selectRandomNextStep(): norte " << norte.toString() << " NO FACTIBLE" << endl;
 	}
 
 	//cout << "Map:selectRandomNextStep(): revisando sur " << sur.toString() << endl;
-	if(sur.isValid(this->width, this->height)){
+	if( (sur.isValid(this->width, this->height)) && !sur.isInVector(*camino_actual) ){
 		factibles++;
 		//puntos_factibles.push_back(sur);
 
 		//solucion rapida
 		ticket_sur = factibles;
+	} else {
+		cout << "Map:selectRandomNextStep(): sur " << sur.toString() << " NO FACTIBLE" << endl;
 	}
 
 	//cout << "Map:selectRandomNextStep(): revisando este " << este.toString() << endl;
-	if(este.isValid(this->width, this->height)){
+	if( (este.isValid(this->width, this->height)) && !este.isInVector(*camino_actual) ){
 		factibles++;
 		//puntos_factibles.push_back(este);
 
 		//solucion rapida
 		ticket_este = factibles;
+	} else {
+		cout << "Map:selectRandomNextStep(): este " << este.toString() << " NO FACTIBLE" << endl;
 	}
 
 	//cout << "Map:selectRandomNextStep(): revisando oeste " << oeste.toString() << endl;
-	if(oeste.isValid(this->width, this->height)){
+	if( (oeste.isValid(this->width, this->height)) && !oeste.isInVector(*camino_actual) ){
 		factibles++;
 		//puntos_factibles.push_back(oeste);
 
 		//solucion rapida
 		ticket_oeste = factibles;
+	} else {
+		cout << "Map:selectRandomNextStep(): oeste " << oeste.toString() << " NO FACTIBLE" << endl;
 	}
 
 	cout << "Map:selectRandomNextStep(): factibles = " << factibles << endl;
+
+	//TODO: si factibles es cero, es porque el robot se ha quedado encerrado, y hay que implementar alguna
+	//forma de salir de ahi, o permitir que camine sobre si mismo solo por esa vez (sera castigado en la F.O.)
 
 	//dentro de los factibles, seleccionar uno
 	int choice = -1;

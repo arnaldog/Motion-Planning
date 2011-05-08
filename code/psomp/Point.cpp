@@ -82,3 +82,27 @@ bool Point::isValid(int width,int height){
 
 	return true;
 }
+
+bool Point::isInVector(vector<Point*> v){
+	for(unsigned int i=0; i<v.size(); i++){
+		//cout << "Point::isInVector(): vector[" << i << "] = " << v->at(i)->toString() << endl;
+		Point* p = v.at(i);
+		if(*this == *p){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//operadores
+bool Point::operator==(const Point &other){
+	if( (this->x == other.x) && (this->y == other.y) )
+		return true;
+
+	return false;
+}
+
+bool Point::operator!=(const Point &other){
+    return !(*this == other);
+  }
