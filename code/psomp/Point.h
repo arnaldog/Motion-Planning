@@ -1,6 +1,7 @@
 using namespace std;
 
 #include <string>
+#include <iostream>
 #include <sstream>
 
 #ifndef POINT_H
@@ -27,6 +28,7 @@ public:
 
 	//verifica si el punto es valido o no (-1,-1) = no valido
 	bool isValid();
+	bool isValid(int width, int height);
 private:
     int x;
     int y;

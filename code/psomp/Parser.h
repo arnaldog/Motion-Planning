@@ -25,6 +25,9 @@ class Parser {
 		Point* getStart();
 		Point* getGoal();
 
+		unsigned int getWidth();
+		unsigned int getHeight();
+
 		//validacion del mapa, que tenga un puntos de partida y otro de meta
 		bool validarMapFile();
 	private:

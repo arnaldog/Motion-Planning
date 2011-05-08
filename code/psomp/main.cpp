@@ -8,7 +8,7 @@ using namespace std;
 #include "Map.h"
 #include "Swarm.h"
 
-#define CANTIDAD_PARTICULAS 5
+#define CANTIDAD_PARTICULAS 1
 
 bool verificarEntradas(int c);
 

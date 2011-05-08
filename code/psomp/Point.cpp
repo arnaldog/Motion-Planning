@@ -32,20 +32,20 @@ Point::Point(int x, int y) {
 }
 
 int Point::getX(){
-    return this->x;
+	return this->x;
 }
 int Point::getY(){
-    return this->y;
+	return this->y;
 }
 
 void Point::setX(int x){
-    this->x = x;
-    return;
+	this->x = x;
+	return;
 }
 
 void Point::setY(int y){
-    this->y = y;
-    return;
+	this->y = y;
+	return;
 }
 
 string Point::toString(){
@@ -59,10 +59,25 @@ string Point::toString(){
 }
 
 bool Point::isValid(){
-	if(this->x == -1)
+	if(this->x < 0)
 		return false;
 
-	if(this->y == -1)
+	if(this->y < 0)
+		return false;
+
+	return true;
+}
+
+bool Point::isValid(int width,int height){
+	cout << "Point::isValid(w,h): verificando si es valido dentro de los limites minimos (0,0)" << endl;
+	if(!this->isValid())
+		return false;
+
+	cout << "Point::isValid(w,h): verificando si se sale de los limites maximos: " << width << "," << height << endl;
+	if(this->x >= width)
+		return false;
+
+	if(this->y >= height)
 		return false;
 
 	return true;

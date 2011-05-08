@@ -149,6 +149,15 @@ matrixInt Parser::getMatrix(){
 Point* Parser::getStart(){
 	return this->start;
 }
+
 Point* Parser::getGoal(){
 	return this->goal;
+}
+
+unsigned int Parser::getWidth(){
+	return this->width;
+}
+
+unsigned int Parser::getHeight(){
+	return this->height;
 }

@@ -6,8 +6,8 @@ Particle::Particle(){
 }
 
 Particle::Particle(vector <Point> position){
-    this->position = position;
-    this->size = position.size();
+	this->position = position;
+	this->size = position.size();
 }
 
 Particle::Particle(const Particle& orig) {
@@ -23,9 +23,16 @@ void Particle::createRandomRoute(){
 
 	Config &config = Config::getInstance();
 
-	Point* start = config.getMap()->getStart();
+	Map* mapa = config.getMap();
+	Point* start = mapa->getStart();
+	//Point* goal = mapa->getGoal();
 
-	cout << "PUNTO start: " << start->toString() << endl;
+	cout << "Particle:createRandomRoute(): map[1][0]: " << mapa->getMap()[1][0] << endl;
+	cout << "Particle:createRandomRoute(): start: " << start->toString() << endl;
+
+	//obtener camino hasta llegar a la meta
+	cout << mapa->selectRandomNextStep(start).toString() << endl;
+
 	this->evaluateFitness(); // evaluating fitness
 
 }
