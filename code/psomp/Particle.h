@@ -33,7 +33,7 @@ public:
 
 	void createRandomRoute(); /* ruta inicial */
         void updatePosition(); /* Actualiza posicion */
-        void updateVelocity(); /* Actualiza velocidad */
+        void updateVelocity(vector <Point> bestGlobalKnownPosition); /* Actualiza velocidad */
         void evaluateFitness(); /* Evalua funcion objetivo */
         void particleConstraints(); /* Chequea restricciones de particulas */
 

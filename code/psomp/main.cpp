@@ -7,6 +7,7 @@ using namespace std;
 #include "Config.h"
 #include "Map.h"
 #include "Swarm.h"
+#include "Particle.h"
 
 #define CANTIDAD_PARTICULAS 5
 
@@ -19,6 +20,7 @@ int main(int argc, char** argv) {
 
 	//inicializar la configuracion (singleton)
 	Config &config = Config::getInstance();
+        config.setOmega(20);
 
 	/*
 	config().setIterations(20);
@@ -38,9 +40,17 @@ int main(int argc, char** argv) {
 
 	//crear enjambre de particulas
 	Swarm swarm = Swarm();
-	//inicializar
-	swarm.initialize(CANTIDAD_PARTICULAS);
 
+        // inicializaciónd e la población de particulas
+        vector <Particle> newPopulation = vector <Particle> (20);
+
+        swarm.setPopulation(newPopulation);
+        swarm.setBestFitness(9999);
+        swarm.setIterations(100);
+        
+	//inicializar
+	swarm.initialize();
+        
 	//comenzar PSO
 	swarm.init();
 

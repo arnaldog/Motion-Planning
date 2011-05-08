@@ -1,6 +1,9 @@
 #include <iostream>
 
 #include "Particle.h"
+#include "Util.h"
+#include "Point.h"
+#include "Config.h"
 
 Particle::Particle(){
 }
@@ -21,12 +24,15 @@ Particle::~Particle() {
 // boundaries of the search-space
 void Particle::createRandomRoute(){
 
-	Config &config = Config::getInstance();
+    Config &config = Config::getInstance();
+
+    cout << config.getOmega() << " OK" << endl;
 
    //for (unsigned int i = 0; i < this->position.size(); i++){
     for (unsigned int i = 0; i < 20 ; i++){
         Point p = Point(i,i);
         this->position.push_back(p);
+        //cout << p.getX() << " " << p.getY() << endl;
     }
 
      this->evaluateFitness(); // evaluating fitness
@@ -37,7 +43,33 @@ void Particle::updatePosition(){ // // x_{i+1} = ...
     return;
 }
 
-void Particle::updateVelocity(){  // v_{i+1} = ...
+void Particle::updateVelocity(vector <Point> bestGlobalKnownPosition){  // v_{i+1} = ...
+
+   Config &config = Config::getInstance();
+
+     //Pick random numbers: rp, rg ~ U(0,1)
+    int rp = Util::getUniformPRand();
+    int rg = Util::getUniformPRand();
+
+    int w = config.getOmega();
+    
+    int phi_p = config.getPhiP();
+    int phi_g = config.getPhiG();
+
+    //  Update the particle's velocity:
+     for(unsigned int i=0; i < this->velocity.size(); i++){
+
+         // point velocity reference
+         Point &v = this->velocity[i];
+         Point x = this->position[i];
+         Point p = this->bestPosition[i];
+         Point g = bestGlobalKnownPosition[i];
+
+         //  vi ← ω vi + φp rp (pi-xi) + φg rg (g-xi)
+         //v = w*v + phi_p*rp*(p-x) + phi_g*rg*(g-x);
+
+     }
+     
     return;
 }
 

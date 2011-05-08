@@ -18,10 +18,23 @@ class Swarm {
 		* -
 		* -
 		*/
-		void initialize(int cantidad_particulas);
+		void initialize();
                 void iteration();
 		void init();
+
+                /*
+                 * Getters and setters for attributes
+                 */
+
+                void setPopulation(vector <Particle> population);
+                void setBestParticle(int bestParticle);
                 void setBestFitness(int newBestFitness);
+                void setIterations(int newIteration);
+
+                vector <Particle> getPopulation();
+                int getBestParticle();
+                int getBestFitness();
+                int getIterations();
                 
 	private:
 		vector <Particle> population;	//particle population
