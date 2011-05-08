@@ -1,6 +1,8 @@
 using namespace std;
 
 #include <string>
+#include <vector>
+#include <iostream>
 #include <sstream>
 
 #ifndef POINT_H
@@ -24,6 +26,17 @@ public:
 
 	//print methods
 	string toString();
+
+	//verifica si el punto es valido o no (-1,-1) = no valido
+	bool isValid();
+	bool isValid(int width, int height);
+
+	//verifica si el punto esta en un vector
+	bool isInVector(vector<Point*> v);
+
+	//operadores
+	bool operator==(const Point &other);
+	bool operator!=(const Point &other);
 private:
     int x;
     int y;

@@ -47,3 +47,7 @@ void Config::setMap(Map* map){
 	this->map=map;
 	return;
 }
+
+int Config::getRandomInt(int max){
+	return rand()%max + 1;
+}

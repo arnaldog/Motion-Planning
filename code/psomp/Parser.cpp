@@ -3,6 +3,10 @@
 Parser::Parser(){
 	//debug
 	cout << "PARSER::constructor inicializado" << endl;
+
+	Point p = Point(-1,-1);
+	this->start = &p;
+	this->goal = &p;
 }
 
 void Parser::parsear(){
@@ -90,29 +94,48 @@ void Parser::leerArchivo(){
 				//ver si se trata del caracter de inicio "S" (Start)
 				if (caracter == 'S'){
 					this->matrix[i].push_back(2);
-					this->start = Point(i,j);
+					Point* p = new Point(i,j);
+					this->start = p;
 
-					cout << "Detectado caracter \"S\" en coordenadas: " << this->start.toString() << endl;
+					cout << "Detectado caracter \"S\" en coordenadas: " << this->start->toString() << endl;
 				}
 
 				//ver si se trata del caracter de termino "E" (End)
 				if (caracter == 'G'){
 					this->matrix[i].push_back(3);
-					this->goal = Point(i,j);
+					Point* p = new Point(i,j);
+					this->goal = p;
 
-					cout << "Detectado caracter \"G\" en coordenadas: " << this->goal.toString() << endl;
+					cout << "Detectado caracter \"G\" en coordenadas: " << this->goal->toString() << endl;
 				}
-
-				//this->matrix[i].push_back((int)caracter - '0');
+				//cout << "Parser::leerArchivo() " << this->start->toString() << endl;
 			}
 		}
+
 		this->file.close();
+
 	} else {
-		//cout << "ERROR: no se pudo abrir el archivo: " << this->map_file_url.c_str() << endl;
+		cout << "ERROR: no se pudo abrir el archivo: " << this->map_file_url.c_str() << endl;
 	}
 
 	//cout << "this->getStart().toString(): " << this->getStart().toString() << endl;//
 	//cout << "this->start.toString(): " << this->start.toString() << endl;//
+}
+
+bool Parser::validarMapFile(){
+	if(!this->start->isValid()){
+		cout << "ERROR: Punto de partida no valido" << endl;
+		cout << "ERROR: por favor escriba una S donde quiera poner el punto de partida" << endl;
+		return false;
+	}
+
+	if(!this->goal->isValid()){
+		cout << "ERROR: Punto de llegada no valido" << endl;
+		cout << "ERROR: por favor escriba una E donde quiera poner el punto de meta" << endl;
+		return false;
+	}
+
+	return true;
 }
 
 void Parser::setMapFile(string url){
@@ -123,9 +146,18 @@ matrixInt Parser::getMatrix(){
 	return this->matrix;
 }
 
-Point& Parser::getStart(){
+Point* Parser::getStart(){
 	return this->start;
 }
-Point& Parser::getGoal(){
+
+Point* Parser::getGoal(){
 	return this->goal;
+}
+
+unsigned int Parser::getWidth(){
+	return this->width;
+}
+
+unsigned int Parser::getHeight(){
+	return this->height;
 }

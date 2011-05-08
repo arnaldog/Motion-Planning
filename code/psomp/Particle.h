@@ -1,15 +1,9 @@
-/*
- * File:   Particle.h
- * Author: joecabezas
- *
- * Created on 1 de mayo de 2011, 17:57
- */
-
 using namespace std;
-#include "vector"
+
+#include <vector>
+
 #include "Point.h"
 #include "Config.h"
-
 
 #ifndef PARTICLE_H
 #define	PARTICLE_H

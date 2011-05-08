@@ -8,6 +8,9 @@
 #include "Point.h"
 
 Point::Point() {
+	//set to a not valid value
+	this->x = -1;
+	this->y = -1;
 }
 
 Point::Point(const Point& orig) {
@@ -29,20 +32,20 @@ Point::Point(int x, int y) {
 }
 
 int Point::getX(){
-    return this->x;
+	return this->x;
 }
 int Point::getY(){
-    return this->y;
+	return this->y;
 }
 
 void Point::setX(int x){
-    this->x = x;
-    return;
+	this->x = x;
+	return;
 }
 
 void Point::setY(int y){
-    this->y = y;
-    return;
+	this->y = y;
+	return;
 }
 
 string Point::toString(){
@@ -54,3 +57,52 @@ string Point::toString(){
 
 	return string("(") + _x.str() + string(",") + _y.str() + string(")");
 }
+
+bool Point::isValid(){
+	if(this->x < 0)
+		return false;
+
+	if(this->y < 0)
+		return false;
+
+	return true;
+}
+
+bool Point::isValid(int width,int height){
+	//cout << "Point::isValid(w,h): verificando si es valido dentro de los limites minimos (0,0)" << endl;
+	if(!this->isValid())
+		return false;
+
+	//cout << "Point::isValid(w,h): verificando si se sale de los limites maximos: " << width << "," << height << endl;
+	if(this->x >= width)
+		return false;
+
+	if(this->y >= height)
+		return false;
+
+	return true;
+}
+
+bool Point::isInVector(vector<Point*> v){
+	for(unsigned int i=0; i<v.size(); i++){
+		//cout << "Point::isInVector(): vector[" << i << "] = " << v->at(i)->toString() << endl;
+		Point* p = v.at(i);
+		if(*this == *p){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//operadores
+bool Point::operator==(const Point &other){
+	if( (this->x == other.x) && (this->y == other.y) )
+		return true;
+
+	return false;
+}
+
+bool Point::operator!=(const Point &other){
+    return !(*this == other);
+  }

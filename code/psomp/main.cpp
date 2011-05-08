@@ -9,7 +9,7 @@ using namespace std;
 #include "Swarm.h"
 #include "Particle.h"
 
-#define CANTIDAD_PARTICULAS 5
+#define CANTIDAD_PARTICULAS 1
 
 bool verificarEntradas(int c);
 
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 	Map mapa = Map(argv[1]);
 
 	//imprimir mapa (opcional)
-	mapa.printMap();
+	//mapa.printMap();
 
 	//agregar mapa a los datos de configuracion global
 	config.setMap(&mapa);

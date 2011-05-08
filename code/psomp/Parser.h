@@ -22,8 +22,14 @@ class Parser {
 
 		matrixInt getMatrix();
 
-		Point& getStart();
-		Point& getGoal();
+		Point* getStart();
+		Point* getGoal();
+
+		unsigned int getWidth();
+		unsigned int getHeight();
+
+		//validacion del mapa, que tenga un puntos de partida y otro de meta
+		bool validarMapFile();
 	private:
 		//mapa
 		matrixInt matrix;
@@ -39,8 +45,8 @@ class Parser {
 		unsigned int height;
 
 		//puntos de inicio y termino
-		Point start;
-		Point goal;
+		Point* start;
+		Point* goal;
 
 		//metodos
 
