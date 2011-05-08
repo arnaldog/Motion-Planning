@@ -40,6 +40,7 @@ code/psomp/dist/
 code/psomp/nbproject/
 code/psomp/nbproject/private/
 code/psomp/nbactions.xml
+*.xml
 *.dep.inc
 *.mk
 *.o.d
