@@ -1,14 +1,7 @@
-/* 
- * File:   Swarm.h
- * Author: alejandrasuarez
- *
- * Created on 1 de mayo de 2011, 17:37
- */
-
 using namespace std;
-#include "vector";
-#include "Particle.h";
-#include "Point.h"
+
+#include "vector"
+#include "Particle.h"
 
 #ifndef SWARM_H
 #define	SWARM_H
@@ -25,11 +18,16 @@ class Swarm {
 		* -
 		* -
 		*/
+		void initialize(int cantidad_particulas);
+                void iteration();
+		void init();
+                void setBestFitness(int newBestFitness);
+                
 	private:
-		vector <Particle> population; // particle population
-		Particle bestPositioned; // best positioned particle
-		Point start;
-		Point goal;
+		vector <Particle> population;	//particle population
+		int bestParticle;		//best positioned particle
+		int bestFitness;		//fitness de la mejor particula
+                int iterations;
 };
 
 #endif	/* SWARM_H */

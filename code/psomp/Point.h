@@ -1,9 +1,7 @@
-/* 
- * File:   Point.h
- * Author: alejandrasuarez
- *
- * Created on 1 de mayo de 2011, 18:00
- */
+using namespace std;
+
+#include <string>
+#include <sstream>
 
 #ifndef POINT_H
 #define	POINT_H
@@ -12,9 +10,20 @@ class Point {
 public:
     Point();
     Point(const Point& orig);
-    Point(int x, int y, int m); // point with magnitude for velocity 
+    Point(int x, int y, int m); // point with magnitude for velocity
     Point(int x, int y);
     virtual ~Point();
+
+
+    // GETTERS AND SETTERS
+    int getX();
+    int getY();
+
+    void setX(int x);
+    void setY(int y);
+
+	//print methods
+	string toString();
 private:
     int x;
     int y;

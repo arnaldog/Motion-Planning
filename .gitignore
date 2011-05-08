@@ -6,6 +6,7 @@
 *.exe
 *.o
 *.so
+*.bin
 
 # Packages #
 ############
@@ -33,7 +34,8 @@ ehthumbs.db
 Icon?
 Thumbs.db
 
-#netbeans ignore personal stuff
+# Netbeans personal stuff #
+###########################
 code/psomp/debug/
 code/psomp/bulid/
 code/psomp/dist/
@@ -44,3 +46,7 @@ code/psomp/nbactions.xml
 *.dep.inc
 *.mk
 *.o.d
+
+# Temp files #
+##############
+*~
