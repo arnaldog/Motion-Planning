@@ -1,6 +1,7 @@
 using namespace std;
 
 #include "Map.h"
+#include "Config.h" //TODO: esto deberia ir incluido en el Map.h
 
 Map::Map(string url){
 	this->isValid = false;
@@ -69,7 +70,7 @@ Point Map::selectRandomNextStep(Point* p){
 	cout << "Map:selectRandomNextStep(): seleccionando siguiente paso para el punto " << p->toString() << endl;
 
 	//punto a entregar
-	Point next = Point(-1,-1);
+	Point next;
 
 	//obtener los puntos vecinos
 	Point norte = Point(p->getX(), p->getY() - 1);
@@ -81,24 +82,75 @@ Point Map::selectRandomNextStep(Point* p){
 	//calcular cuantos puntos son factibles
 	int factibles = 0;
 
+	//crear vector que almacenara los puntos factibles (no funciona aun)
+	vector<Point> puntos_factibles;
+
+	//solucion rapida: tickets para el sorteo
+	int ticket_norte = -1;
+	int ticket_sur = -1;
+	int ticket_este = -1;
+	int ticket_oeste = -1;
+
 	//norte
 	cout << "Map:selectRandomNextStep(): revisando norte " << norte.toString() << endl;
-	if(norte.isValid(this->width, this->height))
+	if(norte.isValid(this->width, this->height)){
 		factibles++;
+		puntos_factibles.push_back(norte);
+
+		//solucion rapida
+		ticket_norte = factibles;
+	}
 
 	cout << "Map:selectRandomNextStep(): revisando sur " << sur.toString() << endl;
-	if(sur.isValid(this->width, this->height))
+	if(sur.isValid(this->width, this->height)){
 		factibles++;
+		puntos_factibles.push_back(sur);
+
+		//solucion rapida
+		ticket_sur = factibles;
+	}
 
 	cout << "Map:selectRandomNextStep(): revisando este " << este.toString() << endl;
-	if(este.isValid(this->width, this->height))
+	if(este.isValid(this->width, this->height)){
 		factibles++;
+		puntos_factibles.push_back(este);
+
+		//solucion rapida
+		ticket_este = factibles;
+	}
 
 	cout << "Map:selectRandomNextStep(): revisando oeste " << oeste.toString() << endl;
-	if(oeste.isValid(this->width, this->height))
+	if(oeste.isValid(this->width, this->height)){
 		factibles++;
+		puntos_factibles.push_back(oeste);
+
+		//solucion rapida
+		ticket_oeste = factibles;
+	}
 
 	cout << "Map:selectRandomNextStep(): factibles = " << factibles << endl;
+
+	//dentro de los factibles, seleccionar uno
+	int choice = -1;
+	Config &config = Config::getInstance();
+	choice = config.getRandomInt(factibles);
+	//next = puntos_factibles.at(2); //TODO: no funciona, quiza falta sobrecarga Point::operator= ?
+
+	//solucion rapida: premiar al sorteado
+	if(choice == ticket_norte)
+		next = norte;
+
+	if(choice == ticket_sur)
+		next = sur;
+
+	if(choice == ticket_este)
+		next = este;
+
+	if(choice == ticket_oeste)
+		next = oeste;
+
+	cout << "Map:selectRandomNextStep(): config::randomInt(" << factibles << ") = choice = " << choice << endl;
+	cout << "Map:selectRandomNextStep(): punto seleccionado finalmente: " << next.toString() << endl;
 
 	return next;
 }

@@ -1,7 +1,10 @@
-#include "Map.h"
+#include <stdlib.h>
+#include <time.h>
 
 #ifndef CONFIG_H
 #define	CONFIG_H
+
+#include "Map.h"
 
 //esta clase es un Singleton
 /*
@@ -46,7 +49,10 @@ class Config {
 			if(pInstance_ != NULL) delete pInstance_;
 		}
 		// Private to ensure single instance
-		Config(){};
+		Config(){
+			//set global random seed
+			srand ( time(NULL) );
+		};
 		Config(const Config& s){};
 
 		int iterations;
@@ -77,6 +83,8 @@ class Config {
 		float getPhiG();
 		float getOmega();
 		Map* getMap();
+
+		int getRandomInt(int max);
 };
 
 #endif	/* CONFIG_H */
