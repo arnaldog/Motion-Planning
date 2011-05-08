@@ -27,14 +27,46 @@ void Particle::createRandomRoute(){
 	Point* start = mapa->getStart();
 	//Point* goal = mapa->getGoal();
 
-	cout << "Particle:createRandomRoute(): map[1][0]: " << mapa->getMap()[1][0] << endl;
+	//cout << "Particle:createRandomRoute(): map[1][0]: " << mapa->getMap()[1][0] << endl;
 	cout << "Particle:createRandomRoute(): start: " << start->toString() << endl;
 
+	//ruta generada
+	vector<Point> ruta;
+
 	//obtener camino hasta llegar a la meta
-	cout << mapa->selectRandomNextStep(start).toString() << endl;
+	bool llega_a_meta = false;
+
+	Point* punto_actual = start;
+	Point next = Point(7,7);
+
+	//next.setX(8);
+	//next.setY(9);
+	ruta.push_back(next);
+	cout << "Particle:createRandomRoute(): ruta[" << 0 << "] = " << ruta[0].toString() << endl; //TODO: porqué esto devuelve 1,-1 ???
+
+	/*
+	int i = 0;
+	while(!llega_a_meta){
+		Point* p = new Point();
+		*p = mapa->selectRandomNextStep(punto_actual, &ruta);
+
+		next.setX(3);
+		next.setY(8);
+
+		cout << "Particle:createRandomRoute(): agregando punto " << next.toString() << " a la ruta" << endl;
+		ruta.push_back(next);
+
+		cout << "Particle:createRandomRoute(): ruta[" << i << "] = " << ruta[i].toString() << endl;cout << "Particle:createRandomRoute(): ruta[" << i << "] = " << ruta[i].toString() << endl;
+
+		i++;
+		if(i>=3)
+			llega_a_meta = true;
+	}
+	*/
+
+	//cout << "Particle:createRandomRoute(): siguiente paso: " << mapa->selectRandomNextStep(start, ruta).toString() << endl;
 
 	this->evaluateFitness(); // evaluating fitness
-
 }
 
 void Particle::updatePosition(){ // // x_{i+1} = ...
@@ -46,15 +78,15 @@ void Particle::updateVelocity(){  // v_{i+1} = ...
 }
 
 void Particle::evaluateFitness(){
-    // f.o = ...
-    int newFitness=0;
+	// f.o = ...
+	int newFitness=0;
 
-    for(unsigned int i=0; i < this->position.size(); i++){
-        newFitness+=1; // replace this by a evaluation function
-    }
+	for(unsigned int i=0; i < this->position.size(); i++){
+		newFitness+=1; // replace this by a evaluation function
+	}
 
-    this->setPositionFitness(newFitness);
-    return;
+	this->setPositionFitness(newFitness);
+	return;
 }
 
 void Particle::particleConstraints(){

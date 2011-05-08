@@ -69,11 +69,11 @@ bool Point::isValid(){
 }
 
 bool Point::isValid(int width,int height){
-	cout << "Point::isValid(w,h): verificando si es valido dentro de los limites minimos (0,0)" << endl;
+	//cout << "Point::isValid(w,h): verificando si es valido dentro de los limites minimos (0,0)" << endl;
 	if(!this->isValid())
 		return false;
 
-	cout << "Point::isValid(w,h): verificando si se sale de los limites maximos: " << width << "," << height << endl;
+	//cout << "Point::isValid(w,h): verificando si se sale de los limites maximos: " << width << "," << height << endl;
 	if(this->x >= width)
 		return false;
 
