@@ -10,7 +10,7 @@ using namespace std;
 #include "Swarm.h"
 #include "Particle.h"
 
-#define CANTIDAD_PARTICULAS 3
+#define CANTIDAD_PARTICULAS 1
 
 bool verificarEntradas(int c);
 
@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 	config.setPhiG(2);
 	config.setPhiP(2);
 	config.setAlpha(0.5);
-	config.setPivots(6);
+	config.setPivots(3);
 
 	//crear mapa
 	Map mapa = Map(argv[1]);

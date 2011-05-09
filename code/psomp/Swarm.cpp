@@ -22,7 +22,7 @@ void Swarm::initialize(){
 	Config &config = Config::getInstance();
 	//inicializar cada particula de la poblacion
 	for(unsigned int i=0; i < this->population.size(); i++){
-	    
+
 		// Referencia al objeto de la poblacion
 		Particle &p = this->population[i];
 
@@ -33,12 +33,12 @@ void Swarm::initialize(){
 		p.evaluateFitness();
 
 		// casta para la velocidad
-		vector_punteros_a_punto velocity (config.getPivots());
-		p.setVelocity(velocity);
+		//vector_punteros_a_punto velocity (config.getPivots());
+		//p.setVelocity(velocity);
 
 		// inicializar la velocidad
 		p.initVelocity();
-		
+
 		//inicializacion mejor posicion, velocidad y fitness de la particula
 		p.setBestPosition(p.getPosition());
 		p.setBestVelocity(p.getVelocity());
@@ -90,7 +90,7 @@ void Swarm::iterate(){
 			if(p.getFitness() < p.getBestFitness()) {
 				//inicializacion mejor posicion, velocidad
 				//y fitness de la particula
-				p.setBestPosition(p.getPosition()); 
+				p.setBestPosition(p.getPosition());
 				p.setBestVelocity(p.getBestVelocity());
 				p.setBestFitness(p.getFitness());
 			}
