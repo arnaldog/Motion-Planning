@@ -2,7 +2,7 @@
 
 Parser::Parser(){
 	//debug
-	cout << "PARSER::constructor inicializado" << endl;
+	//cout << "PARSER::constructor inicializado" << endl;
 
 	Point p = Point(-1,-1);
 	this->start = &p;
@@ -30,7 +30,7 @@ void Parser::reservarMemoria(){
 }
 
 void Parser::obtenerSize(){
-	cout << "Parser: Obteniendo dimension del mapa" << endl;
+	//cout << "Parser: Obteniendo dimension del mapa" << endl;
 
 	this->file.open(this->map_file_url.c_str(), ios::in);
 

@@ -62,7 +62,7 @@ int Config::getWeightedRandomInt(const vector<int> &distancias){
 		suma_distancias += distancias[i];
 	}
 
-	cout << "Config::getWeightedRandomInt(): suma_distancias = " << suma_distancias << endl;
+	//cout << "Config::getWeightedRandomInt(): suma_distancias = " << suma_distancias << endl;
 
 	//calcular las ponderaciones nuevas
 
@@ -80,26 +80,26 @@ int Config::getWeightedRandomInt(const vector<int> &distancias){
 		suma_ponderaciones += ponderaciones[i];
 	}
 
-	cout << "Config::getWeightedRandomInt(): suma_ponderaciones = " << suma_ponderaciones << endl;
+	//cout << "Config::getWeightedRandomInt(): suma_ponderaciones = " << suma_ponderaciones << endl;
 
 	//calcular las probabilidades de cada una de las distancias
 	float p;
 	for(unsigned int i=0; i<distancias.size(); i++){
 		p = (1.0/suma_ponderaciones) * (ponderaciones[i]);
 
-		cout << "Config::getWeightedRandomInt(): distancias[" << i << "] = " << distancias[i] << endl;
-		cout << "Config::getWeightedRandomInt(): ponderaciones[" << i << "] = " << ponderaciones[i] << endl;
-		cout << "Config::getWeightedRandomInt(): (suma_ponderaciones - ponderaciones[i]) = " << (suma_ponderaciones - ponderaciones[i]) << endl;
+		//cout << "Config::getWeightedRandomInt(): distancias[" << i << "] = " << distancias[i] << endl;
+		//cout << "Config::getWeightedRandomInt(): ponderaciones[" << i << "] = " << ponderaciones[i] << endl;
+		//cout << "Config::getWeightedRandomInt(): (suma_ponderaciones - ponderaciones[i]) = " << (suma_ponderaciones - ponderaciones[i]) << endl;
 
 		probabilidades.push_back(p);
 
-		cout << "Config::getWeightedRandomInt(): probabilidad calculada = " << p << endl;
+		//cout << "Config::getWeightedRandomInt(): probabilidad calculada = " << p << endl;
 	}
 
 	//lanzar numero random
 	float random = this->getRandomInt(1000)/1000.0;
 
-	cout << "Config::getWeightedRandomInt(): random = " << random << endl;
+	//cout << "Config::getWeightedRandomInt(): random = " << random << endl;
 
 	//ver cual de todos los elementos sale sorteado
 	float suma_probabilidades = 0.0;
@@ -107,12 +107,12 @@ int Config::getWeightedRandomInt(const vector<int> &distancias){
 	for(unsigned int i=0; i<probabilidades.size(); i++){
 		suma_probabilidades += probabilidades[i];
 
-		cout << "Config::getWeightedRandomInt(): suma_probabilidades = " << suma_probabilidades << endl;
+		//cout << "Config::getWeightedRandomInt(): suma_probabilidades = " << suma_probabilidades << endl;
 
 		if(random <= suma_probabilidades){
 			indice_escogido = i;
 
-			cout << "Config::getWeightedRandomInt(): indice_escogido = " << indice_escogido << endl;
+			//cout << "Config::getWeightedRandomInt(): indice_escogido = " << indice_escogido << endl;
 
 			break;
 		}

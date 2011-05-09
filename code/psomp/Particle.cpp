@@ -1,6 +1,9 @@
 #include <iostream>
 
 #include "Particle.h"
+#include "Util.h"
+#include "Point.h"
+#include "Config.h"
 
 Particle::Particle(){
 }
@@ -21,15 +24,24 @@ Particle::~Particle() {
 // boundaries of the search-space
 void Particle::createRandomRoute(){
 
-	Config &config = Config::getInstance();
+    Config &config = Config::getInstance();
+
+    //cout << config.getOmega() << " OK" << endl;
+
+   //for (unsigned int i = 0; i < this->position.size(); i++){
+    for (unsigned int i = 0; i < 20 ; i++){
+        Point p = Point(i,i);
+        this->position.push_back(p);
+        //cout << p.getX() << " " << p.getY() << endl;
+    }
 
 	Map* mapa = config.getMap();
 	Point* start = mapa->getStart();
 	Point* goal = mapa->getGoal();
 
 	//cout << "Particle:createRandomRoute(): map[1][0]: " << mapa->getMap()[1][0] << endl;
-	cout << "Particle:createRandomRoute(): start: " << start->toString() << endl;
-	cout << "Particle:createRandomRoute(): goal: " << goal->toString() << endl;
+	//cout << "Particle:createRandomRoute(): start: " << start->toString() << endl;
+	//cout << "Particle:createRandomRoute(): goal: " << goal->toString() << endl;
 
 	//ruta generada
 	vector<Point*> ruta;
@@ -49,10 +61,10 @@ void Particle::createRandomRoute(){
 
 		punto_actual = p;
 
-		cout << "Particle:createRandomRoute(): agregando punto " << punto_actual->toString() << " a la ruta" << endl;
+		//cout << "Particle:createRandomRoute(): agregando punto " << punto_actual->toString() << " a la ruta" << endl;
 		ruta.push_back(punto_actual);
 
-		cout << "Particle:createRandomRoute(): ruta[" << ruta.size()-1 << "] = " << ruta[ruta.size()-1]->toString() << endl;
+		//cout << "Particle:createRandomRoute(): ruta[" << ruta.size()-1 << "] = " << ruta[ruta.size()-1]->toString() << endl;
 
 		//i++;
 		//llega_a_meta = true; //comentar esto al final
@@ -61,19 +73,42 @@ void Particle::createRandomRoute(){
 	}
 
 	for(unsigned int i=0; i<ruta.size(); i++){
-		cout << "Particle:createRandomRoute(): ruta[" << i << "] = " << ruta[i]->toString() << endl;
+		//cout << "Particle:createRandomRoute(): ruta[" << i << "] = " << ruta[i]->toString() << endl;
 	}
-	cout << "Particle:createRandomRoute(): ruta completa en " << ruta.size() << " pasos" << endl;
-
-	this->evaluateFitness(); // evaluating fitness
 }
 
 void Particle::updatePosition(){ // // x_{i+1} = ...
     return;
 }
 
-void Particle::updateVelocity(){  // v_{i+1} = ...
-    return;
+void Particle::updateVelocity(vector <Point> bestGlobalKnownPosition){  // v_{i+1} = ...
+
+	//Config &config = Config::getInstance();
+
+	 //Pick random numbers: rp, rg ~ U(0,1)
+	//int rp = Util::getUniformPRand();
+	//int rg = Util::getUniformPRand();
+
+	//int w = config.getOmega();
+
+	//int phi_p = config.getPhiP();
+	//int phi_g = config.getPhiG();
+
+	//  Update the particle's velocity:
+	 for(unsigned int i=0; i < this->velocity.size(); i++){
+
+		// point velocity reference
+		//Point &v = this->velocity[i];
+		//Point x = this->position[i];
+		//Point p = this->bestPosition[i];
+		//Point g = bestGlobalKnownPosition[i];
+
+		//  vi ← ω vi + φp rp (pi-xi) + φg rg (g-xi)
+		//v = w*v + phi_p*rp*(p-x) + phi_g*rg*(g-x);
+
+	 }
+
+	return;
 }
 
 void Particle::evaluateFitness(){

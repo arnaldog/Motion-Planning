@@ -2,6 +2,7 @@ using namespace std;
 
 #include "Swarm.h"
 #include "Particle.h"
+#include "Util.h"
 #include <iostream>
 
 #define MAX_VALUE 9999
@@ -16,15 +17,9 @@ Swarm::Swarm(const Swarm& orig) {
 Swarm::~Swarm() {
 }
 
-void Swarm::initialize(int cantidad_particulas = 10){
+void Swarm::initialize(){
 
-	//crear las particulas
-	this->population = vector<Particle> (cantidad_particulas);
-
-	//que el mejor fitness al momento de creacion sea un valor alto
-	this->bestFitness = MAX_VALUE;
-
-	// inicializar cada particula de la poblacion
+	//inicializar cada particula de la poblacion
 	for(unsigned int i=0; i < this->population.size(); i++){
 
 		//cout << "inicializando particula: " << i << endl;
@@ -38,6 +33,9 @@ void Swarm::initialize(int cantidad_particulas = 10){
 		// evaluar función objetivo
 		p.evaluateFitness();
 
+		//
+		cout << "Particle:createRandomRoute(): ruta completa en " << ruta.size() << " pasos" << endl;
+
 		// Inicializacion mejor posicion
 		p.setBestPosition(p.getPosition());
 		p.setBestPositionFitness(p.getPositionFitness());
@@ -45,9 +43,9 @@ void Swarm::initialize(int cantidad_particulas = 10){
 		// Mejor solucion conocida
 		if(p.getPositionFitness() <= this->bestFitness) {
 
-			// actualizar la mejor solucion de la poblaion
-			this->setBestFitness(p.getPositionFitness());
-			this->bestParticle = i;
+				// actualizar la mejor solucion de la poblaion
+				this->setBestFitness(p.getPositionFitness());
+				this->bestParticle = i;
 		}
 	}
 }
@@ -66,16 +64,22 @@ void Swarm::iteration(){
         //Para cada partícula, hacer:
         for(unsigned int i=0; i < this->population.size(); i++){
 
+
             // referencia a la particula para ser modificada.
             Particle &p = this->population[i];
 
             //Pick random numbers: rp, rg ~ U(0,1)
-            //int rp = this->pickRandomNumber(0, 1);
-            //int rg = this->pickRandomNumber(0, 1);
 
-            //Update the particle's velocity:
-            //vi ← ω vi + φp rp (pi-xi) + φg rg (g-xi)
-            p.updateVelocity();
+
+            /*
+             * Updating velocity:
+             * The particle knows their best kwnown position
+             * , position and velocity but
+             * unknown swarm best known position
+             */
+
+            Particle bestParticle = this->population[this->getBestParticle()];
+            p.updateVelocity(bestParticle.getBestPosition());
 
             //Update the particle's position: xi ← xi + vi
             p.updatePosition();
@@ -105,7 +109,37 @@ void Swarm::iteration(){
 }
 
 // GETTERS AND SETTERS
+
+void Swarm::setPopulation(vector <Particle> newPopulation){
+    this->population = newPopulation;
+    return;
+}
+void Swarm::setBestParticle(int newParticle){
+    this->bestParticle = newParticle;
+    return;
+}
 void Swarm::setBestFitness(int newBestFitness){
     this->bestFitness = newBestFitness;
     return;
+}
+
+void Swarm::setIterations(int newIterations){
+    this->iterations = newIterations;
+    return;
+}
+
+vector <Particle> Swarm::getPopulation(){
+    return this->population;
+}
+
+int Swarm::getBestParticle(){
+    return this->bestParticle;
+}
+
+int Swarm::getBestFitness(){
+    return this->bestFitness;
+}
+
+int Swarm::getIterations(){
+    return this->iterations;
 }
