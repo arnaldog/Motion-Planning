@@ -54,9 +54,6 @@ int main(int argc, char** argv) {
 	//comenzar PSO
 	swarm.init();
 
-	//test
-	//cout << abs(80-100) << endl;
-
 	return 0;
 }
 

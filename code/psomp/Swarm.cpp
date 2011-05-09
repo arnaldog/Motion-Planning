@@ -33,8 +33,7 @@ void Swarm::initialize(){
 		// evaluar función objetivo
 		p.evaluateFitness();
 
-		//
-		cout << "Particle:createRandomRoute(): ruta completa en " << ruta.size() << " pasos" << endl;
+		//cout << "Particle:createRandomRoute(): ruta completa en " << 1 << "pasos" << endl;
 
 		// Inicializacion mejor posicion
 		p.setBestPosition(p.getPosition());
@@ -69,7 +68,6 @@ void Swarm::iteration(){
             Particle &p = this->population[i];
 
             //Pick random numbers: rp, rg ~ U(0,1)
-
 
             /*
              * Updating velocity:
