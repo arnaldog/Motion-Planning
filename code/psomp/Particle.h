@@ -33,6 +33,8 @@ class Particle {
 		void evaluateFitness(); /* Evalua funcion objetivo */
 		void particleConstraints(); /* Chequea restricciones de particulas */
 
+		void printParticle();
+
 		// Getters and setters ...
 
 		void setPosition(vector_punteros_a_punto newPosition);
