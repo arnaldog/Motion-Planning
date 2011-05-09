@@ -36,10 +36,11 @@ void Swarm::initialize(){
 		// evaluar función objetivo
 		p.evaluateFitness();
 
+		vector_punteros_a_punto velocity (config.getPivots());
+		p.setVelocity(velocity); // init velocity vector
 
-		//imprimir particula:
-		//p.printParticle();
-
+		p.initVelocity();
+		
 		//inicializacion mejor posicion
 		p.setBestPosition(p.getPosition());
 		p.setBestFitness(p.getFitness());
@@ -78,6 +79,7 @@ void Swarm::iterate(){
 			 * , position and velocity but
 			 * unknown swarm best known position
 			 */
+			//p.updateVelocity();
 
 			Particle bestParticle = this->population[this->getBestParticle()];
 			p.updateVelocity(bestParticle.getBestPosition());

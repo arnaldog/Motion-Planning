@@ -26,6 +26,7 @@ int main(int argc, char** argv) {
 	config.setPhiG(0.3);
 	config.setPhiP(0.7);
 	config.setAlpha(0.5);
+	config.setPivots(5);
 
 	//crear mapa
 	Map mapa = Map(argv[1]);

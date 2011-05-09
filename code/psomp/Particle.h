@@ -29,6 +29,7 @@ class Particle {
 
 		void createRandomRoute(Point* origin, Point* target); /* ruta inicial */
 		void updatePosition(); /* Actualiza posicion */
+                void initVelocity();
 		void updateVelocity(vector_punteros_a_punto bestGlobalKnownPosition); /* Actualiza velocidad */
 		void evaluateFitness(); /* Evalua funcion objetivo */
 		void particleConstraints(); /* Chequea restricciones de particulas */

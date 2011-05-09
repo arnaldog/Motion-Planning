@@ -75,32 +75,45 @@ void Particle::updatePosition(){ // // x_{i+1} = ...
     return;
 }
 
+void Particle::initVelocity(){
+    int n = this->velocity.size();
+    int lenght = position.size();
+    
+    for(float i=1; i <= n; i++)
+	this->velocity.push_back(
+		this->position[(int)floor(i*(float)lenght/(float)n)]);
+
+}
 void Particle::updateVelocity(vector_punteros_a_punto bestGlobalKnownPosition){  // v_{i+1} = ...
 
-   Config &config = Config::getInstance();
+
+    Config &config = Config::getInstance();
 
      //Pick random numbers: rp, rg ~ U(0,1)
+
+    // parameters for velocity.
     int rp = Util::getUniformPRand();
     int rg = Util::getUniformPRand();
-
     int w = config.getOmega();
-
     int op = config.getPhiP();
     int og = config.getPhiG();
-
+    /**/
     //  Update the particle's velocity:
      for(unsigned int i=0; i < this->velocity.size(); i++){
 
+	 
+         // point velocity referenceç
 	 /*
-         // point velocity reference
          Point* v = this->velocity[i];
          Point* x = this->position[i];
          Point* p = this->bestPosition[i];
          Point* g = bestGlobalKnownPosition[i];
-	 // */
+	  */
+	 //
 
          //  vi ← ω vi + φp rp (pi-xi) + φg rg (g-xi)
          //v = w*v + phi_p*rp*(p-x) + phi_g*rg*(g-x);
+
 
      }
 
@@ -115,14 +128,12 @@ void Particle::printParticle(){
 }
 
 void Particle::evaluateFitness(){
-	// f.o = ...
+    
 	Config &config = Config::getInstance();
 	Map* map = config.getMap();
 
 	float alpha = config.getAlpha();
 
-	// get length of path
-	// get the number of collisions
 	int nc = 0;
 	for(unsigned int i=0; i < this->position.size(); i++){
 		Point *o = this->position[i];
@@ -132,8 +143,8 @@ void Particle::evaluateFitness(){
 	float lenght = (float)this->position.size();
 
 	float newFitness = lenght + nc*(1+pow(lenght, alpha));
-
 	this->setFitness(newFitness);
+	
 	return;
 }
 
