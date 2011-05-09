@@ -19,36 +19,31 @@ Swarm::~Swarm() {
 
 void Swarm::initialize(){
 
+	Config &config = Config::getInstance();
 	//inicializar cada particula de la poblacion
 	for(unsigned int i=0; i < this->population.size(); i++){
-		//cout << "inicializando particula: " << i << endl;
-
+	    
 		// Referencia al objeto de la poblacion
 		Particle &p = this->population[i];
 
 		// Inicializacion de la posicion
-		//generar ruta random (inicializar)
 		p.initialize();
 
-		// evaluar función objetivo
+		// evaluar función objetivo de la particula ya inicializada
 		p.evaluateFitness();
 
+		// casta para la velocidad
+		vector_punteros_a_punto velocity (config.getPivots());
+		p.setVelocity(velocity);
 
-		//imprimir particula:
-		//p.printParticle();
-
-		//inicializacion mejor posicion
+		// inicializar la velocidad
+		p.initVelocity();
+		
+		//inicializacion mejor posicion, velocidad y fitness de la particula
 		p.setBestPosition(p.getPosition());
+		p.setBestVelocity(p.getVelocity());
 		p.setBestFitness(p.getFitness());
 
-		//debug: mostrar si efectivamente se esta guardando la mejor posicion
-		/*
-		cout << "------------" << endl;
-		vector_punteros_a_punto b = p.getBestPosition();
-		for(unsigned int j=0; j<b.size(); j++){
-			cout << b[j]->toString() << endl;
-		}
-		*/
 
 		//actualizar la mejor solucion conocida
 		if(p.getFitness() <= this->bestFitness) {
@@ -77,31 +72,26 @@ void Swarm::iterate(){
 			// referencia a la particula para ser modificada.
 			Particle &p = this->population[i];
 
-			//pick random numbers: rp, rg ~ U(0,1)
-
-			/*
-			 * Updating velocity:
-			 * The particle knows their best kwnown position
-			 * , position and velocity but
-			 * unknown swarm best known position
-			 */
-
-			Particle best_particle = this->population[this->getBestParticle()];
-
-			//TODO: comentar que hace esto
-			p.updateVelocity(best_particle.getBestPosition());
+			// actualiza la velocidad de la partícula
+			p.updateVelocity(
+				this->population[this->getBestParticle()]
+				.getBestVelocity());
 
 			//update the particle's position: xi ← xi + vi
 			p.updatePosition();
+
+			// redistribuir los pivotes equidistantemente
+			p.initVelocity();
 
 			//evaluate the new fitness
 			p.evaluateFitness();
 
 			//if (f(xi) < f(pi)) do:
 			if(p.getFitness() < p.getBestFitness()) {
-				//Update the particle's best known position: pi ← xi
-
-				p.setBestPosition(p.getPosition()); //actualiza mejor posicion
+				//inicializacion mejor posicion, velocidad
+				//y fitness de la particula
+				p.setBestPosition(p.getPosition()); 
+				p.setBestVelocity(p.getBestVelocity());
 				p.setBestFitness(p.getFitness());
 			}
 

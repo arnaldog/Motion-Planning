@@ -35,6 +35,14 @@ void Config::setIterations(int iterations){
 	return;
 }
 
+int Config::getPivots(){
+    return this->pivots;
+}
+
+void Config::setPivots(int pivots){
+    this->pivots = pivots;
+    return;
+}
 
 void Config::setPhiP(float phi_p){
 	this->phi_p = phi_p;

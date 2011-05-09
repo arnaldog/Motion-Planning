@@ -8,14 +8,11 @@
 
 Particle::Particle(){
 }
-
 Particle::Particle(vector_punteros_a_punto position){
 	this->position = position;
 }
-
 Particle::Particle(const Particle& orig) {
 }
-
 Particle::~Particle() {
 }
 
@@ -81,12 +78,15 @@ void Particle::updatePosition(){ // // x_{i+1} = ...
 	//el cual es un vector con las posiciones por las que esta obligada a pasar esta particula
 	//si quiere asi imitar a otras particulas mejores
 
+	cout << "Particle::updatePosition()" << endl;
+
 	//por cada punto en la velocidad...
 	Config &config = Config::getInstance();
 	Map* mapa = config.getMap();
 
 	//agregar el punto de meta al vector de velocidades
-	this->velocity.push_back(mapa->getGoal());
+	vector_punteros_a_punto path = this->velocity;
+	path.push_back(mapa->getGoal());
 
 	//crear vector que unira las subrutas a generar
 	vector_punteros_a_punto final;
@@ -95,8 +95,9 @@ void Particle::updatePosition(){ // // x_{i+1} = ...
 	Point* inicio = mapa->getStart();
 
 	//puntero a vector de la subruta generada
+	cout << "Particle::updatePosition()" << endl;
 	vector_punteros_a_punto* subruta = 0;
-	for(unsigned int i=0; i<this->velocity.size(); i++){
+	for(unsigned int i=0; i < path.size(); i++){
 		//hay que crear una ruta random desde el punto de la subruta anterior
 		//(o el comienzo del mapa si es la primera)
 
@@ -104,17 +105,17 @@ void Particle::updatePosition(){ // // x_{i+1} = ...
 		subruta = new vector_punteros_a_punto();
 
 		//generar subruta
-		*subruta = this->createRandomRoute(inicio,this->velocity[i]);
+		*subruta = this->createRandomRoute(inicio,path[i]);
 
 		//ahora que se tiene una subruta, recorrerla punto a punto y agregarla al vector final
 		//se omite el ultimo punto, ya que la siguiente subruta parte por el mismo punto del final que esta
-		for(unsigned int j=0; j<subruta->size()-1; j++){
+		for(unsigned int j=0; j < subruta->size()-1; j++){
 			vector_punteros_a_punto ruta = *subruta;
-			final.push_back(ruta[j]);
+			//final.push_back(ruta[j]);
 		}
 
 		//actualizar punto de inicio
-		inicio = this->velocity[i];
+		inicio = path[i];
 	}
 
 	//por ultimo hay que hacer agregar el punto de meta ya que fue omitido
@@ -123,35 +124,65 @@ void Particle::updatePosition(){ // // x_{i+1} = ...
 	//ya que se tiene el vector final, hay que actualizar la posicion nueva
 	this->position = final; //TODO: verificar si la posicion es efectivamente actualizada
 
+	
 	return;
 }
 
-void Particle::updateVelocity(vector_punteros_a_punto bestGlobalKnownPosition){  // v_{i+1} = ...
+void Particle::initVelocity(){
+    int n = this->velocity.size();
+    int lenght = position.size();
+    
+    for(float i=1; i <= n; i++){
+	int index = (int)floor(i*(float)lenght/(float)n);
+	this->velocity[i-1] = this->position[index];
+
+    }
+
+}
+void Particle::updateVelocity(vector_punteros_a_punto bestGlobalVelocity){  // v_{i+1} = ...
 
 	Config &config = Config::getInstance();
+	Map *map = config.getMap();
+	int width = map->getWidth()-1;
+	int height = map->getHeight()-1;
 
 	//pick random numbers: rp, rg ~ U(0,1)
-	int rp = Util::getUniformPRand();
-	int rg = Util::getUniformPRand();
+	float rp = Util::getUniformPRand();
+	float rg = Util::getUniformPRand();
 
-	int w = config.getOmega();
+	int om = config.getOmega();
 
 	int op = config.getPhiP();
 	int og = config.getPhiG();
 
+	
+
 	//update the particle's velocity:
 	 for(unsigned int i=0; i < this->velocity.size(); i++){
-
-	 /*
-		 // point velocity reference
-		 Point* v = this->velocity[i];
-		 Point* x = this->position[i];
-		 Point* p = this->bestPosition[i];
-		 Point* g = bestGlobalKnownPosition[i];
-	 // */
-
+		
+		 Point *v = this->velocity[i]; // get velocity
+		 Point *p = this->bestVelocity[i]; // get best local position
+		 Point *g = bestGlobalVelocity[i]; // get best global position
+		 
 		 //  vi ← ω vi + φp rp (pi-xi) + φg rg (g-xi)
-		 //v = w*v + phi_p*rp*(p-x) + phi_g*rg*(g-x);
+		 // cartesian coords v = v(x,y);
+
+		 if(v != NULL & p != NULL & g != NULL){
+		     float vx = v->getX();
+		     float vy = v->getY();
+
+		     //cout << op*rp*vx << " " << og*rg*vx << endl;
+		     vx = om*vx+op*rg*(p->getX()-vx)+og*rg*(g->getX()-vx);
+		     vy = om*vy+op*rg*(p->getY()-vy)+og*rp*(g->getY()-vy);
+		     
+		     vx = (vx < 0) ? 0 : ((vx > width) ? width : vx);
+		     vy = (vy < 0) ? 0 : ((vy > height) ? height: vy);
+
+		     cout << "(" << v->getX() << "," << v->getY() << ")" << "->" << "(" << (int)vx << "," << (int)vy << ")" << endl;
+			v->setX((int)vx);
+			v->setY((int)vy); // updating the velocity
+
+		 }
 
 	 }
 
@@ -164,16 +195,13 @@ void Particle::printParticle(){
 		cout << "Particle::printParticle(): this->position[" << i << "]->toString() = " << this->position[i]->toString() <<endl;
 	}
 }
-
 void Particle::evaluateFitness(){
-	// f.o = ...
+    
 	Config &config = Config::getInstance();
 	Map* map = config.getMap();
 
 	float alpha = config.getAlpha();
 
-	// get length of path
-	// get the number of collisions
 	int nc = 0;
 	for(unsigned int i=0; i < this->position.size(); i++){
 		Point *o = this->position[i];
@@ -183,22 +211,17 @@ void Particle::evaluateFitness(){
 	float lenght = (float)this->position.size();
 
 	float newFitness = lenght + nc*(1+pow(lenght, alpha));
-
 	this->setFitness(newFitness);
+	
 	return;
 }
 
-void Particle::particleConstraints(){
-    // constraints
-    return;
-}
-
 // GETTERS AND SETTERS
+/* setters*/
 void Particle::setPosition(vector_punteros_a_punto newPosition){
     this->position = newPosition;
     return;
 }
-
 void Particle::setBestPosition(vector_punteros_a_punto newBestPosition){
 	this->bestPosition = newBestPosition;
 	return;
@@ -208,20 +231,22 @@ void Particle::setVelocity(vector_punteros_a_punto newVelocity){
 	this->velocity = newVelocity;
 	return;
 }
+void Particle::setBestVelocity(vector_punteros_a_punto newVelocity){
+    this->bestVelocity = newVelocity;
+    return;
+}
 
 void Particle::setFitness(float newFitness){
 	this->fitness = newFitness;
 }
-
 void Particle::setBestFitness(float newFitness){
 	this->bestFitness = newFitness;
 	return;
 }
-
+/* getters*/
 vector_punteros_a_punto Particle::getPosition(){
 	return this->position;
 }
-
 vector_punteros_a_punto Particle::getBestPosition(){
 	return this->bestPosition;
 }
@@ -229,16 +254,15 @@ vector_punteros_a_punto Particle::getBestPosition(){
 vector_punteros_a_punto Particle::getVelocity(){
 	return this->velocity;
 }
-
+vector_punteros_a_punto Particle::getBestVelocity(){
+    return this->bestVelocity;
+}
 
 float Particle::getFitness(){
 	return this->fitness;
 }
-
 float Particle::getBestFitness(){
 	return this->bestFitness;
 }
 
-int Particle::getSize(){
-	return this->position.size();
-}
+

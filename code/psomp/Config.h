@@ -62,6 +62,7 @@ class Config {
 		Map *map;
                 
                 float alpha; // objective function parameter for penalizing
+                int pivots; // number of pivots to partitionning the route
 
 
 	public:
@@ -82,6 +83,7 @@ class Config {
 		void setOmega(int omega);
 		void setMap(Map* map);
                 void setAlpha(float alpha);
+                void setPivots(int pivots);
 
 		int getIterations();
 		float getPhiP();
@@ -92,6 +94,8 @@ class Config {
 
 		int getRandomInt(int max);
 		int getWeightedRandomInt(const vector<int> &distancias);
+
+                int getPivots();
 };
 
 #endif	/* CONFIG_H */
