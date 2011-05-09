@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 
 #include "Particle.h"
 #include "Util.h"
@@ -117,15 +118,26 @@ void Particle::printParticle(){
 
 void Particle::evaluateFitness(){
 	// f.o = ...
-	int newFitness=0;
+	Config &config = Config::getInstance();
+	Map* map = config.getMap();
 
+	float alpha = config.getAlpha();
+
+	// get length of path
+	// get the number of collisions
+	int nc = 0;
 	for(unsigned int i=0; i < this->position.size(); i++){
-		newFitness+=1; // replace this by a evaluation function
 		Point *o = this->position[i];
-		cout << "(" << o->getX() <<  "," << o->getY() << ")" << endl;
+		nc+=map->getCollision(o);
 	}
 
+	float lenght = (float)this->position.size();
+
+	float newFitness = lenght + nc*(1+pow(lenght, alpha));
+
 	this->setPositionFitness(newFitness);
+	this->positionFitness = newFitness;
+	
 	return;
 }
 
@@ -149,12 +161,12 @@ void Particle::setVelocity(vector_punteros_a_punto newVelocity){
     return;
 }
 
-void Particle::setPositionFitness(int newFitness){
+void Particle::setPositionFitness(float newFitness){
     this->positionFitness = newFitness;
     return;
 }
 
-void Particle::setBestPositionFitness(int newFitness){
+void Particle::setBestPositionFitness(float newFitness){
     this->bestPositionFitness = newFitness;
     return;
 }
@@ -177,11 +189,11 @@ vector_punteros_a_punto Particle::getVelocity(){
     return this->velocity;
 }
 
-int Particle::getPositionFitness(){
+float Particle::getPositionFitness(){
     return this->positionFitness;
 }
 
-int Particle::getBestPositionFitness(){
+float Particle::getBestPositionFitness(){
     return this->bestPositionFitness;
 }
 

@@ -60,6 +60,10 @@ class Config {
 		float phi_g;
 		int omega;
 		Map *map;
+                
+                float alpha; // objective function parameter for penalizing
+
+
 	public:
 		virtual ~Config(){};
 
@@ -77,11 +81,13 @@ class Config {
 		void setPhiG(float phi_g);
 		void setOmega(int omega);
 		void setMap(Map* map);
+                void setAlpha(float alpha);
 
 		int getIterations();
 		float getPhiP();
 		float getPhiG();
 		float getOmega();
+                float getAlpha();
 		Map* getMap();
 
 		int getRandomInt(int max);

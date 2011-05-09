@@ -30,6 +30,11 @@ int Config::getIterations(){
 	return this->iterations;
 }
 
+void Config::setIterations(int iterations){
+	this->iterations = iterations;
+	return;
+}
+
 
 void Config::setPhiP(float phi_p){
 	this->phi_p = phi_p;
@@ -50,6 +55,15 @@ void Config::setMap(Map* map){
 
 int Config::getRandomInt(int max){
 	return rand()%max + 1;
+}
+
+void Config::setAlpha(float alpha){
+    this->alpha = alpha;
+    return;
+}
+
+float Config::getAlpha(){
+    return this->alpha;
 }
 
 int Config::getWeightedRandomInt(const vector<int> &distancias){

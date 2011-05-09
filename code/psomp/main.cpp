@@ -21,13 +21,11 @@ int main(int argc, char** argv) {
 	//inicializar la configuracion (singleton)
 	Config &config = Config::getInstance();
         config.setOmega(20);
-
-	/*
-	config().setIterations(20);
-	config().setOmega(20);
-	config().setPhiG(0.3);
-	config().setPhiP(0.7);
-	*/
+	config.setIterations(20);
+	config.setOmega(20);
+	config.setPhiG(0.3);
+	config.setPhiP(0.7);
+	config.setAlpha(0.5);
 
 	//crear mapa
 	Map mapa = Map(argv[1]);

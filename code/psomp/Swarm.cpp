@@ -33,6 +33,8 @@ void Swarm::initialize(){
 		// evaluar función objetivo
 		p.evaluateFitness();
 
+		cout << p.getPositionFitness() << endl;
+
 		//imprimir particula:
 		//p.printParticle();
 

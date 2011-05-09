@@ -66,6 +66,10 @@ int Map::getValue(Point* p){
 	return this->map[p->getX()][p->getY()];
 }
 
+int Map::getCollision(Point *p){
+    return (this->map[p->getX()][p->getY()] == 1) ? 1 : 0;
+}
+
 Point Map::selectRandomNextStep(Point* p, vector<Point*>* camino_actual, Point* goal){
 	//cout << "Map:selectRandomNextStep(): seleccionando siguiente paso para el punto " << p->toString() << endl;
 

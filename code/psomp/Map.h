@@ -29,6 +29,8 @@ class Map {
 		int getValue(Point* p);
 
 		Point selectRandomNextStep(Point* p, vector<Point*>* camino_actual, Point* goal);
+                int getCollision(Point *p);
+                
 	private:
 		vector < vector <int> > map;
 		string map_file_url;
