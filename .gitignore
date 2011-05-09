@@ -50,3 +50,7 @@ code/psomp/nbactions.xml
 # Temp files #
 ##############
 *~
+
+# Binaries #
+############
+*.bmp
