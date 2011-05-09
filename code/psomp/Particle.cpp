@@ -8,7 +8,7 @@
 Particle::Particle(){
 }
 
-Particle::Particle(vector <Point> position){
+Particle::Particle(vector_punteros_a_punto position){
 	this->position = position;
 	this->size = position.size();
 }
@@ -24,16 +24,7 @@ Particle::~Particle() {
 // boundaries of the search-space
 void Particle::createRandomRoute(){
 
-    Config &config = Config::getInstance();
-
-    //cout << config.getOmega() << " OK" << endl;
-
-   //for (unsigned int i = 0; i < this->position.size(); i++){
-    for (unsigned int i = 0; i < 20 ; i++){
-        Point p = Point(i,i);
-        this->position.push_back(p);
-        //cout << p.getX() << " " << p.getY() << endl;
-    }
+	Config &config = Config::getInstance();
 
 	Map* mapa = config.getMap();
 	Point* start = mapa->getStart();
@@ -72,7 +63,11 @@ void Particle::createRandomRoute(){
 			llega_a_meta = true;
 	}
 
-	cout << "Particle:createRandomRoute(): ruta completa en " << 1 << ruta.size() << endl;
+	//copiar la ruta para que sea la posicion de la particula
+	//TODO: verificar que la copia funciona en el Swarm
+	this->position = ruta;
+
+	cout << "Particle:createRandomRoute(): ruta completa en " << 1 << this->position.size() << " pasos" << endl;
 
 	//for(unsigned int i=0; i<ruta.size(); i++){
 	//	cout << "Particle:createRandomRoute(): ruta[" << i << "] = " << ruta[i]->toString() << endl;
@@ -83,7 +78,7 @@ void Particle::updatePosition(){ // // x_{i+1} = ...
     return;
 }
 
-void Particle::updateVelocity(vector <Point> bestGlobalKnownPosition){  // v_{i+1} = ...
+void Particle::updateVelocity(vector_punteros_a_punto bestGlobalKnownPosition){  // v_{i+1} = ...
 
    Config &config = Config::getInstance();
 
@@ -100,10 +95,10 @@ void Particle::updateVelocity(vector <Point> bestGlobalKnownPosition){  // v_{i+
      for(unsigned int i=0; i < this->velocity.size(); i++){
 
          // point velocity reference
-         Point &v = this->velocity[i];
-         Point x = this->position[i];
-         Point p = this->bestPosition[i];
-         Point g = bestGlobalKnownPosition[i];
+         Point* v = this->velocity[i];
+         Point* x = this->position[i];
+         Point* p = this->bestPosition[i];
+         Point* g = bestGlobalKnownPosition[i];
 
          //  vi ← ω vi + φp rp (pi-xi) + φg rg (g-xi)
          //v = w*v + phi_p*rp*(p-x) + phi_g*rg*(g-x);
@@ -131,16 +126,16 @@ void Particle::particleConstraints(){
 }
 
 // GETTERS AND SETTERS
-void Particle::setPosition(vector <Point> newPosition){
+void Particle::setPosition(vector_punteros_a_punto newPosition){
     this->position = newPosition;
     return;
 }
 
-void Particle::setBestPosition(vector <Point> newBestPosition){
+void Particle::setBestPosition(vector_punteros_a_punto newBestPosition){
     this->bestPosition = newBestPosition;
     return;
 }
-void Particle::setVelocity(vector <Point> newVelocity){
+void Particle::setVelocity(vector_punteros_a_punto newVelocity){
     this->velocity = newVelocity;
     return;
 }
@@ -161,15 +156,15 @@ void Particle::setSize(int newSize){
     return;
 }
 
-vector <Point> Particle::getPosition(){
+vector_punteros_a_punto Particle::getPosition(){
     return this->position;
 }
 
-vector <Point> Particle::getBestPosition(){
+vector_punteros_a_punto Particle::getBestPosition(){
     return this->bestPosition;
 }
 
-vector <Point> Particle::getVelocity(){
+vector_punteros_a_punto Particle::getVelocity(){
     return this->velocity;
 }
 

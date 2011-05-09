@@ -9,7 +9,7 @@ using namespace std;
 #include "Swarm.h"
 #include "Particle.h"
 
-#define CANTIDAD_PARTICULAS 10
+#define CANTIDAD_PARTICULAS 5
 
 bool verificarEntradas(int c);
 
