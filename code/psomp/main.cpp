@@ -51,6 +51,9 @@ int main(int argc, char** argv) {
 	//inicializar
 	swarm.initialize();
 
+	//debug
+	cout << "Mejor fitness obtenido = " << swarm.getBestFitness() << endl;
+
 	//comenzar PSO
 	swarm.init();
 

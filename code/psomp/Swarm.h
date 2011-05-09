@@ -19,28 +19,31 @@ class Swarm {
 		* -
 		*/
 		void initialize();
-                void iteration();
+		void iteration();
 		void init();
 
-                /*
-                 * Getters and setters for attributes
-                 */
+		/*
+		* Getters and setters for attributes
+		*/
 
-                void setPopulation(vector <Particle> population);
-                void setBestParticle(int bestParticle);
-                void setBestFitness(int newBestFitness);
-                void setIterations(int newIteration);
+		void setPopulation(vector <Particle> population);
+		void setBestParticle(int bestParticle);
+		void setBestFitness(float newBestFitness);
 
-                vector <Particle> getPopulation();
-                int getBestParticle();
-                int getBestFitness();
-                int getIterations();
-                
+		void setIterations(int newIteration);
+
+		vector<Particle> getPopulation();
+		int getBestParticle();
+		float getBestFitness();
+
+		int getIterations();
+
 	private:
-		vector <Particle> population;	//particle population
+		vector<Particle> population;	//particle population
 		int bestParticle;		//best positioned particle
-		int bestFitness;		//fitness de la mejor particula
-		int iterations;
+
+		float bestFitness;		//fitness de la mejor particula
+		float iterations;
 };
 
 #endif	/* SWARM_H */
