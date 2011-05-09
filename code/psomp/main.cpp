@@ -3,13 +3,14 @@ using namespace std;
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 #include "Config.h"
 #include "Map.h"
 #include "Swarm.h"
 #include "Particle.h"
 
-#define CANTIDAD_PARTICULAS 30
+#define CANTIDAD_PARTICULAS 3
 
 bool verificarEntradas(int c);
 
@@ -20,13 +21,14 @@ int main(int argc, char** argv) {
 
 	//inicializar la configuracion (singleton)
 	Config &config = Config::getInstance();
-        config.setOmega(20);
-	config.setIterations(20);
+
 	config.setOmega(20);
-	config.setPhiG(0.3);
-	config.setPhiP(0.7);
+	config.setIterations(1);
+	config.setOmega(1);
+	config.setPhiG(2);
+	config.setPhiP(2);
 	config.setAlpha(0.5);
-	config.setPivots(5);
+	config.setPivots(6);
 
 	//crear mapa
 	Map mapa = Map(argv[1]);
@@ -55,6 +57,9 @@ int main(int argc, char** argv) {
 
 	//comenzar PSO F*CK YEAH!
 	swarm.iterate();
+
+	//terminado el PSO, recuperar la mejor posicion de las particulas
+	swarm.printBestPosition();
 
 	return 0;
 }

@@ -12,30 +12,21 @@ class Swarm {
 		Swarm(const Swarm& orig);
 		virtual ~Swarm();
 
-		/*
-		* Metodos a implementar:
-		* - Inicializacion de cada particula considerando una distribucion uniforme
-		* -
-		* -
-		*/
 		void initialize();
 		void iterate();
 
-		/*
-		* Getters and setters for attributes
-		*/
-
-		void setPopulation(vector <Particle> population);
+		void setPopulation(vector<Particle> population);
 		void setBestParticle(int bestParticle);
 		void setBestFitness(float newBestFitness);
 
 		void setIterations(int newIteration);
-
 		vector<Particle> getPopulation();
 		int getBestParticle();
 		float getBestFitness();
 
 		int getIterations();
+
+		void printBestPosition();
 
 	private:
 		vector<Particle> population;	//particle population
