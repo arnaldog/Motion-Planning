@@ -27,7 +27,9 @@ class Particle {
 		 *  - Restricciones de la particula
 		 */
 
-		void createRandomRoute(Point* origin, Point* target); /* ruta inicial */
+		//crea una ruta random entre el punto de inicio y la meta, segun indique el mapa
+		void initialize();
+
 		void updatePosition(); /* Actualiza posicion */
 		void updateVelocity(vector_punteros_a_punto bestGlobalKnownPosition); /* Actualiza velocidad */
 		void evaluateFitness(); /* Evalua funcion objetivo */
@@ -42,9 +44,12 @@ class Particle {
 		void setVelocity(vector_punteros_a_punto newVelocity);
 		void setFitness(float newFitness);
 		void setBestFitness(float newFitness);
+
+		vector_punteros_a_punto createRandomRoute(Point* origin, Point* target); /* ruta inicial */
 		vector_punteros_a_punto getPosition();
 		vector_punteros_a_punto getBestPosition();
 		vector_punteros_a_punto getVelocity();
+
 		float getFitness();
 		float getBestFitness();
 		int getSize();
@@ -59,4 +64,3 @@ class Particle {
 };
 
 #endif	/* PARTICLE_H */
-

@@ -25,7 +25,7 @@ class Swarm {
 		* Getters and setters for attributes
 		*/
 
-		void setPopulation(vector <Particle> population);
+		void setPopulation(vector<Particle> population);
 		void setBestParticle(int bestParticle);
 		void setBestFitness(float newBestFitness);
 
@@ -36,6 +36,8 @@ class Swarm {
 		float getBestFitness();
 
 		int getIterations();
+
+		void printBestPosition();
 
 	private:
 		vector<Particle> population;	//particle population
