@@ -11,7 +11,6 @@ Particle::Particle(){
 
 Particle::Particle(vector_punteros_a_punto position){
 	this->position = position;
-	this->size = position.size();
 }
 
 Particle::Particle(const Particle& orig) {
@@ -23,33 +22,30 @@ Particle::~Particle() {
 // Initialize the particle's position with a uniformly distributed random
 // vector: xi ~ U(blo, bup), where blo and bup are the lower and upper
 // boundaries of the search-space
-void Particle::createRandomRoute(){
+void Particle::createRandomRoute(Point* origin, Point* target){
 
 	Config &config = Config::getInstance();
-
 	Map* mapa = config.getMap();
-	Point* start = mapa->getStart();
-	Point* goal = mapa->getGoal();
 
 	//cout << "Particle:createRandomRoute(): map[1][0]: " << mapa->getMap()[1][0] << endl;
-	//cout << "Particle:createRandomRoute(): start: " << start->toString() << endl;
-	//cout << "Particle:createRandomRoute(): goal: " << goal->toString() << endl;
+	//cout << "Particle:createRandomRoute(): origin: " << origin->toString() << endl;
+	//cout << "Particle:createRandomRoute(): target: " << target->toString() << endl;
 
 	//ruta generada
 	vector<Point*> ruta;
 
-	//agregar el primer elemento de la ruta (start)
-	ruta.push_back(start);
+	//agregar el primer elemento de la ruta (origin)
+	ruta.push_back(origin);
 
 	//obtener camino hasta llegar a la meta
 	bool llega_a_meta = false;
 
-	Point* punto_actual = start;
+	Point* punto_actual = origin;
 
 	//int i = 0;
 	while(!llega_a_meta){
 		Point* p = new Point();
-		*p = mapa->selectRandomNextStep(punto_actual, &ruta, goal);
+		*p = mapa->selectRandomNextStep(punto_actual, &ruta, target);
 
 		punto_actual = p;
 
@@ -60,7 +56,7 @@ void Particle::createRandomRoute(){
 
 		//i++;
 		//llega_a_meta = true; //comentar esto al final
-		if(*punto_actual == *goal)
+		if(*punto_actual == *target)
 			llega_a_meta = true;
 	}
 
@@ -68,7 +64,7 @@ void Particle::createRandomRoute(){
 	//TODO: verificar que la copia funciona en el Swarm
 	this->position = ruta;
 
-	cout << "Particle:createRandomRoute(): ruta completa en " << this->position.size() << " pasos" << endl;
+	//cout << "Particle:createRandomRoute(): ruta completa en " << this->position.size() << " pasos" << endl;
 
 	//for(unsigned int i=0; i<ruta.size(); i++){
 	//	cout << "Particle:createRandomRoute(): ruta[" << i << "] = " << ruta[i]->toString() << endl;
@@ -95,11 +91,13 @@ void Particle::updateVelocity(vector_punteros_a_punto bestGlobalKnownPosition){ 
     //  Update the particle's velocity:
      for(unsigned int i=0; i < this->velocity.size(); i++){
 
+	 /*
          // point velocity reference
          Point* v = this->velocity[i];
          Point* x = this->position[i];
          Point* p = this->bestPosition[i];
          Point* g = bestGlobalKnownPosition[i];
+	 // */
 
          //  vi ← ω vi + φp rp (pi-xi) + φg rg (g-xi)
          //v = w*v + phi_p*rp*(p-x) + phi_g*rg*(g-x);
@@ -135,9 +133,7 @@ void Particle::evaluateFitness(){
 
 	float newFitness = lenght + nc*(1+pow(lenght, alpha));
 
-	this->setPositionFitness(newFitness);
-	this->positionFitness = newFitness;
-	
+	this->setFitness(newFitness);
 	return;
 }
 
@@ -161,21 +157,15 @@ void Particle::setVelocity(vector_punteros_a_punto newVelocity){
     return;
 }
 
-void Particle::setPositionFitness(float newFitness){
-    this->positionFitness = newFitness;
+void Particle::setFitness(float newFitness){
+    this->fitness = newFitness;
+}
+
+void Particle::setBestFitness(float newFitness){
+    this->bestFitness = newFitness;
     return;
 }
 
-void Particle::setBestPositionFitness(float newFitness){
-    this->bestPositionFitness = newFitness;
-    return;
-}
-
-
-void Particle::setSize(int newSize){
-    this->size = newSize;
-    return;
-}
 
 vector_punteros_a_punto Particle::getPosition(){
     return this->position;
@@ -189,14 +179,14 @@ vector_punteros_a_punto Particle::getVelocity(){
     return this->velocity;
 }
 
-float Particle::getPositionFitness(){
-    return this->positionFitness;
-}
 
-float Particle::getBestPositionFitness(){
-    return this->bestPositionFitness;
+float Particle::getFitness(){
+    return this->fitness;
+}
+float Particle::getBestFitness(){
+    return this->bestFitness;
 }
 
 int Particle::getSize(){
-    return this->size;
+    return this->position.size();
 }

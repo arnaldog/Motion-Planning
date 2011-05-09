@@ -27,7 +27,7 @@ class Particle {
 		 *  - Restricciones de la particula
 		 */
 
-		void createRandomRoute(); /* ruta inicial */
+		void createRandomRoute(Point* origin, Point* target); /* ruta inicial */
 		void updatePosition(); /* Actualiza posicion */
 		void updateVelocity(vector_punteros_a_punto bestGlobalKnownPosition); /* Actualiza velocidad */
 		void evaluateFitness(); /* Evalua funcion objetivo */
@@ -40,24 +40,22 @@ class Particle {
 		void setPosition(vector_punteros_a_punto newPosition);
 		void setBestPosition(vector_punteros_a_punto newBestPosition);
 		void setVelocity(vector_punteros_a_punto newVelocity);
-		void setPositionFitness(float newFitness);
-		void setBestPositionFitness(float newFitness);
-		void setSize(int newSize);
-
+		void setFitness(float newFitness);
+		void setBestFitness(float newFitness);
 		vector_punteros_a_punto getPosition();
 		vector_punteros_a_punto getBestPosition();
 		vector_punteros_a_punto getVelocity();
-		float getPositionFitness();
-		float getBestPositionFitness();
+		float getFitness();
+		float getBestFitness();
 		int getSize();
 
 	private:
 		vector_punteros_a_punto position; /* vector de posiciones que definen la ruta */
 		vector_punteros_a_punto bestPosition; /* vector que guarda la mejor posicion */
 		vector_punteros_a_punto velocity; /* vector de velocidades */
-		float positionFitness; /* valor de la funcion objetivo actual */
-		float bestPositionFitness; /* el valor de la f.o. de la mejor posicion */
-		int size; /* tamano de la ruta */
+
+		float fitness; /* valor de la funcion objetivo actual */
+		float bestFitness; /* el valor de la f.o. de la mejor posicion */
 };
 
 #endif	/* PARTICLE_H */

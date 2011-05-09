@@ -44,13 +44,16 @@ int main(int argc, char** argv) {
 
 	swarm.setPopulation(newPopulation);
 	swarm.setBestFitness(9999);
-	swarm.setIterations(100);
+	swarm.setIterations(config.getIterations());
 
 	//inicializar
 	swarm.initialize();
 
-	//comenzar PSO
-	swarm.init();
+	//debug
+	cout << "Mejor fitness obtenido despues de inicializar = " << swarm.getBestFitness() << endl;
+
+	//comenzar PSO F*CK YEAH!
+	swarm.iterate();
 
 	return 0;
 }
