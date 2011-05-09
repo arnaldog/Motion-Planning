@@ -1,5 +1,6 @@
 using namespace std;
 
+#include <cstdlib>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -26,6 +27,7 @@ public:
 
 	//print methods
 	string toString();
+	float distanciaA(Point* target);
 
 	//verifica si el punto es valido o no (-1,-1) = no valido
 	bool isValid();

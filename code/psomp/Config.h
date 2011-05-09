@@ -85,6 +85,7 @@ class Config {
 		Map* getMap();
 
 		int getRandomInt(int max);
+		int getWeightedRandomInt(const vector<int> &distancias);
 };
 
 #endif	/* CONFIG_H */

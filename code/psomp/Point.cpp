@@ -58,6 +58,12 @@ string Point::toString(){
 	return string("(") + _x.str() + string(",") + _y.str() + string(")");
 }
 
+float Point::distanciaA(Point* target){
+	//cout << "Point::distanciaA(): abs(target->getX() - this->x) = " << abs(target->getX() - this->x) << endl;
+	//cout << "Point::distanciaA(): abs(target->getY() - this->y) = (" << target->getY() << " - " << this->y << ") = " << abs(target->getY() - this->y) << endl;
+	return abs(target->getX() - this->x) + abs(target->getY() - this->y);
+}
+
 bool Point::isValid(){
 	if(this->x < 0)
 		return false;

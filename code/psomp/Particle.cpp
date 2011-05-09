@@ -45,7 +45,7 @@ void Particle::createRandomRoute(){
 	//int i = 0;
 	while(!llega_a_meta){
 		Point* p = new Point();
-		*p = mapa->selectRandomNextStep(punto_actual, &ruta);
+		*p = mapa->selectRandomNextStep(punto_actual, &ruta, goal);
 
 		punto_actual = p;
 
@@ -55,6 +55,7 @@ void Particle::createRandomRoute(){
 		cout << "Particle:createRandomRoute(): ruta[" << ruta.size()-1 << "] = " << ruta[ruta.size()-1]->toString() << endl;
 
 		//i++;
+		//llega_a_meta = true; //comentar esto al final
 		if(*punto_actual == *goal)
 			llega_a_meta = true;
 	}
