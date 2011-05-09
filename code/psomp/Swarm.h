@@ -19,8 +19,7 @@ class Swarm {
 		* -
 		*/
 		void initialize();
-		void iteration();
-		void init();
+		void iterate();
 
 		/*
 		* Getters and setters for attributes

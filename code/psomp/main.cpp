@@ -20,14 +20,11 @@ int main(int argc, char** argv) {
 
 	//inicializar la configuracion (singleton)
 	Config &config = Config::getInstance();
-        config.setOmega(20);
 
-	/*
-	config().setIterations(20);
-	config().setOmega(20);
-	config().setPhiG(0.3);
-	config().setPhiP(0.7);
-	*/
+	config.setIterations(1);
+	config.setOmega(20);
+	config.setPhiG(0.3);
+	config.setPhiP(0.7);
 
 	//crear mapa
 	Map mapa = Map(argv[1]);
@@ -46,16 +43,16 @@ int main(int argc, char** argv) {
 
 	swarm.setPopulation(newPopulation);
 	swarm.setBestFitness(9999);
-	swarm.setIterations(100);
+	swarm.setIterations(config.getIterations());
 
 	//inicializar
 	swarm.initialize();
 
 	//debug
-	cout << "Mejor fitness obtenido = " << swarm.getBestFitness() << endl;
+	cout << "Mejor fitness obtenido despues de inicializar = " << swarm.getBestFitness() << endl;
 
-	//comenzar PSO
-	swarm.init();
+	//comenzar PSO F*CK YEAH!
+	swarm.iterate();
 
 	return 0;
 }

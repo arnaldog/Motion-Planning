@@ -43,7 +43,7 @@ void Swarm::initialize(){
 		p.setBestPosition(p.getPosition());
 		p.setBestPositionFitness(p.getPositionFitness());
 
-		//mejor solucion conocida
+		//actualizar la mejor solucion conocida
 		if(p.getPositionFitness() <= this->bestFitness) {
 				//actualizar la mejor solucion de la poblacion
 				this->setBestFitness(p.getPositionFitness());
@@ -52,16 +52,15 @@ void Swarm::initialize(){
 	}
 }
 
-void Swarm::init(){
-
-}
-
-void Swarm::iteration(){
+void Swarm::iterate(){
 
     // Criterio de parada: numero de iteraciones.
     int iteration=0;
 
 	while(iteration < this->iterations){
+
+		//debug
+		cout << "Swarm::iterate(): iteracion " << iteration << endl;
 
 		//Para cada partícula, hacer:
 		for(unsigned int i=0; i < this->population.size(); i++){
