@@ -88,8 +88,8 @@ void Particle::updateVelocity(vector_punteros_a_punto bestGlobalKnownPosition){ 
 
     int w = config.getOmega();
 
-    int phi_p = config.getPhiP();
-    int phi_g = config.getPhiG();
+    int op = config.getPhiP();
+    int og = config.getPhiG();
 
     //  Update the particle's velocity:
      for(unsigned int i=0; i < this->velocity.size(); i++){
@@ -114,6 +114,8 @@ void Particle::evaluateFitness(){
 
 	for(unsigned int i=0; i < this->position.size(); i++){
 		newFitness+=1; // replace this by a evaluation function
+		Point *o = this->position[i];
+		cout << "(" << o->getX() <<  "," << o->getY() << ")" << endl;
 	}
 
 	this->setPositionFitness(newFitness);
