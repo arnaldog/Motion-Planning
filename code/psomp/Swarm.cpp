@@ -28,10 +28,13 @@ void Swarm::initialize(){
 		Particle &p = this->population[i];
 
 		// Inicializacion de la posicion
-		p.createRandomRoute(); // se necesita especificar (implementar?)
+		p.createRandomRoute();
 
 		// evaluar función objetivo
 		p.evaluateFitness();
+
+		//imprimir particula:
+		//p.printParticle();
 
 		//cout << "Particle:createRandomRoute(): ruta completa en " << 1 << "pasos" << endl;
 

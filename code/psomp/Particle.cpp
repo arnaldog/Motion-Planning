@@ -67,7 +67,7 @@ void Particle::createRandomRoute(){
 	//TODO: verificar que la copia funciona en el Swarm
 	this->position = ruta;
 
-	cout << "Particle:createRandomRoute(): ruta completa en " << 1 << this->position.size() << " pasos" << endl;
+	cout << "Particle:createRandomRoute(): ruta completa en " << this->position.size() << " pasos" << endl;
 
 	//for(unsigned int i=0; i<ruta.size(); i++){
 	//	cout << "Particle:createRandomRoute(): ruta[" << i << "] = " << ruta[i]->toString() << endl;
@@ -106,6 +106,13 @@ void Particle::updateVelocity(vector_punteros_a_punto bestGlobalKnownPosition){ 
      }
 
     return;
+}
+
+void Particle::printParticle(){
+	cout << "Particle::printParticle()" << endl;
+	for(unsigned int i=0; i<this->position.size(); i++){
+		cout << "Particle::printParticle(): this->position[" << i << "]->toString() = " << this->position[i]->toString() <<endl;
+	}
 }
 
 void Particle::evaluateFitness(){
