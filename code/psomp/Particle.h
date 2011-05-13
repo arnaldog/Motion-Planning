@@ -17,16 +17,16 @@ class Particle {
 		Particle(vector <Point*> position);
 
 		virtual ~Particle();
-                
+
 		//crea una ruta random entre el punto de inicio y la meta, segun indique el mapa
 		void initialize();
 
 		void updatePosition(); /* Actualiza posicion */
                 void initVelocity();
                 vector_punteros_a_punto createRandomRoute(Point* origin, Point* target);
-                
+
 		void updateVelocity(vector_punteros_a_punto bestGlobalVelocity);
-		void evaluateFitness(); 
+		void evaluateFitness();
 
 		void printParticle();
 
@@ -55,10 +55,14 @@ class Particle {
 		vector_punteros_a_punto position; /* vector de posiciones que definen la ruta */
 		vector_punteros_a_punto bestPosition; /* vector que guarda la mejor posicion */
 		vector_punteros_a_punto velocity; /* vector de velocidades */
-                vector_punteros_a_punto bestVelocity;
+		vector_punteros_a_punto bestVelocity;
 
 		float fitness; /* valor de la funcion objetivo actual */
 		float bestFitness; /* el valor de la f.o. de la mejor posicion */
+
+		//hace in corte en la primera interseccion de si misma,
+		//para acortar la ruta y obtener un resultado mejor
+		void slice(vector_punteros_a_punto* ruta_ineficiente);
 };
 
 #endif	/* PARTICLE_H */

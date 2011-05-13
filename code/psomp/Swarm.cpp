@@ -6,7 +6,6 @@ using namespace std;
 #include <iostream>
 
 #define MAX_VALUE 9999
-#define PARTICLE_LENGTH 20
 
 Swarm::Swarm() {
 }
@@ -23,13 +22,13 @@ void Swarm::initialize(){
 	//inicializar cada particula de la poblacion
 	for(unsigned int i=0; i < this->population.size(); i++){
 
-		// Referencia al objeto de la poblacion
+		//referencia al objeto de la poblacion
 		Particle &p = this->population[i];
 
-		// Inicializacion de la posicion
+		//inicializacion de la posicion
 		p.initialize();
 
-		// evaluar función objetivo de la particula ya inicializada
+		//evaluar función objetivo de la particula ya inicializada
 		p.evaluateFitness();
 
 		// casta para la velocidad
@@ -37,7 +36,7 @@ void Swarm::initialize(){
 		//p.setVelocity(velocity);
 
 		// inicializar la velocidad
-		p.initVelocity();
+		//p.initVelocity();
 
 		//inicializacion mejor posicion, velocidad y fitness de la particula
 		p.setBestPosition(p.getPosition());

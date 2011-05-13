@@ -46,17 +46,17 @@ int main(int argc, char** argv) {
 	vector <Particle> newPopulation = vector<Particle> (CANTIDAD_PARTICULAS);
 
 	swarm.setPopulation(newPopulation);
-	swarm.setBestFitness(9999);
+	swarm.setBestFitness(99999999); //infinite's for noobs
 	swarm.setIterations(config.getIterations());
 
 	//inicializar
 	swarm.initialize();
 
 	//debug
-	cout << "Mejor fitness obtenido despues de inicializar = " << swarm.getBestFitness() << endl;
+	cout << "main(): Mejor fitness obtenido despues de inicializar = " << swarm.getBestFitness() << endl;
 
 	//comenzar PSO F*CK YEAH!
-	swarm.iterate();
+	//swarm.iterate();
 
 	//terminado el PSO, recuperar la mejor posicion de las particulas
 	swarm.printBestPosition();

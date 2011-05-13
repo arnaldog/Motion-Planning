@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Util.h
  * Author: alejandrasuarez
  *
@@ -14,15 +14,14 @@
 
 class Util {
 public:
-    Util();
-    Util(const Util& orig);
-    virtual ~Util();
+	Util();
+	Util(const Util& orig);
+	virtual ~Util();
 
-    // uniform pseudo random generator;
-    static float getUniformPRand() { return (float)rand()/(float)RAND_MAX; } ;
+	// uniform pseudo random generator;
+	static float getUniformPRand() { return (float)rand()/(float)RAND_MAX; } ;
 private:
 
 };
 
 #endif	/* UTIL_H */
-

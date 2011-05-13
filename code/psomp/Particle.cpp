@@ -70,7 +70,117 @@ vector_punteros_a_punto Particle::createRandomRoute(Point* origin, Point* target
 	//	cout << "Particle:createRandomRoute(): ruta[" << i << "] = " << ruta[i]->toString() << endl;
 	//}
 
+	//slice(cortar) (cortar en la primera interseccion de si misma)
+	//cout << "Particle::createRandomRoute: largo antes de slice(): " << ruta.size() << endl;
+	this->slice(&ruta);
+	//cout << "Particle::createRandomRoute: largo despues de slice(): " << ruta.size() << endl;
+
 	return ruta;
+}
+
+void Particle::slice(vector_punteros_a_punto* ruta){
+	//obtener los indices
+	unsigned int indice_inicial = 0;
+	unsigned int indice_final = 0;
+
+	//referencia a la ruta
+	//vector_punteros_a_punto &ref_ruta = *ruta;
+
+	for(unsigned int i = 0; i < ruta->size(); i++){
+		/*cout <<
+			"i="<<
+			i<<
+			endl;
+		*/
+
+		//setear indice final
+		indice_inicial = i;
+
+		//reiniciar valor a buscar
+		Point* valor_a_buscar = ruta->at(i);
+		/*
+		cout <<
+			"valor a buscar="<<
+			valor_a_buscar->toString()<<
+			endl;
+		*/
+
+		//buscar desde el final
+		for(unsigned int j=ruta->size()-1; j>0; j--){
+			/*
+			cout <<
+				"j="<<
+				j<<
+				endl;
+
+			cout <<
+				"intentando entrar al elemento ruta->at(j) "<<
+				endl;
+
+			cout <<
+				"ruta->at(j) ="<<
+				ruta->at(j) <<
+				endl;
+
+			cout <<
+				"intentando entrar al elemento ruta->at(j) "<<
+				endl;
+			*/
+
+			//si no es la misma posicion y es el mismo valor...
+			if( (j != i) && (*(ruta->at(j)) == *valor_a_buscar) ){
+				indice_final = j;
+				break;
+			}
+		}
+
+		//verificar si ya se tiene el indice final
+		if(indice_final != 0){
+			break;
+		}
+	}
+
+	/*
+	cout <<
+		"finalmente indice_inicial = " <<
+		indice_inicial <<
+		" indice_final = " <<
+		indice_final <<
+		endl;
+	*/
+
+	//vector final
+	vector_punteros_a_punto f;
+
+	//llenar el vector final
+	for(unsigned int i = 0; i < ruta->size(); i++){
+		//si esta dentro de los indices, no agregar al vector final
+		if( (indice_inicial < i) && (i <= indice_final) ){
+			continue;
+		}
+		//cout << i << endl;
+		f.push_back(ruta->at(i));
+	}
+
+	//impresion debug
+	/*
+	cout << "f (" << f.size() << ") contains:       ";
+	for (unsigned int k=0; k < f.size(); k++ )
+		cout << " " << f.at(k)->toString();
+	cout << endl;
+
+	cout << "ruta (" << ruta->size() << ") contains:    ";
+	for (unsigned int k=0; k < ruta->size(); k++ )
+		cout << " " << ruta->at(k)->toString();
+	cout << endl;
+	*/
+
+	//cout << "Particle::slice(): ruta size = " << ruta->size() << endl;
+	//cout << "Particle::slice(): f size = " << f.size() << endl;
+
+
+	//sobreescribir la ruta con esta nueva generada
+	*ruta = f;
 }
 
 void Particle::updatePosition(){ // // x_{i+1} = ...
@@ -132,7 +242,6 @@ void Particle::updatePosition(){ // // x_{i+1} = ...
 	//ya que se tiene el vector final, hay que actualizar la posicion nueva
 	this->position = final; //TODO: verificar si la posicion es efectivamente actualizada
 
-
 	return;
 }
 
@@ -146,7 +255,11 @@ void Particle::initVelocity(){
 		int index = (int)floor((i+1)*(float)lenght/(float)n);
 		index = (index == lenght) ? index-1: index;
 		this->velocity.push_back(this->position[index]);
-    }
+	}
+
+	for(unsigned int i=0; i<this->velocity.size(); i++){
+		cout << "Particle::initVelocity: this->velocity[" << i << "] = " << this->velocity[i]->toString() << endl;
+	}
 
 }
 void Particle::updateVelocity(vector_punteros_a_punto bestGlobalVelocity){  // v_{i+1} = ...
@@ -212,9 +325,10 @@ void Particle::evaluateFitness(){
 
 	float alpha = config.getAlpha();
 
+	//contar numero de colisiones
 	int nc = 0;
 	for(unsigned int i=0; i < this->position.size(); i++){
-		Point *o = this->position[i];
+		Point* o = this->position[i];
 		nc+=map->getCollision(o);
 	}
 
