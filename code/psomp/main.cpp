@@ -10,7 +10,7 @@ using namespace std;
 #include "Swarm.h"
 #include "Particle.h"
 
-#define CANTIDAD_PARTICULAS 1
+#define CANTIDAD_PARTICULAS 20
 
 bool verificarEntradas(int c);
 
@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 	Config &config = Config::getInstance();
 
 	config.setOmega(20);
-	config.setIterations(1);
+	config.setIterations(20);
 	config.setOmega(1);
 	config.setPhiG(2);
 	config.setPhiP(2);
@@ -56,10 +56,14 @@ int main(int argc, char** argv) {
 	cout << "main(): Mejor fitness obtenido despues de inicializar = " << swarm.getBestFitness() << endl;
 
 	//comenzar PSO F*CK YEAH!
-	//swarm.iterate();
+	swarm.iterate();
 
 	//terminado el PSO, recuperar la mejor posicion de las particulas
 	swarm.printBestPosition();
+
+	cout << "PRINTING THE PARTICLE: " << swarm.getBestParticle()<< endl;
+	cout << "PRINTING THE FITNESS:  " << swarm.getBestFitness() << endl; 
+	cout << "FINISH OF PSO" << endl;
 
 	return 0;
 }
