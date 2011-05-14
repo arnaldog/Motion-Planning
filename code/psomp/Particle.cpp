@@ -24,6 +24,11 @@ void Particle::initialize(){
 	Map* mapa = config.getMap();
 
 	this->position = this->createRandomRoute(mapa->getStart(), mapa->getGoal());
+
+	cout << "Particle::initialize(): ";
+	for (unsigned int k=0; k < this->position.size(); k++ )
+		cout << " " << this->position.at(k)->toString();
+	cout << endl;
 }
 
 vector_punteros_a_punto Particle::createRandomRoute(Point* origin, Point* target){
@@ -163,12 +168,12 @@ void Particle::slice(vector_punteros_a_punto* ruta){
 	}
 
 	//impresion debug
-	/*
-	cout << "f (" << f.size() << ") contains:       ";
-	for (unsigned int k=0; k < f.size(); k++ )
-		cout << " " << f.at(k)->toString();
-	cout << endl;
+	//cout << "Particle::slice(): f(" << f.size() << ") contains: ";
+	//for (unsigned int k=0; k < f.size(); k++ )
+	//	cout << " " << f.at(k)->toString();
+	//cout << endl;
 
+	/*
 	cout << "ruta (" << ruta->size() << ") contains:    ";
 	for (unsigned int k=0; k < ruta->size(); k++ )
 		cout << " " << ruta->at(k)->toString();
@@ -248,11 +253,14 @@ void Particle::updatePosition(){ // // x_{i+1} = ...
 void Particle::initVelocity(){
 
 	Config &config = Config::getInstance();
-    int n = config.getPivots();
-    int lenght = this->position.size();
+	int n = config.getPivots();
+	int lenght = this->position.size();
+
+	cout << "Particle::initVelocity(): numero pivotes n = " << n << endl;
+	cout << "Particle::initVelocity(): lenght position  = " << lenght << endl;
 
     for(int i=0; i < n; i+=1){
-		int index = (int)floor((i+1)*(float)lenght/(float)n);
+		int index = (int)floor( (float)(i+1) * (float)(lenght-1) / (float)(n+1) );
 		index = (index == lenght) ? index-1: index;
 		this->velocity.push_back(this->position[index]);
 	}
@@ -315,9 +323,10 @@ void Particle::updateVelocity(vector_punteros_a_punto bestGlobalVelocity){  // v
 void Particle::printParticle(){
 	cout << "Particle::printParticle()" << endl;
 	for(unsigned int i=0; i<this->position.size(); i++){
-		cout << "Particle::printParticle(): this->position[" << i << "]->toString() = " << this->position[i]->toString() <<endl;
+		cout << "Particle::printParticle(): this->position[" << i << "]->toString() = " << this->position[i]->toString() << endl;
 	}
 }
+
 void Particle::evaluateFitness(){
 
 	Config &config = Config::getInstance();
@@ -337,17 +346,28 @@ void Particle::evaluateFitness(){
 	float newFitness = lenght + nc*(1+pow(lenght, alpha));
 	this->setFitness(newFitness);
 
+	//debug
+	cout << "Particle::evaluateFitness(): numero colisiones nc = " << nc << endl;
+
 	return;
 }
 
 // GETTERS AND SETTERS
 /* setters*/
 void Particle::setPosition(vector_punteros_a_punto newPosition){
-    this->position = newPosition;
-    return;
+	this->position = newPosition;
+	return;
 }
 void Particle::setBestPosition(vector_punteros_a_punto newBestPosition){
 	this->bestPosition = newBestPosition;
+
+	/*
+	cout << "Particle::setBestPosition() bestPosition[" << this->bestPosition.size() << "] contains:    ";
+	for (unsigned int k=0; k < this->bestPosition.size(); k++ )
+		cout << " " << this->bestPosition.at(k)->toString();
+	cout << endl;
+	*/
+
 	return;
 }
 

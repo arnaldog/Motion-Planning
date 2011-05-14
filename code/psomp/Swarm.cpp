@@ -36,7 +36,7 @@ void Swarm::initialize(){
 		//p.setVelocity(velocity);
 
 		// inicializar la velocidad
-		//p.initVelocity();
+		p.initVelocity();
 
 		//inicializacion mejor posicion, velocidad y fitness de la particula
 		p.setBestPosition(p.getPosition());
