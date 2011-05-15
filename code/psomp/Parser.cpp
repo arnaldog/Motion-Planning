@@ -48,8 +48,8 @@ void Parser::obtenerSize(){
 		this->height = height;
 
 		//debug
-		cout << "width >> " << this->width << endl;
-		cout << "height >> " << this->height << endl;
+		//cout << "width >> " << this->width << endl;
+		//cout << "height >> " << this->height << endl;
 
 		this->file.close();
 	} else {
@@ -97,7 +97,7 @@ void Parser::leerArchivo(){
 					Point* p = new Point(i,j);
 					this->start = p;
 
-					cout << "Detectado caracter \"S\" en coordenadas: " << this->start->toString() << endl;
+					//cout << "Detectado caracter \"S\" en coordenadas: " << this->start->toString() << endl;
 				}
 
 				//ver si se trata del caracter de termino "E" (End)
@@ -106,7 +106,7 @@ void Parser::leerArchivo(){
 					Point* p = new Point(i,j);
 					this->goal = p;
 
-					cout << "Detectado caracter \"G\" en coordenadas: " << this->goal->toString() << endl;
+					//cout << "Detectado caracter \"G\" en coordenadas: " << this->goal->toString() << endl;
 				}
 				//cout << "Parser::leerArchivo() " << this->start->toString() << endl;
 			}

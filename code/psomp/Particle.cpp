@@ -25,10 +25,11 @@ void Particle::initialize(){
 
 	this->position = this->createRandomRoute(mapa->getStart(), mapa->getGoal());
 
-	cout << "Particle::initialize(): ";
+	/*cout << "Particle::initialize(): ";
 	for (unsigned int k=0; k < this->position.size(); k++ )
 		cout << " " << this->position.at(k)->toString();
 	cout << endl;
+	*/
 }
 
 vector_punteros_a_punto Particle::createRandomRoute(Point* origin, Point* target){
@@ -256,8 +257,8 @@ void Particle::initVelocity(){
 	int n = config.getPivots();
 	int lenght = this->position.size();
 
-	cout << "Particle::initVelocity(): numero pivotes n = " << n << endl;
-	cout << "Particle::initVelocity(): lenght position  = " << lenght << endl;
+	//cout << "Particle::initVelocity(): numero pivotes n = " << n << endl;
+	//cout << "Particle::initVelocity(): lenght position  = " << lenght << endl;
 
     for(int i=0; i < n; i+=1){
 		int index = (int)floor( (float)(i+1) * (float)(lenght-1) / (float)(n+1) );
@@ -265,9 +266,11 @@ void Particle::initVelocity(){
 		this->velocity.push_back(this->position[index]);
 	}
 
+	/*
 	for(unsigned int i=0; i<this->velocity.size(); i++){
 		cout << "Particle::initVelocity: this->velocity[" << i << "] = " << this->velocity[i]->toString() << endl;
 	}
+	*/
 
 }
 void Particle::updateVelocity(vector_punteros_a_punto bestGlobalVelocity){  // v_{i+1} = ...
@@ -347,7 +350,7 @@ void Particle::evaluateFitness(){
 	this->setFitness(newFitness);
 
 	//debug
-	cout << "Particle::evaluateFitness(): numero colisiones nc = " << nc << endl;
+	//cout << "Particle::evaluateFitness(): numero colisiones nc = " << nc << endl;
 
 	return;
 }
@@ -383,14 +386,17 @@ void Particle::setBestVelocity(vector_punteros_a_punto newVelocity){
 void Particle::setFitness(float newFitness){
 	this->fitness = newFitness;
 }
+
 void Particle::setBestFitness(float newFitness){
 	this->bestFitness = newFitness;
 	return;
 }
+
 /* getters*/
 vector_punteros_a_punto Particle::getPosition(){
 	return this->position;
 }
+
 vector_punteros_a_punto Particle::getBestPosition(){
 	return this->bestPosition;
 }
@@ -398,6 +404,7 @@ vector_punteros_a_punto Particle::getBestPosition(){
 vector_punteros_a_punto Particle::getVelocity(){
 	return this->velocity;
 }
+
 vector_punteros_a_punto Particle::getBestVelocity(){
     return this->bestVelocity;
 }
@@ -405,6 +412,7 @@ vector_punteros_a_punto Particle::getBestVelocity(){
 float Particle::getFitness(){
 	return this->fitness;
 }
+
 float Particle::getBestFitness(){
 	return this->bestFitness;
 }

@@ -8,6 +8,11 @@ Map::Map(string url){
 
 	this->map_file_url = url;
 	this->parseMapFile();
+
+	//imprimir informacion del mapa
+	cout << endl;
+	cout << "Map::Map(): tamaño del mapa: " << this->width << "x" << this->height << endl;
+	cout << endl;
 }
 
 void Map::parseMapFile(){

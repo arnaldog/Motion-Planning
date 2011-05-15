@@ -6,39 +6,6 @@
 
 #include "Map.h"
 
-//esta clase es un Singleton
-/*
-class Config {
-	public:
-		static Config* Instance();
-
-		void setIterations(int iterations);
-		void setPhiP(float phi_p);
-		void setPhiG(float phi_g);
-		void setOmega(int omega);
-		void setMap(Map map);
-
-		int getIterations();
-		float getPhiP();
-		float getPhiG();
-		int getOmega();
-		Map getMap();
-
-	protected:
-		Config(){};
-		Config(const Config& orig);
-
-	private:
-		static Config *pinstance;
-
-		int iterations;
-		float phi_p;
-		float phi_g;
-		int omega;
-		Map *map;
-};
-*/
-
 //Joe
 //Implementacion obtenida desde: http://caymcorp.wordpress.com/2010/09/28/singletons-en-c-el-problema-de-la-destruccion/
 class Config {
@@ -59,10 +26,12 @@ class Config {
 		float phi_p;
 		float phi_g;
 		int omega;
+		unsigned int quantity;
+		string map_file;
 		Map *map;
-                
-                float alpha; // objective function parameter for penalizing
-                int pivots; // number of pivots to partitionning the route
+
+		float alpha; // objective function parameter for penalizing
+		int pivots; // number of pivots to partitionning the route
 
 
 	public:
@@ -82,15 +51,22 @@ class Config {
 		void setPhiG(float phi_g);
 		void setOmega(int omega);
 		void setMap(Map* map);
-                void setAlpha(float alpha);
-                void setPivots(int pivots);
+		void setAlpha(float alpha);
+		void setPivots(int pivots);
+		void setMapFile(string map_file);
+		void setParticleQuantity(unsigned int quantity);
 
 		int getIterations();
+		int getParticleQuantity();
 		float getPhiP();
 		float getPhiG();
 		float getOmega();
-                float getAlpha();
+		float getAlpha();
+		string getMapFile();
 		Map* getMap();
+
+		//imprime configuraciones a la salida estandar
+		void printConfiguration();
 
 		int getRandomInt(int max);
 		int getWeightedRandomInt(const vector<int> &distancias);

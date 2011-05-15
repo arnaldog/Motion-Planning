@@ -51,6 +51,11 @@ void Swarm::initialize(){
 			this->bestParticle = i;
 		}
 	}
+
+	cout << "Swarm::initialize(): la major particula fue la " << this->bestParticle << endl;
+	cout << "Swarm::initialize(): this->bestFitness = " << this->bestFitness << endl;
+	cout << "Swarm::initialize(): this->population[this->bestParticle].getFitness() = " << this->population[this->bestParticle].getFitness() << endl;
+
 }
 
 void Swarm::iterate(){

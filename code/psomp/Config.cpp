@@ -22,12 +22,21 @@ float Config::getPhiG(){
 float Config::getOmega(){
 	return this->omega;
 }
+
+string Config::getMapFile(){
+	return this->map_file;
+}
+
 Map* Config::getMap(){
 	return this->map;
 }
 
 int Config::getIterations(){
 	return this->iterations;
+}
+
+int Config::getParticleQuantity(){
+	return this->quantity;
 }
 
 void Config::setIterations(int iterations){
@@ -56,6 +65,17 @@ void Config::setOmega(int omega){
 	this->omega=omega;
 	return;
 }
+
+void Config::setParticleQuantity(unsigned int quantity){
+	this->quantity=quantity;
+	return;
+}
+
+void Config::setMapFile(string map_file){
+	this->map_file=map_file;
+	return;
+}
+
 void Config::setMap(Map* map){
 	this->map=map;
 	return;
@@ -141,4 +161,14 @@ int Config::getWeightedRandomInt(const vector<int> &distancias){
 	}
 
 	return indice_escogido;
+}
+
+void Config::printConfiguration(){
+	cout << endl;
+	cout << "Config:printConfiguration(): archivo de mapa = " << this->map_file << endl;
+	cout << "Config:printConfiguration(): numero particulas = " << this->quantity << endl;
+	cout << "Config:printConfiguration(): numero iteraciones = " << this->iterations << endl;
+	//cout << "Config:printConfiguration():  = " << this-> << endl;
+
+	cout << endl;
 }
