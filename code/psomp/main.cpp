@@ -110,6 +110,26 @@ bool verificarEntradas(int argc, char** argv){
 			//cout << "main::verificarEntradas(): pivotes = " << argv[i+1] << endl;
 			config.setPivots(atoi(argv[i+1]));
 		}
+
+		if(string(argv[i]) == "-alpha"){
+			//cout << "main::verificarEntradas(): alpha = " << argv[i+1] << endl;
+			config.setAlpha(atoi(argv[i+1]));
+		}
+
+		if(string(argv[i]) == "-omega"){
+			//cout << "main::verificarEntradas(): omega = " << argv[i+1] << endl;
+			config.setOmega(atoi(argv[i+1]));
+		}
+
+		if(string(argv[i]) == "-phip"){
+			//cout << "main::verificarEntradas(): phip = " << argv[i+1] << endl;
+			config.setPhiP(atoi(argv[i+1]));
+		}
+
+		if(string(argv[i]) == "-phig"){
+			//cout << "main::verificarEntradas(): phig = " << argv[i+1] << endl;
+			config.setPhiG(atoi(argv[i+1]));
+		}
 	}
 
 	return true;
