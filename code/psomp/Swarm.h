@@ -27,6 +27,7 @@ class Swarm {
 		int getIterations();
 
 		void printBestPosition();
+		void printBestParticleAsMatrix();
 
 	private:
 		vector<Particle> population;	//particle population

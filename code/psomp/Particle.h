@@ -28,7 +28,8 @@ class Particle {
 		void updateVelocity(vector_punteros_a_punto bestGlobalVelocity);
 		void evaluateFitness();
 
-		void printParticle();
+		void printPosition();
+		void printVelocity();
 
 		// Getters and setters ...
                 /* setters */

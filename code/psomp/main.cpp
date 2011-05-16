@@ -46,7 +46,9 @@ int main(int argc, char** argv) {
 	swarm.initialize();
 
 	//debug
+	cout << endl;
 	cout << "main(): Mejor fitness obtenido despues de inicializar = " << swarm.getBestFitness() << endl;
+	cout << endl;
 
 	//comenzar PSO
 	swarm.iterate();
@@ -54,9 +56,12 @@ int main(int argc, char** argv) {
 	//terminado el PSO, imprimir la mejor posicion de las particulas (opcional)
 	//swarm.printBestPosition();
 
-	cout << "PRINTING THE BEST PARTICLE NUMBER: " << swarm.getBestParticle()<< endl;
+	cout << "PRINTING THE BEST PARTICLE NUMBER: " << swarm.getBestParticle() << endl;
 	cout << "PRINTING THE BEST FITNESS FITNESS:  " << swarm.getBestFitness() << endl;
 	cout << "FINISH OF PSO" << endl;
+
+	//imprimir la mejor particula del swarm, en forma de matriz
+	swarm.printBestParticleAsMatrix();
 
 	return 0;
 }

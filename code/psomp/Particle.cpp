@@ -83,13 +83,13 @@ void Particle::slice(vector_punteros_a_punto* ruta){
 			continue;
 		}
 		f.push_back(ruta->at(i));
-    }
+	}
 
-    *ruta = f;
+	*ruta = f;
 }
 
 void Particle::updatePosition(){ // // x_{i+1} = ...
-    cout << "Particle::updatePosition()" << endl;
+    //cout << "Particle::updatePosition()" << endl;
 
     Config &config = Config::getInstance();
     Map* mapa = config.getMap();
@@ -100,59 +100,59 @@ void Particle::updatePosition(){ // // x_{i+1} = ...
     vector_punteros_a_punto final;
     Point* inicio = mapa->getStart();
 
-    cout << "Particle::updatePosition(): creando ruta random" << endl;
+    //cout << "Particle::updatePosition(): creando ruta random" << endl;
+
     vector_punteros_a_punto* subruta = 0;
 
     for(unsigned int i=0; i < pivots.size(); i++){
-	cout << "Particle::updatePosition(): iteracion "
-	     << i+1 << "/" << pivots.size()
-	     << endl;
+		//cout << "Particle::updatePosition(): iteracion " << i+1 << "/" << pivots.size() << endl;
 
-	cout << "Particle::updatePosition(): reservando memoria para la ruta"
-		<< endl;
-	subruta = new vector_punteros_a_punto();
+		//cout << "Particle::updatePosition(): reservando memoria para la ruta" << endl;
 
-	cout << "Particle::updatePosition(): generando subruta random desde "
-		<< inicio->toString() << " hasta " << pivots[i]->toString()
-		<< endl;
+		subruta = new vector_punteros_a_punto();
 
-	*subruta = this->createRandomRoute(inicio,pivots[i]);
+		//cout << "Particle::updatePosition(): generando subruta random desde " << inicio->toString() << " hasta " << pivots[i]->toString() << endl;
 
-	cout << "Particle::updatePosition(): ahora que se tiene subruta, "
-		"punto a punto agregar al vector final"
-		<< endl;
+		*subruta = this->createRandomRoute(inicio,pivots[i]);
 
-	for(unsigned int j=0; j < subruta->size()-1; j++){
-	    vector_punteros_a_punto ruta = *subruta;
-	    final.push_back(ruta[j]);
+		//cout << "Particle::updatePosition(): ahora que se tiene subruta, punto a punto agregar al vector final"	<< endl;
+
+		for(unsigned int j=0; j < subruta->size()-1; j++){
+			vector_punteros_a_punto ruta = *subruta;
+			final.push_back(ruta[j]);
+		}
+
+		//cout << "Particle::updatePosition(): actualizando punto de inicio" << endl;
+
+		inicio = pivots[i];
 	}
 
-	cout << "Particle::updatePosition(): actualizando punto de inicio"
-		<< endl;
+	final.push_back(mapa->getGoal());
 
-	inicio = pivots[i];
-    }
+	this->position = final;
 
-    final.push_back(mapa->getGoal());
+	//slice: recortar intersecciones generadas por el desplazamiento
+	this->slice(&this->position);
 
-    this->position = final; //TODO: verificar si la posicion es efectivamente actualizada
-
-    return;
+	return;
 }
 
 void Particle::initVelocity(){
-    Config &config = Config::getInstance();
-    int n = config.getPivots();
-    int lenght = this->position.size();
+	Config &config = Config::getInstance();
+	int n = config.getPivots();
+	int lenght = this->position.size();
 	this->velocity.clear();
     for(int i=0; i < n; i+=1){
 		int index = (int)floor((i+1)*(float)(lenght-1)/(float)(n+1));
 		this->velocity.push_back(this->position[(index==lenght)?index-1:index]);
-    }
+	}
 
-    for(unsigned int i=0; i<this->velocity.size(); i++){
-	cout << "Particle::initVelocity: this->velocity[" << i << "] = " << this->velocity[i]->toString() << endl;
-    }
+	//imprimir velocidad (debug opcional)
+	/*
+	for(unsigned int i=0; i<this->velocity.size(); i++){
+		cout << "Particle::initVelocity: this->velocity[" << i << "] = " << this->velocity[i]->toString() << endl;
+	}
+	*/
 
 }
 void Particle::updateVelocity(vector_punteros_a_punto bestGlobalVelocity){  // v_{i+1} = ...
@@ -194,10 +194,17 @@ void Particle::updateVelocity(vector_punteros_a_punto bestGlobalVelocity){  // v
     return;
 }
 
-void Particle::printParticle(){
+void Particle::printPosition(){
 	cout << "Particle::printParticle()" << endl;
 	for(unsigned int i=0; i<this->position.size(); i++){
 		cout << "Particle::printParticle(): this->position[" << i << "]->toString() = " << this->position[i]->toString() << endl;
+	}
+}
+
+void Particle::printVelocity(){
+	cout << "Particle::printVelocity()" << endl;
+	for(unsigned int i=0; i<this->velocity.size(); i++){
+		cout << "Particle::printVelocity(): this->velocity[" << i << "]->toString() = " << this->velocity[i]->toString() << endl;
 	}
 }
 
@@ -218,7 +225,7 @@ void Particle::evaluateFitness(){
     this->setFitness(newFitness);
 
 	//debug
-	cout << "Particle::evaluateFitness(): numero colisiones nc = " << nc << endl;
+	//cout << "Particle::evaluateFitness(): numero colisiones nc = " << nc << endl;
 
 	return;
 }
