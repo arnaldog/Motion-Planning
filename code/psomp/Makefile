@@ -1,7 +1,7 @@
 #Compilador
 CC=g++
 #Flags que usara el compilador
-CFLAGS=-c -Wall -O3
+CFLAGS=-c -Wall
 #Ejecutable
 BIN=psomp.bin
 SRC=main.cpp Map.cpp Parser.cpp Swarm.cpp Particle.cpp Point.cpp Config.cpp Util.cpp

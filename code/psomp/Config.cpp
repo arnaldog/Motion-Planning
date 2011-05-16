@@ -94,17 +94,30 @@ float Config::getAlpha(){
     return this->alpha;
 }
 
-int Config::getWeightedRandomInt(const vector<int> &distancias){
+int Config::getWeightedRandomInt(vector<int> distancias){
 	//crear vector de probabilidades
 	vector<float> probabilidades;
 
 	//calcular suma de las distancias
 	int suma_distancias = 0;
+	int min_distancia = 1000;
+	int factor_distancia = 1;
+
+	// calculo de la distancia mínima
 	for(unsigned int i=0; i<distancias.size(); i++){
+		if (distancias[i] < min_distancia){
+			min_distancia = distancias[i];
+		}
+	}
+
+	for(unsigned int i=0; i<distancias.size(); i++){
+		distancias[i] -= min_distancia;
+		distancias[i] *= factor_distancia;
+		
 		suma_distancias += distancias[i];
 	}
 
-	//cout << "Config::getWeightedRandomInt(): suma_distancias = " << suma_distancias << endl;
+	// cout << "Config::getWeightedRandomInt(): suma_distancias = " << suma_distancias << endl;
 
 	//calcular las ponderaciones nuevas
 
@@ -127,10 +140,12 @@ int Config::getWeightedRandomInt(const vector<int> &distancias){
 	//calcular las probabilidades de cada una de las distancias
 	float p;
 	for(unsigned int i=0; i<distancias.size(); i++){
-		p = (1.0/suma_ponderaciones) * (ponderaciones[i]);
-
-		//cout << "Config::getWeightedRandomInt(): distancias[" << i << "] = " << distancias[i] << endl;
-		//cout << "Config::getWeightedRandomInt(): ponderaciones[" << i << "] = " << ponderaciones[i] << endl;
+		p = (1.0/suma_ponderaciones) * (ponderaciones[i]) ;
+		
+	//cout << "Config::getWeightedRandomInt(): distancias[" << i << "] = " << distancias[i] << endl;
+		
+//cout << "Config::getWeightedRandomInt(): ponderaciones[" << i << "] = " << ponderaciones[i] << endl;
+		
 		//cout << "Config::getWeightedRandomInt(): (suma_ponderaciones - ponderaciones[i]) = " << (suma_ponderaciones - ponderaciones[i]) << endl;
 
 		probabilidades.push_back(p);

@@ -142,7 +142,8 @@ void Particle::initVelocity(){
 	int n = config.getPivots();
 	int lenght = this->position.size();
 	this->velocity.clear();
-    for(int i=0; i < n; i+=1){
+    
+	for(int i=0; i < n; i+=1){
 		int index = (int)floor((i+1)*(float)(lenght-1)/(float)(n+1));
 		this->velocity.push_back(this->position[(index==lenght)?index-1:index]);
 	}
@@ -213,12 +214,12 @@ void Particle::evaluateFitness(){
     Map* map = config.getMap();
 
     float alpha = config.getAlpha();
-
+	
     //contar numero de colisiones
     int nc = 0;
     for(unsigned int i=0; i < this->position.size(); i++){
 	nc+=map->getCollision(this->position[i]);
-    }
+	}
 
     float lenght = (float) this->position.size();
     float newFitness = lenght + nc*(1+pow(lenght, alpha));

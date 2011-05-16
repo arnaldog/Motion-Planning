@@ -69,7 +69,7 @@ class Config {
 		void printConfiguration();
 
 		int getRandomInt(int max);
-		int getWeightedRandomInt(const vector<int> &distancias);
+		int getWeightedRandomInt(vector<int> distancias);
 
                 int getPivots();
 };

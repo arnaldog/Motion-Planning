@@ -130,13 +130,7 @@ bool verificarEntradas(int argc, char** argv){
 			//cout << "main::verificarEntradas(): phig = " << argv[i+1] << endl;
 			config.setPhiG(atoi(argv[i+1]));
 		}
-		if(string(argv[i]) == "-phip"){
-			config.setPhiP(atoi(argv[i+1]));
-		}
-
-		if(string(argv[i]) == "-phig"){
-			config.setPhiG(atoi(argv[i+1]));
-		}
+		
 	}
 
 	return true;
