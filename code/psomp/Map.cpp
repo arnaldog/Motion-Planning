@@ -12,6 +12,9 @@ Map::Map(string url){
 	//imprimir informacion del mapa
 	cout << endl;
 	cout << "Map::Map(): tamaño del mapa: " << this->width << "x" << this->height << endl;
+	cout << "Map::Map(): punto partida: " << this->start->toString() << endl;
+	cout << "Map::Map(): punto meta   : " << this->goal->toString() << endl;
+
 	cout << endl;
 }
 
@@ -61,7 +64,6 @@ unsigned int Map::getWidth(){
 unsigned int Map::getHeight(){
 	return this->height;
 }
-
 
 vector <vector <int> > Map::getMap(){
 	return this->map;

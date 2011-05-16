@@ -28,7 +28,7 @@ class Config {
 		int omega;
 		unsigned int quantity;
 		string map_file;
-		Map *map;
+		Map* map;
 
 		float alpha; // objective function parameter for penalizing
 		int pivots; // number of pivots to partitionning the route

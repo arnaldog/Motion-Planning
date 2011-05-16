@@ -46,17 +46,22 @@ int main(int argc, char** argv) {
 	swarm.initialize();
 
 	//debug
+	cout << endl;
 	cout << "main(): Mejor fitness obtenido despues de inicializar = " << swarm.getBestFitness() << endl;
+	cout << endl;
 
-	//comenzar PSO F*CK YEAH!
+	//comenzar PSO
 	swarm.iterate();
 
-	//terminado el PSO, recuperar la mejor posicion de las particulas
-	swarm.printBestPosition();
+	//terminado el PSO, imprimir la mejor posicion de las particulas (opcional)
+	//swarm.printBestPosition();
 
-	cout << "PRINTING THE BEST PARTICLE NUMBER: " << swarm.getBestParticle()<< endl;
-	cout << "PRINTING THE BEST FITNESS FITNESS:  " << swarm.getBestFitness() << endl; 
+	cout << "PRINTING THE BEST PARTICLE NUMBER: " << swarm.getBestParticle() << endl;
+	cout << "PRINTING THE BEST FITNESS FITNESS:  " << swarm.getBestFitness() << endl;
 	cout << "FINISH OF PSO" << endl;
+
+	//imprimir la mejor particula del swarm, en forma de matriz
+	swarm.printBestParticleAsMatrix();
 
 	return 0;
 }
@@ -103,6 +108,27 @@ bool verificarEntradas(int argc, char** argv){
 
 		if(string(argv[i]) == "-pivotes"){
 			//cout << "main::verificarEntradas(): pivotes = " << argv[i+1] << endl;
+			config.setPivots(atoi(argv[i+1]));
+		}
+
+		if(string(argv[i]) == "-alpha"){
+			//cout << "main::verificarEntradas(): alpha = " << argv[i+1] << endl;
+			config.setAlpha(atoi(argv[i+1]));
+		}
+
+		if(string(argv[i]) == "-omega"){
+			//cout << "main::verificarEntradas(): omega = " << argv[i+1] << endl;
+			config.setOmega(atoi(argv[i+1]));
+		}
+
+		if(string(argv[i]) == "-phip"){
+			//cout << "main::verificarEntradas(): phip = " << argv[i+1] << endl;
+			config.setPhiP(atoi(argv[i+1]));
+		}
+
+		if(string(argv[i]) == "-phig"){
+			//cout << "main::verificarEntradas(): phig = " << argv[i+1] << endl;
+			config.setPhiG(atoi(argv[i+1]));
 		}
 		if(string(argv[i]) == "-phip"){
 			config.setPhiP(atoi(argv[i+1]));
