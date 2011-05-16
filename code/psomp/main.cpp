@@ -48,14 +48,14 @@ int main(int argc, char** argv) {
 	//debug
 	cout << "main(): Mejor fitness obtenido despues de inicializar = " << swarm.getBestFitness() << endl;
 
-	//comenzar PSO F*CK YEAH!
+	//comenzar PSO
 	swarm.iterate();
 
-	//terminado el PSO, recuperar la mejor posicion de las particulas
-	swarm.printBestPosition();
+	//terminado el PSO, imprimir la mejor posicion de las particulas (opcional)
+	//swarm.printBestPosition();
 
 	cout << "PRINTING THE BEST PARTICLE NUMBER: " << swarm.getBestParticle()<< endl;
-	cout << "PRINTING THE BEST FITNESS FITNESS:  " << swarm.getBestFitness() << endl; 
+	cout << "PRINTING THE BEST FITNESS FITNESS:  " << swarm.getBestFitness() << endl;
 	cout << "FINISH OF PSO" << endl;
 
 	return 0;
@@ -103,6 +103,7 @@ bool verificarEntradas(int argc, char** argv){
 
 		if(string(argv[i]) == "-pivotes"){
 			//cout << "main::verificarEntradas(): pivotes = " << argv[i+1] << endl;
+			config.setPivots(atoi(argv[i+1]));
 		}
 	}
 

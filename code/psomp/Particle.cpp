@@ -84,7 +84,7 @@ void Particle::slice(vector_punteros_a_punto* ruta){
 		}
 		f.push_back(ruta->at(i));
     }
-    
+
     *ruta = f;
 }
 
@@ -127,9 +127,9 @@ void Particle::updatePosition(){ // // x_{i+1} = ...
 	    final.push_back(ruta[j]);
 	}
 
-	cout << "Particle::updatePosition(): actualizando punto de inicio" 
+	cout << "Particle::updatePosition(): actualizando punto de inicio"
 		<< endl;
-	
+
 	inicio = pivots[i];
     }
 
@@ -146,7 +146,7 @@ void Particle::initVelocity(){
     int lenght = this->position.size();
 	this->velocity.clear();
     for(int i=0; i < n; i+=1){
-		int index = (int)floor((i+1)*(float)lenght/(float)n);
+		int index = (int)floor((i+1)*(float)(lenght-1)/(float)(n+1));
 		this->velocity.push_back(this->position[(index==lenght)?index-1:index]);
     }
 
@@ -169,17 +169,17 @@ void Particle::updateVelocity(vector_punteros_a_punto bestGlobalVelocity){  // v
     int om = config.getOmega();
     int op = config.getPhiP();
     int og = config.getPhiG();
-	
+
     //update the particle's velocity:
     for(unsigned int i=0; i < this->velocity.size(); i++){
 		Point *v = this->velocity[i]; // get velocity
 		Point *p = this->bestVelocity[i]; // get best local position
 		Point *g = bestGlobalVelocity[i]; // get best global position
-		
+
 		if(v != NULL && p != NULL && g != NULL){
 			float vx = v->getX();
 			float vy = v->getY();
-			
+
 			vx = om*vx+op*rg*(p->getX()-vx)+og*rg*(g->getX()-vx);
 			vy = om*vy+op*rg*(p->getY()-vy)+og*rp*(g->getY()-vy);
 
@@ -216,7 +216,7 @@ void Particle::evaluateFitness(){
     float lenght = (float) this->position.size();
     float newFitness = lenght + nc*(1+pow(lenght, alpha));
     this->setFitness(newFitness);
-    
+
 	//debug
 	cout << "Particle::evaluateFitness(): numero colisiones nc = " << nc << endl;
 

@@ -168,6 +168,7 @@ void Config::printConfiguration(){
 	cout << "Config:printConfiguration(): archivo de mapa = " << this->map_file << endl;
 	cout << "Config:printConfiguration(): numero particulas = " << this->quantity << endl;
 	cout << "Config:printConfiguration(): numero iteraciones = " << this->iterations << endl;
+	cout << "Config:printConfiguration(): numero pivotes = " << this->pivots << endl;
 	//cout << "Config:printConfiguration():  = " << this-> << endl;
 
 	cout << endl;
