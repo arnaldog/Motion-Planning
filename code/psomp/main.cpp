@@ -104,6 +104,13 @@ bool verificarEntradas(int argc, char** argv){
 		if(string(argv[i]) == "-pivotes"){
 			//cout << "main::verificarEntradas(): pivotes = " << argv[i+1] << endl;
 		}
+		if(string(argv[i]) == "-phip"){
+			config.setPhiP(atoi(argv[i+1]));
+		}
+
+		if(string(argv[i]) == "-phig"){
+			config.setPhiG(atoi(argv[i+1]));
+		}
 	}
 
 	return true;
