@@ -20,6 +20,7 @@ public:
 
 	// uniform pseudo random generator;
 	static float getUniformPRand() { return (float)rand()/(float)RAND_MAX; } ;
+	static int getRandomInt(int max);
 private:
 
 };

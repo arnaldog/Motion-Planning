@@ -4,6 +4,7 @@ using namespace std;
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <math.h>
 
 #include "Config.h"
 #include "Map.h"
@@ -57,11 +58,11 @@ int main(int argc, char** argv) {
 	//swarm.printBestPosition();
 
 	cout << "PRINTING THE BEST PARTICLE NUMBER: " << swarm.getBestParticle() << endl;
-	cout << "PRINTING THE BEST FITNESS FITNESS:  " << swarm.getBestFitness() << endl;
+	cout << "PRINTING THE BEST PARTICLE FITNESS:  " << swarm.getBestFitness() << endl;
 	cout << "FINISH OF PSO" << endl;
 
 	//imprimir la mejor particula del swarm, en forma de matriz
-	swarm.printBestParticleAsMatrix();
+	//swarm.printBestParticleAsMatrix();
 
 	return 0;
 }
@@ -78,6 +79,7 @@ bool verificarEntradas(int argc, char** argv){
 	//set defaults
 	Config &config = Config::getInstance();
 
+	config.setMode("random");
 	config.setIterations(1);
 	config.setParticleQuantity(1);
 	config.setOmega(1);
@@ -89,6 +91,12 @@ bool verificarEntradas(int argc, char** argv){
 	//revisar cada argumento dado
 	for(int i=1; i<argc; i++){
 		//cout << "main(): argv[" << i << "] = " << argv[i] << endl;
+
+		if(string(argv[i]) == "-mode"){
+			//cout << "main::verificarEntradas(): mmode = " << argv[i+1] << endl;
+			string t = string(argv[i+1]);
+			config.setMode(t);
+		}
 
 		if(string(argv[i]) == "-map"){
 			//cout << "main::verificarEntradas(): mapa = " << argv[i+1] << endl;
@@ -130,7 +138,7 @@ bool verificarEntradas(int argc, char** argv){
 			//cout << "main::verificarEntradas(): phig = " << argv[i+1] << endl;
 			config.setPhiG(atoi(argv[i+1]));
 		}
-		
+
 	}
 
 	return true;

@@ -81,10 +81,6 @@ void Config::setMap(Map* map){
 	return;
 }
 
-int Config::getRandomInt(int max){
-	return rand()%max + 1;
-}
-
 void Config::setAlpha(float alpha){
     this->alpha = alpha;
     return;
@@ -113,7 +109,7 @@ int Config::getWeightedRandomInt(vector<int> distancias){
 	for(unsigned int i=0; i<distancias.size(); i++){
 		distancias[i] -= min_distancia;
 		distancias[i] *= factor_distancia;
-		
+
 		suma_distancias += distancias[i];
 	}
 
@@ -141,11 +137,11 @@ int Config::getWeightedRandomInt(vector<int> distancias){
 	float p;
 	for(unsigned int i=0; i<distancias.size(); i++){
 		p = (1.0/suma_ponderaciones) * (ponderaciones[i]) ;
-		
+
 	//cout << "Config::getWeightedRandomInt(): distancias[" << i << "] = " << distancias[i] << endl;
-		
+
 //cout << "Config::getWeightedRandomInt(): ponderaciones[" << i << "] = " << ponderaciones[i] << endl;
-		
+
 		//cout << "Config::getWeightedRandomInt(): (suma_ponderaciones - ponderaciones[i]) = " << (suma_ponderaciones - ponderaciones[i]) << endl;
 
 		probabilidades.push_back(p);
@@ -154,7 +150,7 @@ int Config::getWeightedRandomInt(vector<int> distancias){
 	}
 
 	//lanzar numero random
-	float random = this->getRandomInt(1000)/1000.0;
+	float random = Util::getRandomInt(1000)/1000.0;
 
 	//cout << "Config::getWeightedRandomInt(): random = " << random << endl;
 
@@ -181,10 +177,19 @@ int Config::getWeightedRandomInt(vector<int> distancias){
 void Config::printConfiguration(){
 	cout << endl;
 	cout << "Config:printConfiguration(): archivo de mapa = " << this->map_file << endl;
+	cout << "Config:printConfiguration(): modo = " << this->mode << endl;
 	cout << "Config:printConfiguration(): numero particulas = " << this->quantity << endl;
 	cout << "Config:printConfiguration(): numero iteraciones = " << this->iterations << endl;
 	cout << "Config:printConfiguration(): numero pivotes = " << this->pivots << endl;
 	//cout << "Config:printConfiguration():  = " << this-> << endl;
 
 	cout << endl;
+}
+
+void Config::setMode(string mode){
+	this->mode = mode;
+}
+
+string Config::getMode(){
+	return this->mode;
 }

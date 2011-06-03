@@ -5,6 +5,7 @@
 #define	CONFIG_H
 
 #include "Map.h"
+#include "Util.h"
 
 //Joe
 //Implementacion obtenida desde: http://caymcorp.wordpress.com/2010/09/28/singletons-en-c-el-problema-de-la-destruccion/
@@ -29,6 +30,7 @@ class Config {
 		unsigned int quantity;
 		string map_file;
 		Map* map;
+		string mode;
 
 		float alpha; // objective function parameter for penalizing
 		int pivots; // number of pivots to partitionning the route
@@ -55,6 +57,7 @@ class Config {
 		void setPivots(int pivots);
 		void setMapFile(string map_file);
 		void setParticleQuantity(unsigned int quantity);
+		void setMode(string mode);
 
 		int getIterations();
 		int getParticleQuantity();
@@ -64,11 +67,11 @@ class Config {
 		float getAlpha();
 		string getMapFile();
 		Map* getMap();
+		string getMode();
 
 		//imprime configuraciones a la salida estandar
 		void printConfiguration();
 
-		int getRandomInt(int max);
 		int getWeightedRandomInt(vector<int> distancias);
 
                 int getPivots();

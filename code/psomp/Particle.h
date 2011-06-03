@@ -22,8 +22,7 @@ class Particle {
 		void initialize();
 
 		void updatePosition(); /* Actualiza posicion */
-                void initVelocity();
-                vector_punteros_a_punto createRandomRoute(Point* origin, Point* target);
+		void initVelocity();
 
 		void updateVelocity(vector_punteros_a_punto bestGlobalVelocity);
 		void evaluateFitness();
@@ -32,17 +31,17 @@ class Particle {
 		void printVelocity();
 
 		// Getters and setters ...
-                /* setters */
+		/* setters */
 		void setPosition(vector_punteros_a_punto newPosition);
 		void setBestPosition(vector_punteros_a_punto newBestPosition);
 
 		void setVelocity(vector_punteros_a_punto newVelocity);
-                void setBestVelocity(vector_punteros_a_punto newVelocity);
+		void setBestVelocity(vector_punteros_a_punto newVelocity);
 
 		void setFitness(float newFitness);
 		void setBestFitness(float newFitness);
 
-                 /* getters */
+		/* getters */
 		vector_punteros_a_punto getPosition();
 		vector_punteros_a_punto getBestPosition();
 
@@ -60,6 +59,15 @@ class Particle {
 
 		float fitness; /* valor de la funcion objetivo actual */
 		float bestFitness; /* el valor de la f.o. de la mejor posicion */
+
+		//funciones de creacion de ruta
+		vector_punteros_a_punto createRoute(Point* origin, Point* target);
+		vector_punteros_a_punto createSubRoute(Point* origin, Point* target);
+
+		vector_punteros_a_punto createRandomRoute(Point* origin, Point* target);
+
+		vector_punteros_a_punto createLinearRoute(Point* origin, Point* target);
+		vector_punteros_a_punto createLinearSubRoute(Point* origin, Point* target);
 
 		//hace in corte en la primera interseccion de si misma,
 		//para acortar la ruta y obtener un resultado mejor
