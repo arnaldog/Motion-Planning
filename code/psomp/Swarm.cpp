@@ -29,14 +29,21 @@ void Swarm::initialize(){
 		//referencia al objeto de la poblacion
 		Particle &p = this->population[i];
 
+		// inicializar la velocidad
+		//TODO: analizar si conviene primero setear la velocidad
+		p.initVelocity();
+
+		//imprimir velocidad inicial (debug)
+		//p.printVelocity();
+
 		//inicializacion de la posicion
 		p.initialize();
 
+		//imprimir posicion inicial (debug)
+		//p.printPosition();
+
 		//evaluar función objetivo de la particula ya inicializada
 		p.evaluateFitness();
-
-		// inicializar la velocidad
-		p.initVelocity();
 
 		//inicializacion mejor posicion, velocidad y fitness de la particula
 		p.setBestPosition(p.getPosition());
@@ -52,7 +59,7 @@ void Swarm::initialize(){
 		}
 	}
 
-	cout << "Swarm::initialize(): la major particula fue la " << this->bestParticle << endl;
+	cout << "Swarm::initialize(): la mejor particula fue la " << this->bestParticle << endl;
 	cout << "Swarm::initialize(): this->bestFitness = " << this->bestFitness << endl;
 	cout << "Swarm::initialize(): this->population[this->bestParticle].getFitness() = " << this->population[this->bestParticle].getFitness() << endl;
 	cout << "Swarm::initialize(): this->population[this->bestParticle].getBestPosition().size() = " << this->population[this->bestParticle].getBestPosition().size() << endl;
@@ -67,7 +74,8 @@ void Swarm::iterate()
     while (iteration < this->iterations)
     {
 		// debug
-		cout << endl;
+		//cout << endl;
+		cout << "Swarm::iterate(): COMENZANDO ITERACION PSO " << iteration << endl;
 		cout << "Swarm::iterate(): iteracion " << iteration << endl;
 		cout << endl;
 
@@ -95,8 +103,13 @@ void Swarm::iterate()
 			//cout << "Swarm::iterate(): actualizando posicion... " << endl;
 			p.updatePosition();
 
+			//imprimir posicion despues de ser actualizada
+			//p.printPosition();
+
 			//redistribuir los pivotes equidistantemente
-			p.initVelocity();
+			//DEPRECATED (?): ya no porque ahora los pivotes son los puntos de apoyo
+			//solo servia en el random, pero sigue sirviendo?
+			//p.initVelocity();
 
 			// evaluate the new fitness
 			p.evaluateFitness();
@@ -121,8 +134,8 @@ void Swarm::iterate()
 		//next iteration
 		iteration++;
 
-		cout << "Swarm::iterate(): resumen de la iteracion " << iteration << endl;
 		cout << endl;
+		cout << "Swarm::iterate(): resumen de la iteracion " << iteration << endl;
 
 		for(unsigned j=0; j<this->population.size(); j++){
 			cout << "Swarm::iterate(): this->population[" << j << "].getFitness() : " << this->population[j].getFitness() << endl;
