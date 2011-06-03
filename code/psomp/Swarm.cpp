@@ -88,16 +88,16 @@ void Swarm::iterate()
 			Particle &p = this -> population[i];
 
 			//imprimir velocidad antes de ser actualizada (debug opcional)
-			cout << "Swarm::iterate(): velocidad inicial: " << endl;
-			p.printVelocity();
+			//cout << "Swarm::iterate(): velocidad inicial: " << endl;
+			//p.printVelocity();
 
 			// actualiza la velocidad de la partícula
 			//cout << "Swarm::iterate(): actualizando velocidad... " << endl;
 			p.updateVelocity(this->population[this -> getBestParticle()].getBestVelocity());
 
 			//imprimir velocidad despues de ser actualizada (debug opcional)
-			cout << "Swarm::iterate(): velocidad despues de actualizar:" << endl;
-			p.printVelocity();
+			//cout << "Swarm::iterate(): velocidad despues de actualizar:" << endl;
+			//p.printVelocity();
 
 			// update the particle's position: xi ← xi + vi
 			//cout << "Swarm::iterate(): actualizando posicion... " << endl;

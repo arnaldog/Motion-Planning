@@ -8,7 +8,3 @@ Util::Util() {
 
 Util::~Util() {
 }
-
-int Util::getRandomInt(int max){
-	return rand()%max + 1;
-}

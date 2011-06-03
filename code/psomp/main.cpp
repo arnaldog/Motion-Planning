@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
 	cout << "FINISH OF PSO" << endl;
 
 	//imprimir la mejor particula del swarm, en forma de matriz
-	//swarm.printBestParticleAsMatrix();
+	swarm.printBestParticleAsMatrix();
 
 	return 0;
 }
