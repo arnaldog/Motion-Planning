@@ -19,8 +19,17 @@ Particle::~Particle() {
 // Initialize the particle's position with a uniformly distributed random
 // vector: xi ~ U(blo, bup), where blo and bup are the lower and upper
 // boundaries of the search-space
+
+/*
+*	Initialize
+*	Initialize the particle with a random route
+*	@params (void)
+*
+*/
+
 void Particle::initialize(){
 	Config &config = Config::getInstance();
+	
 	Map* mapa = config.getMap();
 
 	this->position = this->createRandomRoute(mapa->getStart(), mapa->getGoal());
@@ -32,6 +41,15 @@ void Particle::initialize(){
 	*/
 }
 
+/*
+* CreateRandomRoute: Creates a random set of pairs that represents a route and his derivates
+* @params:
+*		- origin: origin point of the route in map
+*		- goal : goal point of the route in map
+* This method will create a disperse set of points withs derivates.
+* 
+*/
+
 vector_punteros_a_punto Particle::createRandomRoute(Point* origin, Point* target){
     Config &config = Config::getInstance();
     Map* map = config.getMap();
@@ -39,23 +57,27 @@ vector_punteros_a_punto Particle::createRandomRoute(Point* origin, Point* target
     vector_punteros_a_punto path;
     path.push_back(origin);
 
-    bool finish = false;
     Point* current = origin;
 
-    while(!finish){
-		Point *p = new Point();
-		*p = map->selectRandomNextStep(current, &path, target);
-		current = p;
-		path.push_back(current);
-		finish = (*current == *target) ? true : false;
-    }
+	for(unsigned int i=0; i< 2*config.getParticleQuantity(); i++){
+		float x = Util::getUniformPRand();
+		float y = Util::getUniformPRand();
+		float dx = Util::getUniformPRand();
+		float dy = Util::getUniformPRand();
 
-    this->slice(&path);
-    return path;
+		Point *p = new Point(x, y);
+		Point *dp = new Point(dx, dy);
+
+		path.push_back(p); //  P
+		path.push_back(dp); // gradient(P)
+	}
+	
+	path.push_back(target);
+	//finish = (*current == *target) ? true : false;
 }
 
-void Particle::slice(vector_punteros_a_punto* ruta){
-	//obtener los indices
+
+
 	unsigned int indice_inicial = 0;
 	unsigned int indice_final = 0;
 

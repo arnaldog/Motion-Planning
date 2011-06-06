@@ -13,51 +13,51 @@ typedef vector < vector <int> > matrixInt;
 #define _PARSER_H_
 
 class Parser {
-	public:
-		//metodos
-		Parser();
+public:
+    //metodos
+    Parser();
 
-		void setMapFile(string url);
-		void parsear();
+    void setMapFile(string url);
+    void parsear();
 
-		matrixInt getMatrix();
+    matrixInt getMatrix();
 
-		Point* getStart();
-		Point* getGoal();
+    Point* getStart();
+    Point* getGoal();
 
-		unsigned int getWidth();
-		unsigned int getHeight();
+    unsigned int getWidth();
+    unsigned int getHeight();
 
-		//validacion del mapa, que tenga un puntos de partida y otro de meta
-		bool validarMapFile();
-	private:
-		//mapa
-		matrixInt matrix;
+    //validacion del mapa, que tenga un puntos de partida y otro de meta
+    bool validarMapFile();
+private:
+    //mapa
+    matrixInt matrix;
 
-		//archivo de entrada
-		string map_file_url;
+    //archivo de entrada
+    string map_file_url;
 
-		//puntero a archivo que se leerá
-		ifstream file;
+    //puntero a archivo que se leerá
+    ifstream file;
 
-		//tamaño de la matriz
-		unsigned int width;
-		unsigned int height;
+    //tamaño de la matriz
+    unsigned int width;
+    unsigned int height;
 
-		//puntos de inicio y termino
-		Point* start;
-		Point* goal;
+    //puntos de inicio y termino
+    Point* start;
+    Point* goal;
 
-		//metodos
+    //metodos
 
-		//obetener el tamaño de la matriz
-		void obtenerSize();
+    //obetener el tamaño de la matriz
+    void getSize();
 
-		//reservar memoria para el vector
-		void reservarMemoria();
+    //reservar memoria para el vector
+    void assertMemory();
 
-		//leer archivos y llenar la matriz
-		void leerArchivo();
+    //leer archivos y llenar la matriz
+    void readFile();
 };
 
 #endif

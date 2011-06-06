@@ -138,28 +138,24 @@ void Swarm::iterate()
 void Swarm::setPopulation(vector<Particle> newPopulation)
 {
     this -> population = newPopulation;
-
     return;
 }
 
 void Swarm::setBestParticle(int newParticle)
 {
     this -> bestParticle = newParticle;
-
     return;
 }
 
 void Swarm::setBestFitness(float newBestFitness)
 {
     this -> bestFitness = newBestFitness;
-
     return;
 }
 
 void Swarm::setIterations(int newIterations)
 {
     this -> iterations = newIterations;
-
     return;
 }
 

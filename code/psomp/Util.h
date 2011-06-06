@@ -8,6 +8,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
+#include "Point.h"
 
 #ifndef UTIL_H
 #define	UTIL_H
@@ -19,7 +20,8 @@ public:
 	virtual ~Util();
 
 	// uniform pseudo random generator;
-	static float getUniformPRand() { return (float)rand()/(float)RAND_MAX; } ;
+    static float getUniformPRand() { return (float)rand()/(float)RAND_MAX; } ;
+        static Point getPRandPoint();
 private:
 
 };

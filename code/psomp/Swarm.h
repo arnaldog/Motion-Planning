@@ -18,8 +18,8 @@ class Swarm {
 		void setPopulation(vector<Particle> population);
 		void setBestParticle(int bestParticle);
 		void setBestFitness(float newBestFitness);
-
 		void setIterations(int newIteration);
+
 		vector<Particle> getPopulation();
 		int getBestParticle();
 		float getBestFitness();
