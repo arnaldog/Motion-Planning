@@ -10,6 +10,7 @@
 
 using namespace std;
 #include <vector>
+#include <algorithm>
 
 #include "Config.h"
 #include "Point2D.h"
@@ -51,6 +52,7 @@ public:
     void initRandomPoints();
 
     void initRandomRoute(Route &r);
+    void initRandomVelocity(Route &r);
     
 
 

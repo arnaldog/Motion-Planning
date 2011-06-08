@@ -36,6 +36,7 @@ public:
     
     void initialize();
     void iterate();
+    
     void setBestParticleIndex(int bestParticleIndex);
     int getBestParticleIndex() const;
     void setFitness(float fitness);
@@ -52,10 +53,11 @@ public:
 //    void setInitVelocityFunction(void (T::*f)(T));
     
     float evaluateFitness(T particle);
-    void evaluateInitParticle(T &particle);
+    void evaluateInitPosition(T &position);
+    void evaluateInitVelocity(T &velocity);
 
-    void setInitParticleFunction(void (T::*f)(T&));
-
+    void setInitPositionFunction(void (T::*f)(T&));
+    void setInitVelocityFunction(void (T::*f)(T&));
 
     void setParticleSize(int particleSize);
     int getParticleSize() const;
@@ -75,7 +77,8 @@ private:
     int bestParticleIndex;
     
     float (T::*fitnessFunction) (T);
-    void (T::*initParticleFunction) (T&);
+    void (T::*initPositionFunction) (T&);
+    void (T::*initVelocityFunction) (T&);
 
 };
 

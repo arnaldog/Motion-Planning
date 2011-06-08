@@ -48,13 +48,15 @@ int main(int argc, char** argv) {
     
     // setting the objective function
     fnRoute objectiveFunction = &Route::evaluation;
-    fnpRoute initParticleFunction = &Route::initRandomRoute;
+    fnpRoute initPositionFunction = &Route::initRandomRoute;
+    fnpRoute initVelocityFunction = &Route::initRandomVelocity;
     
 //    fnRoute initPositionFunction = &Route::initPosition;
 //    fnRoute initVelocityFunction = &Route::initVelocity;
     
     swarm.setFitnessFunction(objectiveFunction);
-    swarm.setInitParticleFunction(initParticleFunction);
+    swarm.setInitPositionFunction(initPositionFunction);
+    swarm.setInitVelocityFunction(initVelocityFunction);
 
     //swarm.setInitParticlePositionFunction();
     //swarm.setInitParticleVelocityFunction();
@@ -67,11 +69,6 @@ int main(int argc, char** argv) {
     cout << "main(): Mejor fitness obtenido al incializar";
     //cout << swarm.getFitness() << endl;
     cout << endl;
-
-    Route q = Route();
-    q.initRandomRoute(q);
-    cout << q.toString() << endl;
-    
     
     return 0;
 }
@@ -184,9 +181,10 @@ bool verificarEntradas(int argc, char** argv){
     gradients.push_back(g4);
 
     r.setGradients(gradients);
-
     
     r.setPath(r.splines());
+
+
 
 
     cout << r.toString() << endl;
@@ -205,7 +203,8 @@ bool verificarEntradas(int argc, char** argv){
     return 0;
 
      *
-     * Route r = Route();
+     *
+    Route r = Route();
     r.setStart(p1);
     r.setGoal(p2);
 
