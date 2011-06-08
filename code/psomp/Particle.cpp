@@ -348,9 +348,16 @@ void Particle::updateVelocity(vector_punteros_a_punto bestGlobalVelocity){  // v
 	float rp = Util::getUniformPRand();
 	float rg = Util::getUniformPRand();
 
+	cout << "Particle::updateVelocity(): rp = " << rp << endl;
+	cout << "Particle::updateVelocity(): rg = " << rg << endl;
+
 	int om = config.getOmega();
 	int op = config.getPhiP();
 	int og = config.getPhiG();
+
+	cout << "Particle::updateVelocity(): om = " << om << endl;
+	cout << "Particle::updateVelocity(): op = " << op << endl;
+	cout << "Particle::updateVelocity(): og = " << og << endl;
 
 	//update the particle's velocity:
 	for(unsigned int i=0; i < this->velocity.size(); i++){
@@ -358,19 +365,43 @@ void Particle::updateVelocity(vector_punteros_a_punto bestGlobalVelocity){  // v
 		Point *p = this->bestVelocity[i]; // get best local position
 		Point *g = bestGlobalVelocity[i]; // get best global position
 
+		cout << "Particle::updateVelocity(): v = " << v->toString() << endl;
+		cout << "Particle::updateVelocity(): p = " << p->toString() << endl;
+		cout << "Particle::updateVelocity(): g = " << g->toString() << endl;
+
 		if(v != NULL && p != NULL && g != NULL){
 			float vx = v->getX();
 			float vy = v->getY();
 
-			vx = om*vx+op*rg*(p->getX()-vx)+og*rg*(g->getX()-vx);
-			vy = om*vy+op*rg*(p->getY()-vy)+og*rp*(g->getY()-vy);
+			vx = om*vx+op*rp*(p->getX()-vx)+og*rg*(g->getX()-vx);
+			vy = om*vy+op*rp*(p->getY()-vy)+og*rg*(g->getY()-vy);
+
+			//comprobar si se salio de los limites
+			if(vx<0){
+				cout << "Particle::updateVelocity(): SALIO DE LIMITES vx < 0" << endl;
+			}
+			if(vx>width){
+				cout << "Particle::updateVelocity(): SALIO DE LIMITES vx > width" << endl;
+			}
+			if(vy<0){
+				cout << "Particle::updateVelocity(): SALIO DE LIMITES vy < 0" << endl;
+			}
+			if(vy>width){
+				cout << "Particle::updateVelocity(): SALIO DE LIMITES vy > width" << endl;
+			}
 
 			vx = (vx < 0) ? 0 : ( (vx > width) ? width : vx);
 			vy = (vy < 0) ? 0 : ( (vy > height) ? height : vy);
 
+			cout << "Particle::updateVelocity(): vx = " << vx << endl;
+			cout << "Particle::updateVelocity(): vy = " << vy << endl;
+
 			v->setX((int)vx);
 			v->setY((int)vy); // updating the velocity
 			this->velocity[i] = v;
+		} else {
+			//informar error
+			cout << "Particle::updateVelocity(): ERROR: (v != NULL && p != NULL && g != NULL) = FALSE" << endl;
 		}
 	}
 	return;

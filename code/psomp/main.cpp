@@ -92,7 +92,7 @@ bool verificarEntradas(int argc, char** argv){
 	for(int i=1; i<argc; i++){
 		//cout << "main(): argv[" << i << "] = " << argv[i] << endl;
 
-		if(string(argv[i]) == "-mode"){
+		if(string(argv[i]) == "-modo"){
 			//cout << "main::verificarEntradas(): mmode = " << argv[i+1] << endl;
 			string t = string(argv[i+1]);
 			config.setMode(t);

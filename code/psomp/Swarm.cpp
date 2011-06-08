@@ -82,22 +82,22 @@ void Swarm::iterate()
 		// para cada partícula, hacer:
 		for (unsigned int i = 0; i < this -> population.size(); i++)
 		{
-			//cout << "Swarm::iterate(): particula " << i << endl;
+			cout << "Swarm::iterate(): particula " << i << endl;
 
 			// referencia a la particula para ser modificada.
 			Particle &p = this -> population[i];
 
 			//imprimir velocidad antes de ser actualizada (debug opcional)
-			//cout << "Swarm::iterate(): velocidad inicial: " << endl;
-			//p.printVelocity();
+			cout << "Swarm::iterate(): velocidad inicial: " << endl;
+			p.printVelocity();
 
 			// actualiza la velocidad de la partícula
-			//cout << "Swarm::iterate(): actualizando velocidad... " << endl;
+			cout << "Swarm::iterate(): actualizando velocidad... " << endl;
 			p.updateVelocity(this->population[this -> getBestParticle()].getBestVelocity());
 
 			//imprimir velocidad despues de ser actualizada (debug opcional)
-			//cout << "Swarm::iterate(): velocidad despues de actualizar:" << endl;
-			//p.printVelocity();
+			cout << "Swarm::iterate(): velocidad despues de actualizar:" << endl;
+			p.printVelocity();
 
 			// update the particle's position: xi ← xi + vi
 			//cout << "Swarm::iterate(): actualizando posicion... " << endl;
@@ -125,7 +125,7 @@ void Swarm::iterate()
 
 			//if (f(pi) < f(g)) update the swarm's best known position:
 			//g ← pi
-			if (p.getFitness() < this ->bestFitness) {
+			if (p.getFitness() < this->bestFitness) {
 				this->bestFitness  = p.getFitness();
 				this->bestParticle = i;
 			}
