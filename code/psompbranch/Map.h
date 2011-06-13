@@ -24,7 +24,7 @@ public:
     
     vector < vector <int> > getMatrix();
     
-    int getCollision(Point2D p);
+    int getCollision(Point2D &p);
     void setGoal(Point2D* goal);
     Point2D* getGoal() const;
     void setStart(Point2D* start);

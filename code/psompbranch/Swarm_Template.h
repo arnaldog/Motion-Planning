@@ -62,11 +62,11 @@ template <class T> Swarm<T>::Swarm(const Swarm& orig){
     
 }
 
-template <class T> void Swarm<T>::setFitnessFunction(float (T::*f)(T)){
+template <class T> void Swarm<T>::setFitnessFunction(float (T::*f)(T&)){
     this->fitnessFunction = f;
 }
 
-template <class T> float Swarm<T>::evaluateFitness(T position){
+template <class T> float Swarm<T>::evaluateFitness(T &position){
     return ((position).*(this->fitnessFunction))(position);
 
 }
@@ -120,17 +120,23 @@ template <class T> void Swarm<T>::initialize(){
         float fitness;
         
         this->evaluateInitPosition(position);
+        fitness = this->evaluateFitness(position);
+        
         this->evaluateInitVelocity(velocity);
-    
+        
         p.setPosition(position);
         p.setVelocity(velocity);
 
-        fitness = this->evaluateFitness(p.getPosition());
+        fitness = this->evaluateFitness(position);
         p.setFitness(fitness);
+        
+        
 
         p.setBestPosition(position);
         p.setBestVelocity(velocity);
         p.setBestFitness(fitness);
+
+        cout << "Swarm::initialize(): particula " << i+1 << ", fitness: "<< p.getFitness() << endl;
 
 
         //actualizar la mejor solucion conocida

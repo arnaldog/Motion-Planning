@@ -24,6 +24,10 @@ public:
     string toString();
     //friend Route operator+(Route ob, Route r2);
 
+    Route operator+(const Route &b);
+    Route operator*(float m);
+    Route operator-(const Route &b);
+
     //void createRandomRoute();
 
     vector<Point2D*> splines();
@@ -46,7 +50,7 @@ public:
     void setStart(Point2D* start);
     void setGoal(Point2D* goal);
 
-    float evaluation(Route r);
+    float fitnessEvaluation(Route &r);
 
     void initRandomGradients();
     void initRandomPoints();

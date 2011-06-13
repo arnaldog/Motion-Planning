@@ -13,3 +13,10 @@
  * of the concrete templated 
  */
 template class Swarm<Route>;
+
+// TODO
+/*
+ * 1. verificar paso por referencia de la particula en swarm initialize
+ * 2. sobrecargar el operador + sobre Ruta para actualizar la velocidad.
+ * 3.
+ */

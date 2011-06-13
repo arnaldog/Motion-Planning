@@ -48,11 +48,11 @@ public:
     void setSize(int size);
     int getSize() const;
 
-    void setFitnessFunction(float (T::*f)(T));
+    void setFitnessFunction(float (T::*f)(T&));
 //    void setInitPositionFunction(void (T::*f)(T));
 //    void setInitVelocityFunction(void (T::*f)(T));
     
-    float evaluateFitness(T particle);
+    float evaluateFitness(T &particle);
     void evaluateInitPosition(T &position);
     void evaluateInitVelocity(T &velocity);
 
@@ -76,7 +76,7 @@ private:
     float fitness;
     int bestParticleIndex;
     
-    float (T::*fitnessFunction) (T);
+    float (T::*fitnessFunction) (T&);
     void (T::*initPositionFunction) (T&);
     void (T::*initVelocityFunction) (T&);
 

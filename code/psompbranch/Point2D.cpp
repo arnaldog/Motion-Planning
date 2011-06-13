@@ -26,6 +26,15 @@ Point2D Point2D::operator+(const Point2D& p) const {
     return (tmp);
 }
 
+Point2D* Point2D::operator+(const Point2D *p) const {
+
+    Point2D* tmp;
+    tmp->x = x + p->x;
+    tmp->y = y + p->y;
+    return (tmp);
+}
+
+
 Point2D Point2D::operator-(const Point2D& p) const {
 
     Point2D tmp;
@@ -34,7 +43,7 @@ Point2D Point2D::operator-(const Point2D& p) const {
     return (tmp);
 }
 
-Point2D Point2D::operator*(int m) const{
+Point2D Point2D::operator*(float m) const{
 
     Point2D tmp;
     tmp.x = x*m;

@@ -68,6 +68,84 @@ Route::~Route() {
 
 }
 
+// suma de una ruta para hoy
+Route Route::operator+(const Route &b){
+    // sumar los puntos
+    // sumar las gradientes
+    // recalcular el path
+    Route tmp = Route();
+    
+    int size_b = b.getSize();
+    if(size != size_b) return tmp;
+
+    tmp.size = size;
+    tmp.start = start;
+    tmp.goal = goal;
+
+    // updating points
+    for(unsigned int i=0; i < size; i++){
+	Point2D p= (*points[i]) + (*b.points[i]);
+	cout << p.toString() << endl;
+	tmp.points.push_back(&p) ;
+    }
+
+    // updating velocity
+    for(unsigned int i=0; i < size; i++){
+	Point2D p= (*gradients[i]) + (*gradients[i]);
+	tmp.gradients.push_back(&p) ;
+	//tmp.gradients.push_back(gradients[i] + b.gradients[i]);
+    }
+    
+    return tmp;
+
+    // TODO: updating acceleration
+    
+}
+// resta de una ruta para hoy
+Route Route::operator-(const Route &b){
+    // sumar los puntos
+    // sumar las gradientes
+    // recalcular el path
+    Route tmp = Route();
+
+    int size_b = b.getSize();
+    if(size != size_b) return tmp;
+
+    tmp.size = size;
+    tmp.start = start;
+    tmp.goal = goal;
+
+    // updating points
+    for(unsigned int i=0; i < size; i++){
+	//tmp.points.push_back(points[i] - b.points[i]);
+    }
+
+    // updating velocity
+    for(unsigned int i=0; i < size; i++){
+	//mtmp.gradients.push_back(gradients[i] - b.gradients[i]);
+    }
+
+    return tmp;
+
+    // TODO: updating acceleration
+
+}
+
+Route Route::operator*(float m){
+
+
+    for(unsigned int i=0; i < size; i++){
+	//points[i] = points[i]*m;
+    }
+
+    for(unsigned int i=0; i < size; i++){
+	//gradients[i] = gradients[i]*m;
+    }
+
+
+}
+
+
 string Route::toString(){
     std::ostringstream ss;
 
@@ -120,20 +198,39 @@ void Route::printPath(){
 	matrix[p->x][p->y] = 1;
     }
 
-    for(unsigned int i = 0; i < width; i++)                                                   {
+    for(unsigned int i = 0; i < width; i++){
+	cout << "\t\t\t\t";
 	for(unsigned int j = 0 ; j < height; j++){
 	    cout << matrix[i][j];
 	}
+	
 	cout << endl;
     }
 
 }
 
-float Route::evaluation(Route r){
+float Route::fitnessEvaluation(Route &r){
+    
+    Config &config = Config::getInstance();
+    Map *map = config.getMap();
+    float fitness;
 
-    int length = r.length;
-    return length;
+    int overlaps = 0;
+    float length = r.getLength();
+
+    /* Getting the collission*/
+    for(unsigned i = 0; i < r.getPath().size(); i++){
+	Point2D *p = r.getPath().at(i);
+	overlaps+=map->getCollision(*p);
+    }
+
+    fitness = length - pow(overlaps, 2);
+
+    //cout << "overlaps ... " << overlaps  << endl;
+    //cout << "Route::fitnessEvaluation sqrt(length): " << r.getPath().size() << endl;
+    return fitness;
 }
+
 
 void Route::initRandomVelocity(Route &r){
 
@@ -160,10 +257,12 @@ void Route::initRandomVelocity(Route &r){
     r.initRandomPoints();
     r.initRandomGradients();
 
-    cout << r.toString() << endl;
+    //cout << "Route::initRandomVelocity: " << endl;
+   // cout << r.toString() << endl;
     
 }
-void Route::initRandomRoute(Route &r){
+
+void Route::initRandomRoute(Route& r){
 
     Config &config = Config::getInstance();
     int n = config.getPivots();
@@ -188,11 +287,16 @@ void Route::initRandomRoute(Route &r){
     r.initRandomPoints();
     r.initRandomGradients();
     r.setPath(r.splines());
+    r.setLength(r.getPath().size());
 
-    cout << r.toString() << endl;
-    cout << endl;
+    //cout << "Route::initRandomRoute: " << endl;
+   // cout << r.toString() << endl;
+    //r.printPath();
+
 
     //r.printPath();
+
+    return;
 }
 
 void Route::initRandomGradients(){
@@ -221,6 +325,7 @@ void Route::initRandomPoints(){
 	}
 	points[i] = p;
     }
+   
     points[points.size()-1] = goal;
     return;
 }

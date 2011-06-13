@@ -20,7 +20,8 @@ vector < vector <int> > Map::getMatrix(){
     return matrix;
 }
 
-int Map::getCollision(Point2D p){
+int Map::getCollision(Point2D &p){
+    //cout << p.toString() << endl;
     int o = matrix[p.x][p.y];
     return o;
 }
@@ -80,12 +81,12 @@ Map::Map(string filename){
 		matrix[i].push_back(1);
 
 	    if (c == 'S'){
-		matrix[i].push_back(2);
+		matrix[i].push_back(0);
 		start = new Point2D(i,j);
 	    }
 
 	    if (c == 'G'){
-		matrix[i].push_back(3);
+		matrix[i].push_back(0);
 		goal = new Point2D(i,j);
 	    }
 

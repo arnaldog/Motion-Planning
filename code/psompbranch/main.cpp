@@ -19,7 +19,7 @@ using namespace std;
  * 
  */
 
-typedef  float (Route::*fnRoute)(Route r);
+typedef  float (Route::*fnRoute)(Route &r);
 typedef  void (Route::*fnpRoute)(Route &r);
 
 bool verificarEntradas(int argc,char** argv);
@@ -43,16 +43,14 @@ int main(int argc, char** argv) {
     int swarmFitness = 9999999;
     Swarm<Route> swarm = Swarm<Route>(swarmSize, swarmIterations, swarmFitness);
 
+
     int particleSize = config.getPivots();
     swarm.setParticleSize(particleSize);
     
     // setting the objective function
-    fnRoute objectiveFunction = &Route::evaluation;
+    fnRoute objectiveFunction = &Route::fitnessEvaluation;
     fnpRoute initPositionFunction = &Route::initRandomRoute;
     fnpRoute initVelocityFunction = &Route::initRandomVelocity;
-    
-//    fnRoute initPositionFunction = &Route::initPosition;
-//    fnRoute initVelocityFunction = &Route::initVelocity;
     
     swarm.setFitnessFunction(objectiveFunction);
     swarm.setInitPositionFunction(initPositionFunction);
@@ -62,14 +60,31 @@ int main(int argc, char** argv) {
     //swarm.setInitParticleVelocityFunction();
     // swarm initialization
     
-    swarm.initialize();
+    //swarm.initialize();
+
+    cout << "main(): Mejor particula obtenida al incializar: ";
+    cout << swarm.getBestParticleIndex() << endl;
+    cout << "main(): Mejor fitness obtenido al incializar: ";
+    cout << swarm.getFitness() << endl;
+    cout << endl;
+
+    Route r = Route();
+    r.initRandomRoute(r);
+    r.initRandomVelocity(r);
+
+    cout << r.toString() << endl;
+
+    Route s = Route();
+    r.initRandomRoute(s);
+    r.initRandomVelocity(s);
+
+    cout << s.toString() << endl;
+
+    Route t = s + r;
+
+    cout << (s + r).toString() << endl;
 
 
-    cout << endl;
-    cout << "main(): Mejor fitness obtenido al incializar";
-    //cout << swarm.getFitness() << endl;
-    cout << endl;
-    
     return 0;
 }
 
@@ -216,5 +231,8 @@ bool verificarEntradas(int argc, char** argv){
 
     r.initRandomPoints();
     r.initRandomGradients();
+
+
     
  } //*/
+
