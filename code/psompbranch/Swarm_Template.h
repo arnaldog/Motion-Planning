@@ -127,11 +127,8 @@ template <class T> void Swarm<T>::initialize(){
         p.setPosition(position);
         p.setVelocity(velocity);
 
-        fitness = this->evaluateFitness(position);
         p.setFitness(fitness);
         
-        
-
         p.setBestPosition(position);
         p.setBestVelocity(velocity);
         p.setBestFitness(fitness);

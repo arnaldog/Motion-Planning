@@ -56,9 +56,11 @@ int Route::getSize() const {
 
 void Route::setStart(Point2D* start){
     this->start = start;
+    this->size+=1;
 }
 void Route::setGoal(Point2D* goal){
     this->goal = goal;
+    this->size+=1;
 }
 
 Route::Route(const Route& orig) {
@@ -83,6 +85,8 @@ Route Route::operator+(const Route &b){
     tmp.goal = goal;
 
     // updating points
+    // la suma significa que los puntos se acercan
+
     for(unsigned int i=0; i < size; i++){
 	Point2D p= (*points[i]) + (*b.points[i]);
 	cout << p.toString() << endl;
@@ -117,12 +121,21 @@ Route Route::operator-(const Route &b){
 
     // updating points
     for(unsigned int i=0; i < size; i++){
+	Point2D *p = points[i];
+	Point2D *q = b.points[i];
+	Point2D r = (*p) + (*q);
+	cout << r.toString() << endl;
+	tmp.points.push_back(&r);
 	//tmp.points.push_back(points[i] - b.points[i]);
     }
 
     // updating velocity
     for(unsigned int i=0; i < size; i++){
-	//mtmp.gradients.push_back(gradients[i] - b.gradients[i]);
+	Point2D *p = gradients[i];
+	Point2D *q = b.gradients[i];
+	Point2D r = (*p) + (*q);
+	tmp.gradients.push_back(&r);
+	//tmp.gradients.push_back(gradients[i] - b.gradients[i]);
     }
 
     return tmp;
@@ -195,7 +208,12 @@ void Route::printPath(){
 
     for(unsigned int i=0; i< path.size(); i++){
 	Point2D *p = path[i];
-	matrix[p->x][p->y] = 1;
+	 matrix[p->x][p->y] = 1;
+//	for(unsigned int j=0; j<points.size(); j++){
+//	    Point2D *q = points[j];
+//	    matrix[p->x][p->y] = ((*p)==(*q)) ? 5 : 1;
+//	}
+	
     }
 
     for(unsigned int i = 0; i < width; i++){
@@ -291,7 +309,7 @@ void Route::initRandomRoute(Route& r){
 
     //cout << "Route::initRandomRoute: " << endl;
    // cout << r.toString() << endl;
-    //r.printPath();
+    r.printPath();
 
 
     //r.printPath();
@@ -303,7 +321,8 @@ void Route::initRandomGradients(){
     if (gradients.size() < 1) return;
     gradients[0] = Point2D::getRandomPoint(-1, -1, 1, 1);
     for(unsigned int i=1; i<gradients.size()-1; i++){
-	Point2D *p = Point2D::getRandomPoint(0, 0, 3, 3);
+	int base = 100;
+	Point2D *p = Point2D::getRandomPoint(-1*base, -1*base, base, base);
 	if ( ((*p) == (*start)) || ((*p) == (*goal))){
 	    i--;
 	    continue;
@@ -318,6 +337,7 @@ void Route::initRandomPoints(){
     if (points.size() < 1) return;
     points[0] = start;
     for(unsigned int i=1; i<points.size()-1; i++){
+	// [TODO] tienen que ser el principio y el final del mapa
 	Point2D *p = Point2D::getRandomAbsPoint(start->x, start->y, goal->x, goal->y);
 	if ( ((*p) == (*start)) || ((*p) == (*goal))){
 	    i--;

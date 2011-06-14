@@ -68,21 +68,6 @@ int main(int argc, char** argv) {
     cout << swarm.getFitness() << endl;
     cout << endl;
 
-    Route r = Route();
-    r.initRandomRoute(r);
-    r.initRandomVelocity(r);
-
-    cout << r.toString() << endl;
-
-    Route s = Route();
-    r.initRandomRoute(s);
-    r.initRandomVelocity(s);
-
-    cout << s.toString() << endl;
-
-    Route t = s + r;
-
-    cout << (s + r).toString() << endl;
 
 
     return 0;
