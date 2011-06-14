@@ -330,7 +330,8 @@ void Particle::initVelocity(){
 		//hay que crear n puntos aleatorios en el mapa
 		cout << "Particle::initVelocity(): inicializando velicidad en modo linear" << endl;
 		for(int i=0;i<n;i++){
-			Point* p = new Point(Util::getRandomInt(config.getMap()->getWidth())-1, Util::getRandomInt(config.getMap()->getHeight())-1 );
+			Point* p = new Point();
+			p->randomize();
 			this->velocity.push_back(p);
 		}
 	}
@@ -365,16 +366,25 @@ void Particle::updateVelocity(vector_punteros_a_punto bestGlobalVelocity){  // v
 		Point *p = this->bestVelocity[i]; // get best local position
 		Point *g = bestGlobalVelocity[i]; // get best global position
 
+		Point *r = new Point(); //random point
+		r->randomize();
+
 		cout << "Particle::updateVelocity(): v = " << v->toString() << endl;
 		cout << "Particle::updateVelocity(): p = " << p->toString() << endl;
 		cout << "Particle::updateVelocity(): g = " << g->toString() << endl;
+		cout << "Particle::updateVelocity(): r = " << r->toString() << endl;
 
 		if(v != NULL && p != NULL && g != NULL){
 			float vx = v->getX();
 			float vy = v->getY();
 
-			vx = om*vx+op*rp*(p->getX()-vx)+og*rg*(g->getX()-vx);
-			vy = om*vy+op*rp*(p->getY()-vy)+og*rg*(g->getY()-vy);
+			//antes
+			//vx = om*vx+op*rp*(p->getX()-vx)+og*rg*(g->getX()-vx);
+			//vy = om*vy+op*rp*(p->getY()-vy)+og*rg*(g->getY()-vy);
+
+			//omega debiera ser la tendencia a moverse libremente
+			vx = om*(r->getX()-vx)+op*rp*(p->getX()-vx)+og*rg*(g->getX()-vx);
+			vy = om*(r->getY()-vy)+op*rp*(p->getY()-vy)+og*rg*(g->getY()-vy);
 
 			//comprobar si se salio de los limites
 			if(vx<0){

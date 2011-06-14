@@ -101,6 +101,17 @@ bool Point::isInVector(vector<Point*> v){
 	return false;
 }
 
+//obtener un punto random
+
+void Point::randomize(){
+	Config &config = Config::getInstance();
+
+	this->x = Util::getRandomInt( config.getMap()->getWidth() )-1;
+	this->y = Util::getRandomInt( config.getMap()->getHeight() )-1;
+
+	return;
+}
+
 //operadores
 bool Point::operator==(const Point &other){
 	if( (this->x == other.x) && (this->y == other.y) )

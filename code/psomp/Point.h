@@ -6,6 +6,9 @@ using namespace std;
 #include <iostream>
 #include <sstream>
 
+#include "Util.h"
+#include "Config.h"
+
 #ifndef POINT_H
 #define	POINT_H
 
@@ -35,6 +38,9 @@ public:
 
 	//verifica si el punto esta en un vector
 	bool isInVector(vector<Point*> v);
+
+	//crea valores random para el punto
+	void randomize();
 
 	//operadores
 	bool operator==(const Point &other);
