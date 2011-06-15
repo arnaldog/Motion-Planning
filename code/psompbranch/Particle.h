@@ -22,7 +22,7 @@ public:
     void initialize();
     void initVelocity();
     
-    void updatePosition(T position);
+    void updatePosition();
     void updateVelocity(T velocity);
 
     /* Function by parameter */

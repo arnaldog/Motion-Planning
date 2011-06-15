@@ -56,6 +56,17 @@ int main(int argc, char** argv) {
     swarm.setInitPositionFunction(initPositionFunction);
     swarm.setInitVelocityFunction(initVelocityFunction);
 
+
+    /*
+     * Setting the swarm parameters
+     */
+    swarm.setPhig(config.getPhi_g());
+    swarm.setPhip(config.getPhi_p());
+    swarm.setOmega(config.getOmega());
+    swarm.setRhog(0.1);
+    swarm.setRhop(0.1);
+
+
     //swarm.setInitParticlePositionFunction();
     //swarm.setInitParticleVelocityFunction();
     // swarm initialization
@@ -221,3 +232,52 @@ bool verificarEntradas(int argc, char** argv){
     
  } //*/
 
+/*
+    Route r = Route();
+    r.initRandomRoute(r);
+    r.initRandomVelocity(r);
+
+    Route s = Route();
+    r.initRandomRoute(s);
+    r.initRandomVelocity(s);
+
+    cout << r.toString() << endl;
+    cout << s.toString() << endl;
+
+    Route t = r - s;
+
+    for (unsigned int  i=0; i < t.getPoints().size(); i++){
+	Point2D *p = t.getPoints()[i];
+	cout << p->toString();
+	cout << '-';
+    }
+    cout << endl;
+
+    cout << "FIN" << endl;
+*/
+
+/*
+    Route r = Route();
+    r.initRandomRoute(r);
+    r.initRandomVelocity(r);
+
+    Route s = Route();
+    r.initRandomRoute(s);
+    r.initRandomVelocity(s);
+
+    cout << r.toString() << endl;
+    r.printPath();
+    cout << s.toString() << endl;
+    s.printPath();
+
+    Route t = r - s;
+
+
+
+    cout << t.toString() << endl;
+    t.printPath() ;
+
+    Route f = Route();
+    f = t*2;
+ *
+ */

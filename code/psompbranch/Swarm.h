@@ -51,7 +51,12 @@ public:
     void setFitnessFunction(float (T::*f)(T&));
 //    void setInitPositionFunction(void (T::*f)(T));
 //    void setInitVelocityFunction(void (T::*f)(T));
-    
+
+    // funcion que le actualiza la velocidad a la partícula
+    // pasa por referencia a la particula y le actualiza la velocidad
+    // retorna void.
+    void updateParticleVelocity(Particle<T> &particle);
+
     float evaluateFitness(T &particle);
     void evaluateInitPosition(T &position);
     void evaluateInitVelocity(T &velocity);
@@ -61,6 +66,12 @@ public:
 
     void setParticleSize(int particleSize);
     int getParticleSize() const;
+    
+    void setRhog(float rhog);
+    void setRhop(float rhop);
+    void setPhig(float phig);
+    void setPhip(float phip);
+    void setOmega(float omega);
 
 
 private:
@@ -72,6 +83,11 @@ private:
     
     /* Swarm optimization attributes */
     int iterations;
+    float omega;
+    float phip;
+    float phig;
+    float rhop;
+    float rhog;
     
     float fitness;
     int bestParticleIndex;

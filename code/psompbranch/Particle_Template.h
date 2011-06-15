@@ -68,8 +68,12 @@ template <class T> void Particle<T>::initialize(){
     // inicializar la particula con una ruta random.
 }
 
-template <class T> void Particle<T>::updatePosition(T position){
+template <class T> void Particle<T>::updatePosition(){
     //this->position+=this->velocity;
+    this->position = this->position + this->velocity;
+
+    return;
+
 }
 
 template <class T> void Particle<T>::initVelocity(){

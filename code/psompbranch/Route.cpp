@@ -56,11 +56,9 @@ int Route::getSize() const {
 
 void Route::setStart(Point2D* start){
     this->start = start;
-    this->size+=1;
 }
 void Route::setGoal(Point2D* goal){
     this->goal = goal;
-    this->size+=1;
 }
 
 Route::Route(const Route& orig) {
@@ -76,34 +74,50 @@ Route Route::operator+(const Route &b){
     // sumar las gradientes
     // recalcular el path
     Route tmp = Route();
-    
+    int n = size;
+
+    vector <Point2D*> tmppoints;
+    vector <Point2D*> tmpgradients;
+    vector <Point2D*> tmpaccelerations ;
+
     int size_b = b.getSize();
     if(size != size_b) return tmp;
 
-    tmp.size = size;
-    tmp.start = start;
-    tmp.goal = goal;
-
     // updating points
-    // la suma significa que los puntos se acercan
-
-    for(unsigned int i=0; i < size; i++){
-	Point2D p= (*points[i]) + (*b.points[i]);
-	cout << p.toString() << endl;
-	tmp.points.push_back(&p) ;
+    tmppoints.push_back(start);
+    for(unsigned int i=1; i < n-1 ; i++){
+	Point2D r = Point2D();
+	r = (*points[i]) + (*b.points[i]);
+	Point2D *s = new Point2D(r.x, r.y);
+	tmppoints.push_back(s);
     }
+    tmppoints.push_back(goal);
+
 
     // updating velocity
-    for(unsigned int i=0; i < size; i++){
-	Point2D p= (*gradients[i]) + (*gradients[i]);
-	tmp.gradients.push_back(&p) ;
-	//tmp.gradients.push_back(gradients[i] + b.gradients[i]);
+    for(unsigned int i=0; i < n; i++){
+	Point2D r = Point2D();
+	r = (*gradients[i]) + (*b.gradients[i]);
+	//Point2D *s = new Point2D(r.x,r.y);
+	Point2D *s = new Point2D(r.x, r.y);
+	tmpgradients.push_back(s);
     }
-    
+
+        /* setting the attributes of route */
+    tmp.setLength(length);
+    tmp.setStart(start);
+    tmp.setGoal(goal);
+    tmp.setSize(n);
+    tmp.setPoints(tmppoints);
+    tmp.setGradients(tmpgradients);
+    tmp.setAccelerations(tmpaccelerations);
+
+    tmp.setPath(tmp.splines());
+
     return tmp;
 
     // TODO: updating acceleration
-    
+
 }
 // resta de una ruta para hoy
 Route Route::operator-(const Route &b){
@@ -111,33 +125,46 @@ Route Route::operator-(const Route &b){
     // sumar las gradientes
     // recalcular el path
     Route tmp = Route();
-
+    int n = size;
+    
+    vector <Point2D*> tmppoints;
+    vector <Point2D*> tmpgradients;
+    vector <Point2D*> tmpaccelerations ;
+    
     int size_b = b.getSize();
     if(size != size_b) return tmp;
 
-    tmp.size = size;
-    tmp.start = start;
-    tmp.goal = goal;
-
     // updating points
-    for(unsigned int i=0; i < size; i++){
-	Point2D *p = points[i];
-	Point2D *q = b.points[i];
-	Point2D r = (*p) + (*q);
-	cout << r.toString() << endl;
-	tmp.points.push_back(&r);
-	//tmp.points.push_back(points[i] - b.points[i]);
+    tmppoints.push_back(start);
+    for(unsigned int i=1; i < n-1 ; i++){
+	Point2D r = Point2D();
+	r = (*points[i]) + (*b.points[i]);
+	Point2D *s = new Point2D(r.x/2, r.y/2);
+	tmppoints.push_back(s);
     }
+    tmppoints.push_back(goal);
 
+    
     // updating velocity
-    for(unsigned int i=0; i < size; i++){
-	Point2D *p = gradients[i];
-	Point2D *q = b.gradients[i];
-	Point2D r = (*p) + (*q);
-	tmp.gradients.push_back(&r);
-	//tmp.gradients.push_back(gradients[i] - b.gradients[i]);
+    for(unsigned int i=0; i < n; i++){
+	Point2D r = Point2D();
+	r = (*gradients[i]) + (*b.gradients[i]);
+	Point2D *s = new Point2D(r.x/2, r.y/2);
+	tmpgradients.push_back(s);
     }
 
+        /* setting the attributes of route */
+
+    tmp.setLength(length);
+    tmp.setStart(start);
+    tmp.setGoal(goal);
+    tmp.setSize(n);
+    tmp.setPoints(tmppoints);
+    tmp.setGradients(tmpgradients);
+    tmp.setAccelerations(tmpaccelerations);
+
+    tmp.setPath(tmp.splines());
+    
     return tmp;
 
     // TODO: updating acceleration
@@ -145,14 +172,19 @@ Route Route::operator-(const Route &b){
 }
 
 Route Route::operator*(float m){
-
-
+    /*
+     * Operator overload multiplies m by each point of route and gradients
+     */
     for(unsigned int i=0; i < size; i++){
-	//points[i] = points[i]*m;
+	Point2D q = Point2D();
+	q = (*points[i])*m;
+	points[i] = &q;
     }
 
     for(unsigned int i=0; i < size; i++){
-	//gradients[i] = gradients[i]*m;
+	Point2D q = Point2D();
+	q = (*gradients[i])*m;
+	gradients[i] = &q;
     }
 
 
@@ -161,7 +193,7 @@ Route Route::operator*(float m){
 
 string Route::toString(){
     std::ostringstream ss;
-
+    
     ss << "Route::toString Size:\t\t" << this->size << endl;
     
     ss << "Route::toString Points:\t\t";
@@ -179,13 +211,14 @@ string Route::toString(){
     ss << endl;
 
     ss << "Route::toString Length:\t\t" << this->length << endl;
-    
+    /*
     ss << "Route::toString Path:\t\t";
     for(unsigned i=0; i< this->path.size(); i++){
 	ss << this->path[i]->toString();
 	if (i % 15 == 0 && i > 0)
 	    ss << endl << "\t\t\t\t";
     }
+     */
     
     std::string o = ss.str();
     
@@ -208,11 +241,7 @@ void Route::printPath(){
 
     for(unsigned int i=0; i< path.size(); i++){
 	Point2D *p = path[i];
-	 matrix[p->x][p->y] = 1;
-//	for(unsigned int j=0; j<points.size(); j++){
-//	    Point2D *q = points[j];
-//	    matrix[p->x][p->y] = ((*p)==(*q)) ? 5 : 1;
-//	}
+	 matrix[p->x % width ][p->y % height] = 1; 
 	
     }
 
@@ -309,7 +338,7 @@ void Route::initRandomRoute(Route& r){
 
     //cout << "Route::initRandomRoute: " << endl;
    // cout << r.toString() << endl;
-    r.printPath();
+   // r.printPath();
 
 
     //r.printPath();
