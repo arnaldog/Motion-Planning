@@ -379,9 +379,6 @@ void Route::initRandomPoints(){
 }
 
 // HERMITE SPLINES
-
-
-
 vector <Point2D*> Route::splines()
 {
 	//map needed for bound overflow verification
@@ -392,12 +389,11 @@ vector <Point2D*> Route::splines()
     vector <Point2D*> path;
     vector <Point2D*> tmp;
 
-
 	//agregar start
 	tmp.push_back(this->start);
 
     /* aqui está la cuestion...: 1->2; 2->3; 3->4;  */
-    for (unsigned int i=0, j=1; i<n-1; i++, j=i+1 ) {
+    for (unsigned int i=0, j=i+1; i<n-1; i++, j=i+1 ) {
 
 		Point2D p1 = Point2D();
 		Point2D p2 = Point2D();
@@ -411,7 +407,6 @@ vector <Point2D*> Route::splines()
 		g1 = *this->gradients[i];
 		g2 = *this->gradients[j];
 
-		//me dio que el a tiene p1 con factor -2, y no 2 como está aca
 		Point2D a = (p1*2) - (p2*2) + g1 + g2;
 		Point2D b = (p2*3) - (p1*3) - (g1*2) - g2;
 		Point2D c = g1*1;
@@ -424,14 +419,6 @@ vector <Point2D*> Route::splines()
 
 			int x = xf;
 			int y = yf;
-
-			//debug
-			/*
-			if( (61 <= x) && (x <= 62) ){
-				cout << "Route::splines() xf = " << xf << endl;
-				cout << "Route::splines() x = " << x << endl;
-			}
-			*/
 
 			//verificacion de bordes
 			//bounds overflow verification :)
@@ -446,17 +433,23 @@ vector <Point2D*> Route::splines()
 
     // borrando los resultados iguales
 
+	//eliminado SORT, genera rutas repetitivas
     //sort(tmp.begin(), tmp.end());
     //path.erase(unique(path.begin(), path.end()), path.end());
-    Point2D *t = new Point2D();
+    Point2D *t = new Point2D(-1,-1);
 
-    t = tmp.front();
+	//DEPRECATED: esto evitaba que el primer punto fuera considerado
+	//t = tmp.front();
+	//cout << "Route::splines(): agregando punto tmp.front() = " << tmp.front()->toString() << endl;
 
 	for(unsigned int i = 0; i < tmp.size(); i++){
+		//cout << "Route::splines(): agregando punto tmp[" << i << "] = " << tmp[i]->toString();
 		if ( !((*tmp[i]) == (*t))){
+			//cout << " AGREGADO";
 			path.push_back(tmp[i]);
 			t = tmp[i];
 		}
+		//cout << endl;
 	}
 
 	//recortar loops de la ruta

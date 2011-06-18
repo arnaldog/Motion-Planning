@@ -46,7 +46,6 @@ int main(int argc, char** argv) {
     int swarmFitness = 9999999;
     Swarm<Route> swarm = Swarm<Route>(swarmSize, swarmIterations, swarmFitness);
 
-
     int particleSize = config.getPivots();
     swarm.setParticleSize(particleSize);
 
