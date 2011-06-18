@@ -44,7 +44,7 @@ template <class T> void Swarm<T>::setIterations(int iterations) {
 template <class T> int Swarm<T>::getIterations() const {
     return iterations;
 }
-template <class T> void Swarm<T>::setPopulation(vector<Particle<T> > population) {
+template <class T> void Swarm<T>::setPopulation(vector< Particle<T> > population) {
     this->population = population;
 }
 template <class T> vector<Particle<T> > Swarm<T>::getPopulation() const {
@@ -147,13 +147,13 @@ template <class T> void Swarm<T>::initialize(){
         T velocity = T();
         float fitness;
 
-		cout << "Swarm::evaluateInitPosition(): PRE" << endl;
+		//cout << "Swarm::evaluateInitPosition(): PRE" << endl;
         this->evaluateInitPosition(position);
-        cout << "Swarm::evaluateInitPosition(): POST" << endl;
+        //cout << "Swarm::evaluateInitPosition(): POST" << endl;
 
-		cout << "Swarm::evaluateFitness(): PRE" << endl;
+		//cout << "Swarm::evaluateFitness(): PRE" << endl;
 		fitness = this->evaluateFitness(position);
-		cout << "Swarm::evaluateFitness(): POST" << endl;
+		//cout << "Swarm::evaluateFitness(): POST" << endl;
 
         this->evaluateInitVelocity(velocity);
 
