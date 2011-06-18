@@ -150,18 +150,17 @@ template <class T> void Swarm<T>::initialize(){
 		Particle<T> &p = this->population[i];
 
         /* Particle Initialization */
-        float fitness;
         T position = T();
         T velocity = T();
         float fitness;
 
-		cout << "Swarm::evaluateInitPosition(): PRE" << endl;
-        this->evaluateInitPosition(position);
-        cout << "Swarm::evaluateInitPosition(): POST" << endl;
 
-		cout << "Swarm::evaluateFitness(): PRE" << endl;
-		fitness = this->evaluateFitness(position);
-		cout << "Swarm::evaluateFitness(): POST" << endl;
+        this->evaluateInitPosition(position);
+        
+
+        cout << "Swarm::evaluateFitness(): PRE" << endl;
+        fitness = this->evaluateFitness(position);
+        cout << "Swarm::evaluateFitness(): POST" << endl;
 
         this->evaluateInitVelocity(velocity);
 
