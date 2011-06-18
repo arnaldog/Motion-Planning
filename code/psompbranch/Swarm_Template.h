@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Swarm_Template.h
  * Author: alejandrasuarez
  *
@@ -17,7 +17,6 @@ template <class T> Swarm<T>::Swarm(){
 }
 
 template <class T> Swarm<T>::Swarm(int size, int iterations, float fitness){
-    
     this->size = size;
     this->iterations = iterations;
     this->fitness = fitness;
@@ -25,7 +24,7 @@ template <class T> Swarm<T>::Swarm(int size, int iterations, float fitness){
 }
 
 template <class T> Swarm<T>::~Swarm(){
-    
+
 }
 template <class T> void Swarm<T>::setBestParticleIndex(int bestParticleIndex) {
     this->bestParticleIndex = bestParticleIndex;
@@ -59,7 +58,7 @@ template <class T> int Swarm<T>::getSize() const {
 }
 
 template <class T> Swarm<T>::Swarm(const Swarm& orig){
-    
+
 }
 
 template <class T> void Swarm<T>::setFitnessFunction(float (T::*f)(T&)){
@@ -144,20 +143,27 @@ template <class T> void Swarm<T>::initialize(){
 
     //inicializar cada particula de la poblacion
     for(unsigned int i=0; i < this->population.size(); i++){
-        
-        cout << "Swarm::initialize(): inicializando la particula: " << i << endl;
-        //referencia al objeto de la poblacion
-        Particle<T> &p = this->population[i];
 
+        cout << "Swarm::initialize(): inicializando la particula: " << i << endl;
+
+		//referencia al objeto de la poblacion
+		Particle<T> &p = this->population[i];
 
         /* Particle Initialization */
         float fitness;
         T position = T();
         T velocity = T();
-        
+        float fitness;
+
+		cout << "Swarm::evaluateInitPosition(): PRE" << endl;
         this->evaluateInitPosition(position);
+        cout << "Swarm::evaluateInitPosition(): POST" << endl;
+
+		cout << "Swarm::evaluateFitness(): PRE" << endl;
+		fitness = this->evaluateFitness(position);
+		cout << "Swarm::evaluateFitness(): POST" << endl;
+
         this->evaluateInitVelocity(velocity);
-        fitness = this->evaluateFitness(position);
 
         p.setPosition(position);
         p.setVelocity(velocity);
@@ -165,10 +171,10 @@ template <class T> void Swarm<T>::initialize(){
 
 
         p.setFitness(fitness);
-        
-//        p.setBestPosition(position);
-//        p.setBestVelocity(velocity);
-//        p.setBestFitness(fitness);
+
+        p.setBestPosition(position);
+        p.setBestVelocity(velocity);
+        p.setBestFitness(fitness);
 
         cout << "Swarm::initialize(): particula " << i+1 << ", fitness: "<< p.getFitness() << endl;
 

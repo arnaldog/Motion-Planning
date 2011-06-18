@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   Map.cpp
  * Author: alejandrasuarez
- * 
+ *
  * Created on 5 de junio de 2011, 19:41
  */
 
@@ -60,7 +60,7 @@ void Map::setMatrix(vector<vector<int> > matrix) {
 }
 
 Map::Map(string filename){
-    
+
     ifstream file;
     file.open(filename.c_str(), ios::in);
     char c;
@@ -96,3 +96,9 @@ Map::Map(string filename){
     file.close();
 }
 
+void Map::printInformation()
+{
+	cout << endl;
+	cout << "Map::printInformation(): Map size: " << this->width << "x" << this->height << endl;
+	cout << endl;
+}

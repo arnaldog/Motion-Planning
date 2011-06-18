@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Route.h
  * Author: alejandrasuarez
  *
@@ -20,7 +20,7 @@ public:
     Route();
     Route(const Route& orig);
     virtual ~Route();
-    
+
     string toString();
     //friend Route operator+(Route ob, Route r2);
 
@@ -58,21 +58,22 @@ public:
 
     void initRandomRoute(Route &r);
     void initRandomVelocity(Route &r);
-    
 
 
-private: 
+
+private:
     int size;
     int length;
 
     Point2D* start;
     Point2D* goal;
-    
+
     vector <Point2D*> points;
     vector <Point2D*> gradients;
     vector <Point2D*> accelerations;
     vector <Point2D*> path;
 
+	void slice(vector<Point2D*> *ruta);
 };
 
 #endif	/* ROUTE_H */

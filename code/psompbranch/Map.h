@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Map.h
  * Author: alejandrasuarez
  *
@@ -21,9 +21,11 @@ public:
     Map(const Map& orig);
     virtual ~Map();
     Map(string filename);
-    
+
     vector < vector <int> > getMatrix();
-    
+
+    void printInformation();
+
     int getCollision(Point2D &p);
     void setGoal(Point2D* goal);
     Point2D* getGoal() const;
