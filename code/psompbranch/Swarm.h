@@ -39,28 +39,31 @@ public:
     
     void setBestParticleIndex(int bestParticleIndex);
     int getBestParticleIndex() const;
+
     void setFitness(float fitness);
     float getFitness() const;
+
     void setIterations(int iterations);
     int getIterations() const;
+
     void setPopulation(vector<Particle<T> > population);
     vector<Particle<T> > getPopulation() const;
+    
     void setSize(int size);
     int getSize() const;
 
-    void setFitnessFunction(float (T::*f)(T&));
-//    void setInitPositionFunction(void (T::*f)(T));
-//    void setInitVelocityFunction(void (T::*f)(T));
+    
 
     // funcion que le actualiza la velocidad a la partícula
     // pasa por referencia a la particula y le actualiza la velocidad
     // retorna void.
     void updateParticleVelocity(Particle<T> &particle);
 
-    float evaluateFitness(T &particle);
+    float evaluateFitness(T particle);
     void evaluateInitPosition(T &position);
     void evaluateInitVelocity(T &velocity);
 
+    void setFitnessFunction(float (T::*f)(T&));
     void setInitPositionFunction(void (T::*f)(T&));
     void setInitVelocityFunction(void (T::*f)(T&));
 

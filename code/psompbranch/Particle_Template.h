@@ -16,38 +16,39 @@ template <class T> Particle<T>::Particle() {
 template <class T> void Particle<T>::setBestFitness(float bestFitness) {
     this->bestFitness = bestFitness;
 }
-template <class T> float Particle<T>::getBestFitness() const {
+template <class T> float Particle<T>::getBestFitness()  {
     return bestFitness;
 }
 template <class T> void Particle<T>::setFitness(float fitness) {
     this->fitness = fitness;
 }
-template <class T> float Particle<T>::getFitness() const {
+template <class T> float Particle<T>::getFitness()  {
     return fitness;
 }
-template <class T> void Particle<T>::setBestVelocity(T bestVelocity) {
+template <class T> void Particle<T>::setBestVelocity(T const& bestVelocity) {
     this->bestVelocity = bestVelocity;
 }
-template <class T> T Particle<T>::getBestVelocity() const {
+template <class T> T const& Particle<T>::getBestVelocity()  {
     return bestVelocity;
 }
-template <class T> void Particle<T>::setBestPosition(T bestPosition) {
+template <class T> void Particle<T>::setBestPosition(T const& bestPosition) {
     this->bestPosition = bestPosition;
 }
-template <class T> T Particle<T>::getBestPosition() const {
+template <class T> T const& Particle<T>::getBestPosition()  {
     return bestPosition;
 }
-template <class T> void Particle<T>::setVelocity(T velocity) {
+template <class T> void Particle<T>::setVelocity(T const& velocity) {
     this->velocity = velocity;
+
 }
-template <class T> T Particle<T>::getVelocity() const {
+template <class T> T const& Particle<T>::getVelocity()  {
     return velocity;
 }
-template <class T> void Particle<T>::setPosition(T position) {
+template <class T> void Particle<T>::setPosition(T const& position) {
     this->position = position;
 }
-template <class T> T Particle<T>::getPosition() const {
-    return position;
+template <class T> T const& Particle<T>::getPosition() {
+    return this->position;
 }
 
 template <class T> Particle<T>::Particle(const Particle& orig) {
@@ -64,12 +65,9 @@ template <class T> void Particle<T>::setFitnessFunction(float (T::*f)(T)){
 template <class T> void Particle<T>::initialize(){
     cout << "Particle::initialize(): inicializando particula" << endl;
     
-
-    // inicializar la particula con una ruta random.
 }
 
 template <class T> void Particle<T>::updatePosition(){
-    //this->position+=this->velocity;
     this->position = this->position + this->velocity;
 
     return;

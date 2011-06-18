@@ -73,6 +73,8 @@ Route Route::operator+(const Route &b){
     // sumar los puntos
     // sumar las gradientes
     // recalcular el path
+
+    cout << "SUMANDO" << endl;
     Route tmp = Route();
     int n = size;
 
@@ -124,6 +126,11 @@ Route Route::operator-(const Route &b){
     // sumar los puntos
     // sumar las gradientes
     // recalcular el path
+
+    
+
+    cout << this->toString() << endl;
+    
     Route tmp = Route();
     int n = size;
     
@@ -132,7 +139,10 @@ Route Route::operator-(const Route &b){
     vector <Point2D*> tmpaccelerations ;
     
     int size_b = b.getSize();
-    if(size != size_b) return tmp;
+
+    cout << points.size() << " v/s " << b.points.size() << endl;
+    if(size != size_b) return b;
+
 
     // updating points
     tmppoints.push_back(start);
@@ -164,6 +174,8 @@ Route Route::operator-(const Route &b){
     tmp.setAccelerations(tmpaccelerations);
 
     tmp.setPath(tmp.splines());
+
+    cout << "OK" << endl;
     
     return tmp;
 
@@ -191,6 +203,9 @@ Route Route::operator*(float m){
 }
 
 
+void Route::operator!(){
+    cout << this->toString() << endl;
+}
 string Route::toString(){
     std::ostringstream ss;
     
@@ -211,14 +226,14 @@ string Route::toString(){
     ss << endl;
 
     ss << "Route::toString Length:\t\t" << this->length << endl;
-    /*
+    
     ss << "Route::toString Path:\t\t";
     for(unsigned i=0; i< this->path.size(); i++){
 	ss << this->path[i]->toString();
 	if (i % 15 == 0 && i > 0)
 	    ss << endl << "\t\t\t\t";
     }
-     */
+     
     
     std::string o = ss.str();
     
@@ -338,7 +353,7 @@ void Route::initRandomRoute(Route& r){
 
     //cout << "Route::initRandomRoute: " << endl;
    // cout << r.toString() << endl;
-   // r.printPath();
+    //r.printPath();
 
 
     //r.printPath();
@@ -350,7 +365,7 @@ void Route::initRandomGradients(){
     if (gradients.size() < 1) return;
     gradients[0] = Point2D::getRandomPoint(-1, -1, 1, 1);
     for(unsigned int i=1; i<gradients.size()-1; i++){
-	int base = 100;
+	int base = 2;
 	Point2D *p = Point2D::getRandomPoint(-1*base, -1*base, base, base);
 	if ( ((*p) == (*start)) || ((*p) == (*goal))){
 	    i--;

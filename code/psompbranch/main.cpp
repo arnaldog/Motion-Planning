@@ -47,7 +47,15 @@ int main(int argc, char** argv) {
     int particleSize = config.getPivots();
     swarm.setParticleSize(particleSize);
     
-    // setting the objective function
+    /*
+     * SWARM Settings
+     *
+     * Swarm settings consist on define the functions
+     * that will evaluate the fitness functions and  initialize
+     * the position and the velocity of swarm.
+     * Also is needed setting the parameters for swarm iterations
+     * on updating the velocity as omega, phi and rho values.
+     */
     fnRoute objectiveFunction = &Route::fitnessEvaluation;
     fnpRoute initPositionFunction = &Route::initRandomRoute;
     fnpRoute initVelocityFunction = &Route::initRandomVelocity;
@@ -56,10 +64,6 @@ int main(int argc, char** argv) {
     swarm.setInitPositionFunction(initPositionFunction);
     swarm.setInitVelocityFunction(initVelocityFunction);
 
-
-    /*
-     * Setting the swarm parameters
-     */
     swarm.setPhig(config.getPhi_g());
     swarm.setPhip(config.getPhi_p());
     swarm.setOmega(config.getOmega());
@@ -67,17 +71,31 @@ int main(int argc, char** argv) {
     swarm.setRhop(0.1);
 
 
-    //swarm.setInitParticlePositionFunction();
-    //swarm.setInitParticleVelocityFunction();
-    // swarm initialization
-    
-    //swarm.initialize();
+    /*
+     * SWARM Initialization
+     *
+     * The swarm intialization consist on:
+     * - apply to particle position a init position function.
+     * - apply to particle velocity a init velocity function.
+     * - evaluate the fitness function.
+     */
+    swarm.initialize();
 
     cout << "main(): Mejor particula obtenida al incializar: ";
     cout << swarm.getBestParticleIndex() << endl;
+    
     cout << "main(): Mejor fitness obtenido al incializar: ";
     cout << swarm.getFitness() << endl;
     cout << endl;
+
+
+    /*
+     * SWARM Iteration
+     *
+     * This method computes the iteration of swarm optimization
+     * based on the configuration done above.
+     */
+    swarm.iterate();
 
 
 
@@ -100,7 +118,7 @@ bool verificarEntradas(int argc, char** argv){
     Config &config = Config::getInstance();
 
     config.setIterations(1);
-    config.setQuantity(1); // particle cuantuty
+    config.setQuantity(1); // particle cuantity
     config.setOmega(1);
     config.setPhi_g(2);
     config.setPhi_p(2);

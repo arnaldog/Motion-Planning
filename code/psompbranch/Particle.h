@@ -33,17 +33,21 @@ public:
 
     /*  Getters and Setters */
     void setBestFitness(float bestFitness);
-    float getBestFitness() const;
+    float getBestFitness() ;
     void setFitness(float fitness);
-    float getFitness() const;
-    void setBestVelocity(T bestVelocity);
-    T getBestVelocity() const;
-    void setBestPosition(T bestPosition);
-    T getBestPosition() const;
-    void setVelocity(T velocity);
-    T getVelocity() const;
-    void setPosition(T position);
-    T getPosition() const;
+    float getFitness() ;
+
+    void setBestVelocity(T const& bestVelocity);
+    T const& getBestVelocity() ;
+
+    void setBestPosition(T const& bestPosition);
+    T const& getBestPosition() ;
+
+    void setVelocity(T const& velocity);
+    T const& getVelocity() ;
+    
+    void setPosition(T const& position);
+    T const& getPosition();
 
     void setFitnessFunction(float (T::*fitnessFunction)(T));
     
