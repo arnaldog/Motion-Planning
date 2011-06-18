@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Point2D.h
  * Author: alejandrasuarez
  *
@@ -15,15 +15,15 @@ using namespace std;
 #include <string>
 #include <cstdlib>
 
-#include <sstream>;
+#include <sstream>
 
 class Point2D {
 public:
     int x, y;
-    
+
     Point2D();
     Point2D(int x, int y);
-    
+
     Point2D(const Point2D& orig);
     virtual ~Point2D();
     void setY(int y);
@@ -31,7 +31,7 @@ public:
     void setX(int x);
     int getX() const;
     static float getUniformPRand() { return (float)rand()/(float)RAND_MAX; } ;
-    
+
     static Point2D* getRandomAbsPoint(float min_x, float min_y, float max_x, float max_y){
 
         float rmin_x = (min_x <= max_x) ? min_x: max_x;
@@ -77,7 +77,7 @@ public:
     bool operator!=(const Point2D &p) const;
 private:
 
-    
+
 
 };
 

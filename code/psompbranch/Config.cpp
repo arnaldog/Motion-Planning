@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   Config.cpp
  * Author: alejandrasuarez
- * 
+ *
  * Created on 5 de junio de 2011, 21:23
  */
 
@@ -73,6 +73,11 @@ void Config::printConfiguration(){
 	cout << "Config:printConfiguration(): numero particulas = " << this->quantity << endl;
 	cout << "Config:printConfiguration(): numero iteraciones = " << this->iterations << endl;
 	cout << "Config:printConfiguration(): numero pivotes = " << this->pivots << endl;
+	cout << "Config:printConfiguration(): alpha = " << this->alpha << endl;
+	cout << "Config:printConfiguration(): omega = " << this->omega << endl;
+	cout << "Config:printConfiguration(): phi_p = " << this->phi_p << endl;
+	cout << "Config:printConfiguration(): phi_g = " << this->phi_g << endl;
+
 	//cout << "Config:printConfiguration():  = " << this-> << endl;
 
 	cout << endl;

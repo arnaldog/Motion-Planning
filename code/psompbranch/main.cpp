@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   main.cpp
  * Author: alejandrasuarez
  *
@@ -16,7 +16,7 @@ using namespace std;
 #include "Map.h"
 #include "Config.h"
 /*
- * 
+ *
  */
 
 typedef  float (Route::*fnRoute)(Route &r);
@@ -28,14 +28,17 @@ int main(int argc, char** argv) {
 
     if(!verificarEntradas(argc,argv)) return 0;
     Config &config = Config::getInstance();
-    
-    //config.printConfiguration();
+
+	//si no hay errores en las entradas imprimir configuracion
+	config.printConfiguration();
 
     //crear mapa en la configuracion
     string mapfilename = config.getMapFile();
     Map map = Map(mapfilename);
     config.setMap(&map);
-    
+
+    //imprimir informacion del mapa
+    map.printInformation();
 
     // ROUTE Swarm(size, iterations, fitness);
     int swarmSize = config.getQuantity();
@@ -46,12 +49,12 @@ int main(int argc, char** argv) {
 
     int particleSize = config.getPivots();
     swarm.setParticleSize(particleSize);
-    
+
     // setting the objective function
     fnRoute objectiveFunction = &Route::fitnessEvaluation;
     fnpRoute initPositionFunction = &Route::initRandomRoute;
     fnpRoute initVelocityFunction = &Route::initRandomVelocity;
-    
+
     swarm.setFitnessFunction(objectiveFunction);
     swarm.setInitPositionFunction(initPositionFunction);
     swarm.setInitVelocityFunction(initVelocityFunction);
@@ -60,26 +63,23 @@ int main(int argc, char** argv) {
     /*
      * Setting the swarm parameters
      */
+    //esto no es necesario, creo
     swarm.setPhig(config.getPhi_g());
     swarm.setPhip(config.getPhi_p());
     swarm.setOmega(config.getOmega());
     swarm.setRhog(0.1);
     swarm.setRhop(0.1);
 
+    //swarm initialization
+    swarm.initialize();
 
-    //swarm.setInitParticlePositionFunction();
-    //swarm.setInitParticleVelocityFunction();
-    // swarm initialization
-    
-    //swarm.initialize();
+    //swarm.iterate();
 
     cout << "main(): Mejor particula obtenida al incializar: ";
     cout << swarm.getBestParticleIndex() << endl;
     cout << "main(): Mejor fitness obtenido al incializar: ";
     cout << swarm.getFitness() << endl;
     cout << endl;
-
-
 
     return 0;
 }
@@ -156,11 +156,6 @@ bool verificarEntradas(int argc, char** argv){
 
     return true;
 }
-
- //*/
-
-
-
     /*
     Route r = Route();
 
@@ -192,7 +187,7 @@ bool verificarEntradas(int argc, char** argv){
     gradients.push_back(g4);
 
     r.setGradients(gradients);
-    
+
     r.setPath(r.splines());
 
 
@@ -229,7 +224,7 @@ bool verificarEntradas(int argc, char** argv){
     r.initRandomGradients();
 
 
-    
+
  } //*/
 
 /*
