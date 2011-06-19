@@ -25,20 +25,24 @@ template <class T> void Particle<T>::setFitness(float fitness) {
 template <class T> float Particle<T>::getFitness()  {
     return fitness;
 }
+
 template <class T> void Particle<T>::setBestVelocity(T const& bestVelocity) {
     this->bestVelocity = bestVelocity;
 }
 template <class T> T const& Particle<T>::getBestVelocity()  {
     return bestVelocity;
 }
+
 template <class T> void Particle<T>::setBestPosition(T const& bestPosition) {
     this->bestPosition = bestPosition;
 }
+
 template <class T> T const& Particle<T>::getBestPosition()  {
     return bestPosition;
 }
 template <class T> void Particle<T>::setVelocity(T const& velocity) {
     this->velocity = velocity;
+    
 
 }
 template <class T> T const& Particle<T>::getVelocity()  {
@@ -57,38 +61,11 @@ template <class T> Particle<T>::Particle(const Particle& orig) {
 template <class T> Particle<T>::~Particle() {
 }
 
-template <class T> void Particle<T>::setFitnessFunction(float (T::*f)(T)){
-    this->fitnessFunction = f;
-}
 
-/*  Concrete Methods */
-template <class T> void Particle<T>::initialize(){
-    cout << "Particle::initialize(): inicializando particula" << endl;
-    
-}
 
 template <class T> void Particle<T>::updatePosition(){
     this->position = this->position + this->velocity;
-
-    return;
-
 }
-
-template <class T> void Particle<T>::initVelocity(){
-    cout << "Particle::initVelocity(): inicializando velocidad de la particula" << endl;
-}
-template <class T> void Particle<T>::evaluateFitness(){
-    cout << "Particle::evaluateFitness(): evaluando el Fitness" << endl;
-    //this->fitness = this->*fitnessFunction(this);
-    return;
-}
-template <class T> void Particle<T>::printPosition(){
-    cout << "Particle::printPosition(): imprimiendo posicion de la particula" << endl;
-}
-template <class T> void Particle<T>::printVelocity(){
-    cout << "Particle::printVelocity(): imprimiendo velocidad de la particula" << endl;
-}
-
 
 #endif	/* PARTICLE_TEMPLATE_H */
 

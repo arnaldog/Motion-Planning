@@ -73,8 +73,7 @@ Route Route::operator+(const Route &b){
     vector <Point2D*> tmpaccelerations ;
 
     int size_b = b.getSize();
-    if(size != size_b) return tmp;
-
+    if (size_b != size ) return tmp;
     // updating points
     tmppoints.push_back(start);
     for(unsigned int i=1; i < n-1 ; i++){
@@ -90,7 +89,6 @@ Route Route::operator+(const Route &b){
     for(unsigned int i=0; i < n; i++){
 	Point2D r = Point2D();
 	r = (*gradients[i]) + (*b.gradients[i]);
-	//Point2D *s = new Point2D(r.x,r.y);
 	Point2D *s = new Point2D(r.x, r.y);
 	tmpgradients.push_back(s);
     }
@@ -105,7 +103,8 @@ Route Route::operator+(const Route &b){
     tmp.setAccelerations(tmpaccelerations);
 
     tmp.setPath(tmp.splines());
-
+    tmp.setLength(tmp.getPath().size());
+    //cout << tmp.toString() << endl;
     return tmp;
 
     // TODO: updating acceleration
@@ -123,14 +122,17 @@ Route Route::operator-(const Route &b){
     vector <Point2D*> tmpgradients;
     vector <Point2D*> tmpaccelerations ;
 
+
     int size_b = b.getSize();
+    if (size_b != size ) return tmp;
+   
 
     // updating points
     tmppoints.push_back(start);
     for(unsigned int i=1; i < n-1 ; i++){
 	Point2D r = Point2D();
-	r = (*points[i]) + (*b.points[i]);
-	Point2D *s = new Point2D(r.x/2, r.y/2);
+	r = (*points[i]) - (*b.points[i]);
+	Point2D *s = new Point2D(r.x, r.y);
 	tmppoints.push_back(s);
     }
     tmppoints.push_back(goal);
@@ -139,8 +141,8 @@ Route Route::operator-(const Route &b){
     // updating velocity
     for(unsigned int i=0; i < n; i++){
 	Point2D r = Point2D();
-	r = (*gradients[i]) + (*b.gradients[i]);
-	Point2D *s = new Point2D(r.x/2, r.y/2);
+	r = (*gradients[i]) - (*b.gradients[i]);
+	Point2D *s = new Point2D(r.x, r.y);
 	tmpgradients.push_back(s);
     }
 
@@ -155,6 +157,9 @@ Route Route::operator-(const Route &b){
     tmp.setAccelerations(tmpaccelerations);
 
     tmp.setPath(tmp.splines());
+    tmp.setLength(tmp.getPath().size());
+
+    //cout << tmp.toString() << endl;
 
     return tmp;
 
@@ -166,24 +171,46 @@ Route Route::operator*(float m){
     /*
      * Operator overload multiplies m by each point of route and gradients
      */
+
+    Route tmp = Route();
+
+    vector <Point2D*> tmppoints;
+    vector <Point2D*> tmpgradients;
+    vector <Point2D*> tmpaccelerations ;
+
     for(unsigned int i=0; i < size; i++){
 	Point2D q = Point2D();
 	q = (*points[i])*m;
-	points[i] = &q;
+	Point2D *s = new Point2D(q.x, q.y);
+	tmppoints.push_back(s);
     }
 
     for(unsigned int i=0; i < size; i++){
 	Point2D q = Point2D();
 	q = (*gradients[i])*m;
-	gradients[i] = &q;
+	Point2D *s = new Point2D(q.x, q.y);
+	tmpgradients.push_back(s);
     }
 
+    tmp.setLength(length);
+    tmp.setStart(start);
+    tmp.setGoal(goal);
+    tmp.setSize(size);
+    tmp.setPoints(tmppoints);
+    tmp.setGradients(tmpgradients);
+    tmp.setAccelerations(tmpaccelerations);
+
+    tmp.setPath(tmp.splines());
+    tmp.setLength(tmp.getPath().size());
+
+    return tmp;
 
 }
 
 
 void Route::operator!(){
     cout << this->toString() << endl;
+    this->printPath();
 }
 string Route::toString(){
     std::ostringstream ss;
@@ -256,17 +283,19 @@ float Route::fitnessEvaluation(Route &r){
     float fitness;
 
     int overlaps = 0;
-    float length = r.getLength();
+    float length = r.getPath().size();
 
     /* Getting the collission*/
     //TODO: pregunta: porque no "r.getPath().size()" sea length?
+    // es lo mismo :D, es solo notación de código (para que sea más leíble, anuque cuesta más mantenerlo)
+
     for(unsigned i = 0; i < r.getPath().size(); i++){
-		Point2D *p = r.getPath().at(i);
-		//cout << "analizando punto " << i << " = " << p->toString() << endl;
-		overlaps+=map->getCollision(*p);
+	Point2D *p = r.getPath().at(i);
+	//cout << "analizando punto " << i << " = " << p->toString() << endl;
+	overlaps+=map->getCollision(*p);
     }
 
-    fitness = length - pow(overlaps, 2);
+    fitness = length - pow(overlaps, 20);
 
     //cout << "overlaps ... " << overlaps  << endl;
     //cout << "Route::fitnessEvaluation sqrt(length): " << r.getPath().size() << endl;
@@ -277,7 +306,7 @@ float Route::fitnessEvaluation(Route &r){
 void Route::initRandomVelocity(Route &r){
 
     Config &config = Config::getInstance();
-    int n = config.getPivots();
+    int n = config.getPivots()+2;
     Map *map = config.getMap();
 
     /* points, gradients, accelerations casting */
@@ -298,9 +327,10 @@ void Route::initRandomVelocity(Route &r){
     /* setting the points */
     r.initRandomPoints();
     r.initRandomGradients();
+    r.setPath(r.splines());
 
-    //cout << "Route::initRandomVelocity: " << endl;
-   // cout << r.toString() << endl;
+//    cout << "Route::initRandomVelocity: " << endl;
+//    cout << r.toString() << endl;
 
 }
 
@@ -333,26 +363,26 @@ void Route::initRandomRoute(Route& r){
     r.setLength(r.getPath().size());
 
 	//cout << "Route::initRandomRoute: " << endl;
-	cout << r.toString() << endl;
-	r.printPath();
-	return;
+    //cout << r.toString() << endl;
+    //r.printPath();
+    return;
 }
 
 void Route::initRandomGradients(){
     if (gradients.size() < 1) return;
     gradients[0] = Point2D::getRandomPoint(-1, -1, 1, 1);
     for(unsigned int i=1; i<gradients.size()-1; i++){
-		int base = 100;
-		Point2D *p = Point2D::getRandomPoint(-1*base, -1*base, base, base);
+	int base = 100;
+	Point2D *p = Point2D::getRandomPoint(-1*base, -1*base, base, base);
 
-		//TODO: es necesario este IF?, estas son las gradientes, no los puntos en si
-		if ( ((*p) == (*start)) || ((*p) == (*goal))){
-			i--;
-			continue;
-		}
-
-		gradients[i] = p;
+	//TODO: es necesario este IF?, estas son las gradientes, no los puntos en si
+	if ( ((*p) == (*start)) || ((*p) == (*goal))){
+	    i--;
+	    continue;
 	}
+
+	gradients[i] = p;
+    }
     gradients[gradients.size()-1] = Point2D::getRandomPoint(-1, -1, 1, 1);
     return;
 }
@@ -381,8 +411,8 @@ void Route::initRandomPoints(){
 // HERMITE SPLINES
 vector <Point2D*> Route::splines()
 {
-	//map needed for bound overflow verification
-	Config &config = Config::getInstance();
+    //map needed for bound overflow verification
+    Config &config = Config::getInstance();
     Map *map = config.getMap();
 
     int n = this->points.size();
@@ -395,118 +425,99 @@ vector <Point2D*> Route::splines()
     /* aqui está la cuestion...: 1->2; 2->3; 3->4;  */
     for (unsigned int i=0, j=i+1; i<n-1; i++, j=i+1 ) {
 
-		Point2D p1 = Point2D();
-		Point2D p2 = Point2D();
+	Point2D p1 = Point2D();
+	Point2D p2 = Point2D();
 
-		Point2D g1 = Point2D();
-		Point2D g2 = Point2D();
+	Point2D g1 = Point2D();
+	Point2D g2 = Point2D();
 
-		p1 = *this->points[i];
-		p2 = *this->points[j];
+	p1 = *this->points[i];
+	p2 = *this->points[j];
 
-		g1 = *this->gradients[i];
-		g2 = *this->gradients[j];
+	g1 = *this->gradients[i];
+	g2 = *this->gradients[j];
 
-		Point2D a = (p1*2) - (p2*2) + g1 + g2;
-		Point2D b = (p2*3) - (p1*3) - (g1*2) - g2;
-		Point2D c = g1*1;
-		Point2D d = p1*1;
+	Point2D a = (p1*2) - (p2*2) + g1 + g2;
+	Point2D b = (p2*3) - (p1*3) - (g1*2) - g2;
+	Point2D c = g1*1;
+	Point2D d = p1*1;
 
-		for (float t = 0; t <= 1; t+=0.001) {
+	for (float t = 0; t <= 1; t+=0.001) {
+	    
+	    float xf = pow(t,3)*a.x + pow(t, 2)*b.x + t*c.x + d.x;
+	    float yf = pow(t,3)*a.y + pow(t, 2)*b.y + t*c.y + d.y;
 
-			float xf = pow(t,3)*a.x + pow(t, 2)*b.x + t*c.x + d.x;
-			float yf = pow(t,3)*a.y + pow(t, 2)*b.y + t*c.y + d.y;
+	    int x = xf;
+	    int y = yf;
 
-			int x = xf;
-			int y = yf;
+	    x = (x < 0) ? 0 : ( (x >= map->getWidth()) ? map->getWidth()-1 : x );
+	    y = (y < 0) ? 0 : ( (y >= map->getHeight()) ? map->getHeight()-1 : y);
 
-			//verificacion de bordes
-			//bounds overflow verification :)
-			x = (x < 0) ? 0 : ( (x >= map->getWidth()) ? map->getWidth()-1 : x );
-			y = (y < 0) ? 0 : ( (y >= map->getHeight()) ? map->getHeight()-1 : y);
-
-			// p = a*pow(t,3) + b*pow(t, 2)+ c*t + d;
-			Point2D *point = new Point2D(x, y);
-			tmp.push_back(point);
-		}
+	    // p = a*pow(t,3) + b*pow(t, 2)+ c*t + d;
+	    Point2D *point = new Point2D(x, y);
+	    tmp.push_back(point);
 	}
+    }
 
-    // borrando los resultados iguales
-
-	//eliminado SORT, genera rutas repetitivas
-    //sort(tmp.begin(), tmp.end());
-    //path.erase(unique(path.begin(), path.end()), path.end());
+	
     Point2D *t = new Point2D(-1,-1);
 
-	//DEPRECATED: esto evitaba que el primer punto fuera considerado
-	//t = tmp.front();
-	//cout << "Route::splines(): agregando punto tmp.front() = " << tmp.front()->toString() << endl;
-
-	for(unsigned int i = 0; i < tmp.size(); i++){
-		//cout << "Route::splines(): agregando punto tmp[" << i << "] = " << tmp[i]->toString();
-		if ( !((*tmp[i]) == (*t))){
-			//cout << " AGREGADO";
-			path.push_back(tmp[i]);
-			t = tmp[i];
-		}
-		//cout << endl;
+    for(unsigned int i = 0; i < tmp.size(); i++){
+	if ( !((*tmp[i]) == (*t))){
+	    path.push_back(tmp[i]);
+	    t = tmp[i];
 	}
+    }
 
-	//recortar loops de la ruta
-	//por cada elemento del path
-	for(unsigned int i=0; i<path.size(); i++){
-		//buscar si hay nodos repetidos
-		for(unsigned int j=i+1; j<path.size(); j++){
-			if( *(path[i]) == *(path[j]) ){
-				//recortar el loop encontrado
-				this->slice(&path);
-			}
-		}
+    for(unsigned int i=0; i<path.size(); i++){
+	for(unsigned int j=i+1; j<path.size(); j++){
+	    if( *(path[i]) == *(path[j]) ){
+		//this->slice(&path);
+	    }
 	}
+    }
 
     return path;
 }
 
 void Route::slice(vector<Point2D*> *ruta){
 	//obtener los indices
-	unsigned int indice_inicial = 0;
-	unsigned int indice_final = 0;
+    unsigned int indice_inicial = 0;
+    unsigned int indice_final = 0;
 
-	cout << "Route::slice(): ruta->at(" << 0 << ") = " << ruta->at(0)->toString() << endl;
+//    cout << "Route::slice(): ruta->at(" << 0 << ") = " << ruta->at(0)->toString() << endl;
 
-	for(unsigned int i = 0; i < ruta->size(); i++){
-		indice_inicial = i;
-		Point2D* valor_a_buscar = ruta->at(i);
+    for(unsigned int i = 0; i < ruta->size(); i++){
+	indice_inicial = i;
+	Point2D* valor_a_buscar = ruta->at(i);
 
-		//buscar desde el final
-		for(unsigned int j=ruta->size()-1; j>0; j--){
-			//TODO: posible optimizacion: j!=i, puede ser j>i o j<i, averiguar
-			if( (j != i) && (*(ruta->at(j)) == *valor_a_buscar) ){
-				indice_final = j;
-				break;
-			}
-		}
-
-		if(indice_final != 0){
-			break;
-		}
+	for(unsigned int j=ruta->size()-1; j>0; j--){
+	    if( (j != i) && (*(ruta->at(j)) == *valor_a_buscar) ){
+		indice_final = j;
+		break;
+	    }
 	}
 
-	//debug
-	cout << "Route::slice(): indice_inicial = " << indice_inicial << endl;
-	cout << "Route::slice(): indice_final = " << indice_final << endl;
-
-	cout << "Route::slice(): ruta->at(" << indice_inicial << ") = " << ruta->at(indice_inicial)->toString() << endl;
-	cout << "Route::slice(): ruta->at(" << indice_final << ") = " << ruta->at(indice_final)->toString() << endl;
-
-	vector<Point2D*> f;
-
-	for(unsigned int i = 0; i < ruta->size(); i++){
-		if( (indice_inicial < i) && (i <= indice_final) ){
-			continue;
-		}
-		f.push_back(ruta->at(i));
+	if(indice_final != 0){
+	    break;
 	}
+    }
 
-	*ruta = f;
+    //debug
+//    cout << "Route::slice(): indice_inicial = " << indice_inicial << endl;
+//    cout << "Route::slice(): indice_final = " << indice_final << endl;
+//
+//    cout << "Route::slice(): ruta->at(" << indice_inicial << ") = " << ruta->at(indice_inicial)->toString() << endl;
+//    cout << "Route::slice(): ruta->at(" << indice_final << ") = " << ruta->at(indice_final)->toString() << endl;
+
+    vector<Point2D*> f;
+
+    for(unsigned int i = 0; i < ruta->size(); i++){
+	if( (indice_inicial < i) && (i <= indice_final) ){
+	    continue;
+	}
+	f.push_back(ruta->at(i));
+    }
+
+    *ruta = f;
 }

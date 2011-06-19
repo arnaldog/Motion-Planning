@@ -29,8 +29,8 @@ int main(int argc, char** argv) {
     if(!verificarEntradas(argc,argv)) return 0;
     Config &config = Config::getInstance();
 
-	//si no hay errores en las entradas imprimir configuracion
-	config.printConfiguration();
+    //si no hay errores en las entradas imprimir configuracion
+    config.printConfiguration();
 
     //crear mapa en la configuracion
     string mapfilename = config.getMapFile();
@@ -67,14 +67,17 @@ int main(int argc, char** argv) {
     //swarm initialization
     swarm.initialize();
 
-    //swarm.iterate();
+    swarm.iterate();
 
-    cout << "main(): Mejor particula obtenida al incializar: ";
+    cout << "main(): Mejor particula obtenida al iterar: ";
     cout << swarm.getBestParticleIndex() << endl;
-    
+   
     cout << "main(): Mejor fitness obtenido al incializar: ";
     cout << swarm.getFitness() << endl;
     cout << endl;
+
+    cout << "main(): La ruta resultante es: " << endl;
+    swarm.printBestParticle();
 
     return 0;
 }

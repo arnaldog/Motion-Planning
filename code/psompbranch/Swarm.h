@@ -47,7 +47,7 @@ public:
     int getIterations() const;
 
     void setPopulation(vector<Particle<T> > population);
-    vector<Particle<T> > getPopulation() const;
+    vector<Particle<T> > const& getPopulation();
     
     void setSize(int size);
     int getSize() const;
@@ -59,7 +59,7 @@ public:
     // retorna void.
     void updateParticleVelocity(Particle<T> &particle);
 
-    float evaluateFitness(T particle);
+    float evaluateFitness(T &position);
     void evaluateInitPosition(T &position);
     void evaluateInitVelocity(T &velocity);
 
@@ -75,6 +75,8 @@ public:
     void setPhig(float phig);
     void setPhip(float phip);
     void setOmega(float omega);
+
+    void printBestParticle();
 
 
 private:

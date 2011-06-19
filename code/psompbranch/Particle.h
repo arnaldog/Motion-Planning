@@ -19,21 +19,13 @@ public:
     virtual ~Particle();
 
     /* Concrete Methods */
-    void initialize();
-    void initVelocity();
-    
     void updatePosition();
-    void updateVelocity(T velocity);
 
-    /* Function by parameter */
-    void evaluateFitness();
-    
-    void printPosition();
-    void printVelocity();
 
     /*  Getters and Setters */
     void setBestFitness(float bestFitness);
     float getBestFitness() ;
+    
     void setFitness(float fitness);
     float getFitness() ;
 
@@ -49,7 +41,6 @@ public:
     void setPosition(T const& position);
     T const& getPosition();
 
-    void setFitnessFunction(float (T::*fitnessFunction)(T));
     
 private:
     T position;
@@ -59,8 +50,6 @@ private:
     float fitness;
     float bestFitness;
 
-    // function that evaluate the fitness
-    float (T::*fitnessFunction) (T);
 };
 
 #endif	/* PARTICLE_H */

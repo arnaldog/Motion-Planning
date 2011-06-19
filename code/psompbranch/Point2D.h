@@ -72,6 +72,7 @@ public:
     Point2D operator-(const Point2D &p) const;
     Point2D operator*(float m) const;
     Point2D operator/(float m) const;
+    bool operator>(float m) const;
     float operator>>(const Point2D& p) const; // get the distance betweeen points
     bool operator==(const Point2D &p) const;
     bool operator!=(const Point2D &p) const;

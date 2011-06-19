@@ -59,6 +59,15 @@ Point2D Point2D::operator/(float m) const{
     return (tmp);
 }
 
+bool Point2D::operator>(float m) const{
+
+    bool tmp = false;
+    tmp = (x > m);
+    tmp &= (x > m);
+    return (tmp);
+}
+
+
 
 bool Point2D::operator==(const Point2D &p) const{
     return (x == p.x && y == p.y);

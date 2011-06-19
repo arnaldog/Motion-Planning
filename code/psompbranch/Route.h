@@ -73,7 +73,8 @@ private:
     vector <Point2D*> accelerations;
     vector <Point2D*> path;
 
-	void slice(vector<Point2D*> *ruta);
+    void slice(vector<Point2D*> *ruta);
+    
 };
 
 #endif	/* ROUTE_H */
