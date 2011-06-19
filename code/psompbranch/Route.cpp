@@ -472,7 +472,7 @@ vector <Point2D*> Route::splines()
     for(unsigned int i=0; i<path.size(); i++){
 	for(unsigned int j=i+1; j<path.size(); j++){
 	    if( *(path[i]) == *(path[j]) ){
-		//this->slice(&path);
+		this->slice(&path);
 	    }
 	}
     }
