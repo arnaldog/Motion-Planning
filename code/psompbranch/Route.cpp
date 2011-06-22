@@ -118,52 +118,63 @@ Route Route::operator-(const Route &b){
     Route tmp = Route();
     int n = size;
 
-    vector <Point2D*> tmppoints;
-    vector <Point2D*> tmpgradients;
-    vector <Point2D*> tmpaccelerations ;
+	vector <Point2D*> tmppoints;
+	vector <Point2D*> tmpgradients;
+	vector <Point2D*> tmpaccelerations;
+
+	int size_b = b.getSize();
+	if (size_b != size ) return tmp;
 
 
-    int size_b = b.getSize();
-    if (size_b != size ) return tmp;
-   
+	// updating points
+	tmppoints.push_back(start);
+	for(unsigned int i=1; i < n-1 ; i++){
+		//debug
+		//cout << "Route::operator-(): actualizando punto " << i << "= " << points[i]->toString() << endl;
 
-    // updating points
-    tmppoints.push_back(start);
-    for(unsigned int i=1; i < n-1 ; i++){
-	Point2D r = Point2D();
-	r = (*points[i]) - (*b.points[i]);
-	Point2D *s = new Point2D(r.x, r.y);
-	tmppoints.push_back(s);
+		Point2D r = Point2D();
+		r = (*points[i]) - (*b.points[i]);
+
+		//cout << "Route::operator-(): (*points[" << i << "]) = " << (*points[i]).toString() << endl;
+		//cout << "Route::operator-(): (*b.points[" << i << "]) = " << (*b.points[i]).toString() << endl;
+
+		//cout << "Route::operator-(): r = " << r.toString() << endl;
+
+		Point2D *s = new Point2D(r.x, r.y);
+		tmppoints.push_back(s);
+
+
+	}
+
+	tmppoints.push_back(goal);
+
+
+	//updating velocity
+	for(unsigned int i=0; i < n; i++){
+		Point2D r = Point2D();
+		r = (*gradients[i]) - (*b.gradients[i]);
+		Point2D *s = new Point2D(r.x, r.y);
+		tmpgradients.push_back(s);
     }
-    tmppoints.push_back(goal);
 
+	/* setting the attributes of route */
 
-    // updating velocity
-    for(unsigned int i=0; i < n; i++){
-	Point2D r = Point2D();
-	r = (*gradients[i]) - (*b.gradients[i]);
-	Point2D *s = new Point2D(r.x, r.y);
-	tmpgradients.push_back(s);
-    }
+	tmp.setLength(length);
+	tmp.setStart(start);
+	tmp.setGoal(goal);
+	tmp.setSize(n);
+	tmp.setPoints(tmppoints);
+	tmp.setGradients(tmpgradients);
+	tmp.setAccelerations(tmpaccelerations);
 
-        /* setting the attributes of route */
+	tmp.setPath(tmp.splines());
+	tmp.setLength(tmp.getPath().size());
 
-    tmp.setLength(length);
-    tmp.setStart(start);
-    tmp.setGoal(goal);
-    tmp.setSize(n);
-    tmp.setPoints(tmppoints);
-    tmp.setGradients(tmpgradients);
-    tmp.setAccelerations(tmpaccelerations);
+	//cout << tmp.toString() << endl;
 
-    tmp.setPath(tmp.splines());
-    tmp.setLength(tmp.getPath().size());
+	return tmp;
 
-    //cout << tmp.toString() << endl;
-
-    return tmp;
-
-    // TODO: updating acceleration
+	// TODO: updating acceleration
 
 }
 
@@ -215,7 +226,7 @@ void Route::operator!(){
 string Route::toString(){
     std::ostringstream ss;
 
-    ss << "Route::toString Size:\t\t" << this->size << endl;
+	//ss << "Route::toString Size:\t\t" << this->size << endl;
 
     ss << "Route::toString Points:\t\t";
     for(unsigned int i = 0; i < this->points.size(); i++){
@@ -225,6 +236,7 @@ string Route::toString(){
     }
     ss << endl;
 
+	/*
     ss << "Route::ToString Gradient:\t";
     for(unsigned int i = 0; i < this->gradients.size(); i++){
 	ss << this->gradients[i]->toString();
@@ -232,13 +244,14 @@ string Route::toString(){
     ss << endl;
 
     ss << "Route::toString Length:\t\t" << this->length << endl;
-    
-    ss << "Route::toString Path:\t\t";
-    for(unsigned i=0; i< this->path.size(); i++){
+
+	ss << "Route::toString Path:\t\t";
+	for(unsigned i=0; i< this->path.size(); i++){
 	ss << this->path[i]->toString();
 	if (i % 10 == 0 && i > 0)
-	    ss << endl << "\t\t\t\t";
-    }
+		ss << endl << "\t\t\t\t";
+	}
+	*/
 
     std::string o = ss.str();
 
@@ -278,28 +291,32 @@ void Route::printPath(){
 
 float Route::fitnessEvaluation(Route &r){
 
-    Config &config = Config::getInstance();
-    Map *map = config.getMap();
-    float fitness;
+	Config &config = Config::getInstance();
+	Map *map = config.getMap();
+	float alpha = config.getAlpha();
 
-    int overlaps = 0;
-    float length = r.getPath().size();
 
-    /* Getting the collission*/
-    //TODO: pregunta: porque no "r.getPath().size()" sea length?
-    // es lo mismo :D, es solo notación de código (para que sea más leíble, anuque cuesta más mantenerlo)
+	float fitness;
 
-    for(unsigned i = 0; i < r.getPath().size(); i++){
-	Point2D *p = r.getPath().at(i);
-	//cout << "analizando punto " << i << " = " << p->toString() << endl;
-	overlaps+=map->getCollision(*p);
-    }
+	int overlaps = 0;
+	float length = r.getPath().size();
 
-    fitness = length - pow(overlaps, 20);
+	/* Getting the collission*/
+	//TODO: pregunta: porque no "r.getPath().size()" sea length?
+	// es lo mismo :D, es solo notación de código (para que sea más leíble, anuque cuesta más mantenerlo)
 
-    //cout << "overlaps ... " << overlaps  << endl;
-    //cout << "Route::fitnessEvaluation sqrt(length): " << r.getPath().size() << endl;
-    return fitness;
+	for(unsigned i = 0; i < r.getPath().size(); i++){
+		Point2D *p = r.getPath().at(i);
+		//cout << "analizando punto " << i << " = " << p->toString() << endl;
+		overlaps+=map->getCollision(*p);
+	}
+
+	//fitness = length - pow(overlaps, 20); //WTF????????????, no era asi la FO que dije
+	fitness = length + overlaps*(1+pow(length, alpha));
+
+	//cout << "overlaps ... " << overlaps  << endl;
+	//cout << "Route::fitnessEvaluation sqrt(length): " << r.getPath().size() << endl;
+	return fitness;
 }
 
 
@@ -443,7 +460,7 @@ vector <Point2D*> Route::splines()
 	Point2D d = p1*1;
 
 	for (float t = 0; t <= 1; t+=0.001) {
-	    
+
 	    float xf = pow(t,3)*a.x + pow(t, 2)*b.x + t*c.x + d.x;
 	    float yf = pow(t,3)*a.y + pow(t, 2)*b.y + t*c.y + d.y;
 
@@ -459,7 +476,7 @@ vector <Point2D*> Route::splines()
 	}
     }
 
-	
+
     Point2D *t = new Point2D(-1,-1);
 
     for(unsigned int i = 0; i < tmp.size(); i++){

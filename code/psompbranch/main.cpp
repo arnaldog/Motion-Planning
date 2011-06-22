@@ -71,7 +71,7 @@ int main(int argc, char** argv) {
 
     cout << "main(): Mejor particula obtenida al iterar: ";
     cout << swarm.getBestParticleIndex() << endl;
-   
+
     cout << "main(): Mejor fitness obtenido al incializar: ";
     cout << swarm.getFitness() << endl;
     cout << endl;
