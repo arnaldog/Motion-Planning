@@ -102,7 +102,7 @@ Route Route::operator+(const Route &b){
     tmp.setGradients(tmpgradients);
     tmp.setAccelerations(tmpaccelerations);
 
-    tmp.setPath(tmp.splines());
+    tmp.setPath(tmp.HermiteSplines());
     tmp.setLength(tmp.getPath().size());
     //cout << tmp.toString() << endl;
     return tmp;
@@ -167,7 +167,7 @@ Route Route::operator-(const Route &b){
 	tmp.setGradients(tmpgradients);
 	tmp.setAccelerations(tmpaccelerations);
 
-	tmp.setPath(tmp.splines());
+	tmp.setPath(tmp.HermiteSplines());
 	tmp.setLength(tmp.getPath().size());
 
 	//cout << tmp.toString() << endl;
@@ -211,7 +211,7 @@ Route Route::operator*(float m){
     tmp.setGradients(tmpgradients);
     tmp.setAccelerations(tmpaccelerations);
 
-    tmp.setPath(tmp.splines());
+    tmp.setPath(tmp.HermiteSplines());
     tmp.setLength(tmp.getPath().size());
 
     return tmp;
@@ -278,10 +278,39 @@ void Route::printPath(){
 
     }
 
+    for(unsigned int i=0; i< points.size(); i++){
+	Point2D *p = points[i];
+	 matrix[p->x % width ][p->y % height] = i+2;
+    }
+
     for(unsigned int i = 0; i < width; i++){
 	cout << "\t\t\t\t";
 	for(unsigned int j = 0 ; j < height; j++){
-	    cout << matrix[i][j];
+
+	    if(matrix[i][j] > 1){
+		cout << matrix[i][j]-2;
+		continue;
+	    }
+
+	    if( matrix[i][j] == 1){
+		cout << "." ;
+		continue;
+	    }
+
+	    if(i == width -1 || i == 0){
+		cout << "-";
+		continue;
+	    }
+
+	    if(j == height -1|| j == 0){
+		cout << "|";
+		continue;
+	    }
+
+
+	    cout << " ";
+
+	    
 	}
 
 	cout << endl;
@@ -344,7 +373,7 @@ void Route::initRandomVelocity(Route &r){
     /* setting the points */
     r.initRandomPoints();
     r.initRandomGradients();
-    r.setPath(r.splines());
+    r.setPath(r.BezierSplines());
 
 //    cout << "Route::initRandomVelocity: " << endl;
 //    cout << r.toString() << endl;
@@ -376,7 +405,7 @@ void Route::initRandomRoute(Route& r){
     /* setting the points */
     r.initRandomPoints();
     r.initRandomGradients();
-    r.setPath(r.splines());
+    r.setPath(r.BSplines());
     r.setLength(r.getPath().size());
 
 	//cout << "Route::initRandomRoute: " << endl;
@@ -389,15 +418,10 @@ void Route::initRandomGradients(){
     if (gradients.size() < 1) return;
     gradients[0] = Point2D::getRandomPoint(-1, -1, 1, 1);
     for(unsigned int i=1; i<gradients.size()-1; i++){
-	int base = 100;
-	Point2D *p = Point2D::getRandomPoint(-1*base, -1*base, base, base);
-
+	int base = 1;
+	//Point2D *p = Point2D::getRandomPoint(-1*base, -1*base, base, base);
+	Point2D *p = new Point2D(0,0);
 	//TODO: es necesario este IF?, estas son las gradientes, no los puntos en si
-	if ( ((*p) == (*start)) || ((*p) == (*goal))){
-	    i--;
-	    continue;
-	}
-
 	gradients[i] = p;
     }
     gradients[gradients.size()-1] = Point2D::getRandomPoint(-1, -1, 1, 1);
@@ -425,9 +449,213 @@ void Route::initRandomPoints(){
     return;
 }
 
-// HERMITE SPLINES
-vector <Point2D*> Route::splines()
+
+vector <Point2D*> Route::BezierSplines(){
+/*
+ * Bezier splines:
+ * Bezier splines are used to approach the convex hull propierty of solution.
+ * This approximation does not require the gradient vector.
+ *
+ */
+    Config &config = Config::getInstance();
+    Map *map = config.getMap();
+
+    int n = this->points.size();
+    vector <Point2D*> path;
+    vector <Point2D*> tmp;
+
+    //agregar start
+    //tmp.push_back(this->start);
+    for(unsigned int l, k=0; l <= n/3 ; k+=3, l++){
+	Point2D q0 = Point2D();
+	Point2D q1 = Point2D();
+	Point2D q2 = Point2D();
+	Point2D q3 = Point2D();
+
+
+	
+	q0 = *this->points[k];
+	q1 = *this->points[k+1];
+	q2 = *this->points[k+2];
+	q3 = *this->points[k+3];
+
+	/*
+	 * The matrix G =
+	 *
+	 *     | -1  3 -3  1  |
+	 * 1/6*|  3 -6  3  0  |
+	 *     | -3  3  0  0  |
+	 *     |  1  0  0  0  |
+	 *
+	 * This interpolation does not ensures
+	 * the connection between the start and goal
+	 * points. For do this is neccesary to calculate
+	 * a line to this points completing the curve.
+	 */
+
+	Point2D a = q1*3 - q0*1 - q2*3 + q3*1;
+	Point2D b = q0*3 - q1*6 + q2*3;
+	Point2D c = q1*3 - q0*3;
+	Point2D d = q0*1;
+
+	for(float t=0; t <= 1; t+=0.0001){
+
+	    float xf = (pow(t,3)*a.x + pow(t, 2)*b.x + t*c.x + d.x);
+	    float yf = (pow(t,3)*a.y + pow(t, 2)*b.y + t*c.y + d.y);
+
+	    /* El crimen mas grande de la historia*/
+	    int x = xf;
+	    int y = yf;
+
+	    Point2D* p = new Point2D(x, y);
+	    tmp.push_back(p);
+	}
+
+    }
+
+    return tmp;
+}
+
+
+
+vector <Point2D*> Route::BSplines(){
+/*
+ * Bsplines:
+ * B splines are used to maintain convex hull propierty of solution.
+ * This approximation does not require the gradient vector.
+ * 
+ */
+    Config &config = Config::getInstance();
+    Map *map = config.getMap();
+
+    int n = this->points.size();
+    vector <Point2D*> line;
+    vector <Point2D*> tmp;
+
+    //agregar start
+    //tmp.push_back(this->start);
+
+    /*
+     * In BSplines, the union of goal and start point
+     * with the approximated cruve is not explicit,
+     * is by that reason that whe need to join the segments
+     * by a line.
+     */
+
+
+    for(unsigned int k=1; k <= n-2; k++){
+    //for(unsigned int l = 0, k=1; l <= n/3 ; k+=3, l++){
+	Point2D q0 = Point2D();
+	Point2D q1 = Point2D();
+	Point2D q2 = Point2D();
+	Point2D q3 = Point2D();
+
+	q0 = *this->points[k-1];
+	q1 = *this->points[k];
+	q2 = *this->points[k+1];
+	q3 = *this->points[k+2];
+	
+	/*
+	 * The matrix G =
+	 * 
+	 *     | -1  3 -3  1  |
+	 * 1/6*|  3 -6  3  0  |
+	 *     | -3  0  3  0  |
+	 *     |  1  4  1  0  |
+	 *
+	 * This interpolation does not ensures
+	 * the connection between the start and goal
+	 * points. For do this is neccesary to calculate
+	 * a line to this points completing the curve.
+	 */
+
+	Point2D a = q1*3 - q0*1 - q2*3 + q3*1;
+	Point2D b = q0*3 - q1*6 + q2*3;
+	Point2D c = q2*3 - q0*3;
+	Point2D d = q0*1 + q1*4 + q2*1;
+
+	for(float t=0; t <= 1; t+=0.0001){
+
+	    float xf = (pow(t,3)*a.x + pow(t, 2)*b.x + t*c.x + d.x);
+	    float yf = (pow(t,3)*a.y + pow(t, 2)*b.y + t*c.y + d.y);
+
+	    xf/=6;
+	    yf/=6;
+	    
+	    int x = xf;
+	    int y = yf;
+	    
+	    Point2D* p = new Point2D(x, y);
+	    tmp.push_back(p);
+	}
+
+    }
+
+    // get the last element in Point2D *end;
+    // get the goal element in goal;
+    // construct a rect between this two points
+
+    int m = tmp.size();
+
+    Point2D p0 = Point2D();
+    Point2D p1 = Point2D();
+
+    Point2D p2 = Point2D();
+    Point2D p3 = Point2D();
+
+    p0 = *(this->start);
+    p1 = *(tmp[0]);
+
+    Point2D as = p1*1 - p0*1;
+    Point2D bs = p0*1;
+    
+    for(float t=0; t <= 1; t+=0.0001){
+	float xf = t*as.x + bs.x;
+	float yf = t*as.y + bs.y;
+
+	int x = xf;
+	int y = yf;
+	
+	Point2D* p = new Point2D(x, y);
+	line.insert(line.begin(), p);
+    }
+
+    for(unsigned int i = 0; i < line.size(); i++){
+	tmp.insert(tmp.begin(), line[i]);
+    }
+
+
+    p2 = *(this->goal);;
+    p3 = *(tmp[m]);
+
+    
+    Point2D ag = p3*1 - p2*1 ;
+    Point2D bg = p2*1;
+
+    for(float t=0; t <= 1; t+=0.0001){
+	float xf = t*ag.x + bg.x;
+	float yf = t*ag.y + bg.y;
+
+	int x = xf;
+	int y = yf;
+	Point2D* p = new Point2D(x, y);
+	//tmp.push_back(p);
+    }
+
+    return tmp;
+}
+
+
+vector <Point2D*> Route::HermiteSplines()
 {
+/* HERMITE SPLINES:
+ * This splines requieres a random gradient vector for build a curve
+ * interpolating the control points.
+ *
+ * His general form is [x,y] = [t^3 t^2 t 1] [M][G]
+ * where M is a 4x4 matrix with constants coefficients,
+ * and G is a [x1 y1; x2 y2; x1' y1'; x2' y2']^T 4x2 matrix.
+ */
     //map needed for bound overflow verification
     Config &config = Config::getInstance();
     Map *map = config.getMap();
@@ -489,7 +717,7 @@ vector <Point2D*> Route::splines()
     for(unsigned int i=0; i<path.size(); i++){
 	for(unsigned int j=i+1; j<path.size(); j++){
 	    if( *(path[i]) == *(path[j]) ){
-		this->slice(&path);
+		//this->slice(&path);
 	    }
 	}
     }
