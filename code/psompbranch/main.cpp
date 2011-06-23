@@ -27,6 +27,7 @@ bool verificarEntradas(int argc,char** argv);
 int main(int argc, char** argv) {
 
     if(!verificarEntradas(argc,argv)) return 0;
+
     Config &config = Config::getInstance();
 
     //si no hay errores en las entradas imprimir configuracion
@@ -71,7 +72,7 @@ int main(int argc, char** argv) {
 
     cout << "main(): Mejor particula obtenida al iterar: ";
     cout << swarm.getBestParticleIndex() << endl;
-   
+
     cout << "main(): Mejor fitness obtenido al incializar: ";
     cout << swarm.getFitness() << endl;
     cout << endl;

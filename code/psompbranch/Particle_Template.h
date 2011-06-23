@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Particle_Template.h
  * Author: alejandrasuarez
  *
@@ -42,7 +42,7 @@ template <class T> T const& Particle<T>::getBestPosition()  {
 }
 template <class T> void Particle<T>::setVelocity(T const& velocity) {
     this->velocity = velocity;
-    
+
 
 }
 template <class T> T const& Particle<T>::getVelocity()  {
@@ -60,9 +60,6 @@ template <class T> Particle<T>::Particle(const Particle& orig) {
 
 template <class T> Particle<T>::~Particle() {
 }
-
-
-
 template <class T> void Particle<T>::updatePosition(){
     this->position = this->position + this->velocity;
 }

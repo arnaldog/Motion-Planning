@@ -125,7 +125,7 @@ Route Route::operator-(const Route &b){
 
     int size_b = b.getSize();
     if (size_b != size ) return tmp;
-   
+
 
     // updating points
     tmppoints.push_back(start);
@@ -232,7 +232,7 @@ string Route::toString(){
     ss << endl;
 
     ss << "Route::toString Length:\t\t" << this->length << endl;
-    
+
     ss << "Route::toString Path:\t\t";
     for(unsigned i=0; i< this->path.size(); i++){
 	ss << this->path[i]->toString();
@@ -443,7 +443,7 @@ vector <Point2D*> Route::splines()
 	Point2D d = p1*1;
 
 	for (float t = 0; t <= 1; t+=0.001) {
-	    
+
 	    float xf = pow(t,3)*a.x + pow(t, 2)*b.x + t*c.x + d.x;
 	    float yf = pow(t,3)*a.y + pow(t, 2)*b.y + t*c.y + d.y;
 
@@ -459,7 +459,7 @@ vector <Point2D*> Route::splines()
 	}
     }
 
-	
+
     Point2D *t = new Point2D(-1,-1);
 
     for(unsigned int i = 0; i < tmp.size(); i++){
@@ -487,20 +487,24 @@ void Route::slice(vector<Point2D*> *ruta){
 
 //    cout << "Route::slice(): ruta->at(" << 0 << ") = " << ruta->at(0)->toString() << endl;
 
-    for(unsigned int i = 0; i < ruta->size(); i++){
-	indice_inicial = i;
-	Point2D* valor_a_buscar = ruta->at(i);
+    for(unsigned int i = 0; i < ruta->size(); i++)
+    {
+		indice_inicial = i;
+		Point2D* valor_a_buscar = ruta->at(i);
 
-	for(unsigned int j=ruta->size()-1; j>0; j--){
-	    if( (j != i) && (*(ruta->at(j)) == *valor_a_buscar) ){
-		indice_final = j;
-		break;
-	    }
-	}
+		for(unsigned int j=ruta->size()-1; j>0; j--)
+		{
+			if( (j != i) && (*(ruta->at(j)) == *valor_a_buscar) )
+			{
+				indice_final = j;
+				break;
+			}
+		}
 
-	if(indice_final != 0){
-	    break;
-	}
+		if(indice_final != 0)
+		{
+			break;
+		}
     }
 
     //debug
@@ -513,10 +517,11 @@ void Route::slice(vector<Point2D*> *ruta){
     vector<Point2D*> f;
 
     for(unsigned int i = 0; i < ruta->size(); i++){
-	if( (indice_inicial < i) && (i <= indice_final) ){
-	    continue;
-	}
-	f.push_back(ruta->at(i));
+		if( (indice_inicial < i) && (i <= indice_final) )
+		{
+			continue;
+		}
+		f.push_back(ruta->at(i));
     }
 
     *ruta = f;
