@@ -66,9 +66,11 @@ int main(int argc, char** argv) {
     swarm.setRhop(0.1);
 
     //swarm initialization
-    swarm.initialize();
+    //swarm.initialize();
 
-    swarm.iterate();
+    //swarm.iterate();
+
+
 
     cout << "main(): Mejor particula obtenida al iterar: ";
     cout << swarm.getBestParticleIndex() << endl;
@@ -79,6 +81,12 @@ int main(int argc, char** argv) {
 
     cout << "main(): La ruta resultante es: " << endl;
     swarm.printBestParticle();
+
+
+    Route r = Route();
+    r.initRandomRoute(r);
+
+    r.printPath();
 
     return 0;
 }

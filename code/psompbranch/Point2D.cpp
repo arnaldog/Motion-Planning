@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   Point2D.cpp
  * Author: alejandrasuarez
- * 
+ *
  * Created on 3 de junio de 2011, 2:02
  */
 
@@ -36,11 +36,10 @@ Point2D* Point2D::operator+(const Point2D *p) const {
 
 
 Point2D Point2D::operator-(const Point2D& p) const {
-
-    Point2D tmp;
-    tmp.x = x - p.x;
-    tmp.y = y - p.y;
-    return (tmp);
+	Point2D tmp;
+	tmp.x = x - p.x;
+	tmp.y = y - p.y;
+	return (tmp);
 }
 
 Point2D Point2D::operator*(float m) const{
@@ -81,7 +80,7 @@ string Point2D::toString(){
     std::ostringstream ss;
     ss << '(' << x << ',' << y << ')';
     std::string o = ss.str();
-    
+
     return o;
 }
 

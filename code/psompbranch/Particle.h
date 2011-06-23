@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Particle.h
  * Author: alejandrasuarez
  *
@@ -11,7 +11,7 @@
 #include "Route.h"
 
 template <class T> class Particle {
-    
+
 public:
     /* Constructors and others*/
     Particle();
@@ -25,7 +25,7 @@ public:
     /*  Getters and Setters */
     void setBestFitness(float bestFitness);
     float getBestFitness() ;
-    
+
     void setFitness(float fitness);
     float getFitness() ;
 
@@ -37,11 +37,12 @@ public:
 
     void setVelocity(T const& velocity);
     T const& getVelocity() ;
-    
+
     void setPosition(T const& position);
     T const& getPosition();
 
-    
+	string toString();
+
 private:
     T position;
     T velocity;

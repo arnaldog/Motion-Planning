@@ -31,7 +31,9 @@ public:
 
     //void createRandomRoute();
 
-    vector<Point2D*> splines();
+    vector<Point2D*> HermiteSplines();
+    vector<Point2D*> BSplines();
+    vector<Point2D*> BezierSplines();
 //    void setPointsRandom(Point2D min, Point2D max);
     void printPath();
     void Interpolation();

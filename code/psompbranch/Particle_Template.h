@@ -60,6 +60,11 @@ template <class T> Particle<T>::Particle(const Particle& orig) {
 
 template <class T> Particle<T>::~Particle() {
 }
+
+template <class T> string Particle<T>::toString(){
+    return this->position.toString();
+}
+
 template <class T> void Particle<T>::updatePosition(){
     this->position = this->position + this->velocity;
 }
