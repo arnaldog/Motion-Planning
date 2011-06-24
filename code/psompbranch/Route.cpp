@@ -72,6 +72,13 @@ Route Route::operator+(const Route &b){
     // sumar las gradientes
     // recalcular el path
     Route tmp = Route();
+    Config &config = Config::getInstance();
+    Map* map = config.getMap();
+    int base = config.getHermiteBase();
+
+    int width = map->getWidth() -1;
+    int height = map->getHeight() -1;
+    
     int n = size;
 
     vector <Point2D*> tmppoints;
@@ -87,6 +94,7 @@ Route Route::operator+(const Route &b){
 	Point2D r = Point2D();
 	r = (*points[i]) + (*b.points[i]);
 	Point2D *s = new Point2D(r.x, r.y);
+	s->setToBound(0, 0, width, height); /* fitting into bound map */
 	tmppoints.push_back(s);
     }
     tmppoints.push_back(goal);
@@ -141,11 +149,11 @@ Route Route::operator-(const Route &b){
 	tmppoints.push_back(start);
 	for(unsigned int i=1; i < n-1 ; i++){
 
-		Point2D r = Point2D();
-		r = (*points[i]) - (*b.points[i]);
-		Point2D *s = new Point2D(r.x, r.y);
-		s->setToBound(0, 0, map->getWidth()-1, map->getHeight()-1);
-		tmppoints.push_back(s);
+	    Point2D r = Point2D();
+	    r = (*points[i]) - (*b.points[i]);
+	    Point2D *s = new Point2D(r.x, r.y);
+	    s->setToBound(0, 0, map->getWidth()-1, map->getHeight()-1);
+	    tmppoints.push_back(s);
 
 
 	}
@@ -155,11 +163,11 @@ Route Route::operator-(const Route &b){
 
 	//updating velocity
 	for(unsigned int i=0; i < n; i++){
-		Point2D r = Point2D();
-		r = (*gradients[i]) - (*b.gradients[i]);
-		r.scaleTo(base);
-		Point2D *s = new Point2D(r.x, r.y);
-		tmpgradients.push_back(s);
+	    Point2D r = Point2D();
+	    r = (*gradients[i]) - (*b.gradients[i]);
+	    r.scaleTo(base);
+	    Point2D *s = new Point2D(r.x, r.y);
+	    tmpgradients.push_back(s);
 	}
 
 	/* setting the attributes of route */
