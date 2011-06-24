@@ -27,6 +27,7 @@ bool verificarEntradas(int argc,char** argv);
 int main(int argc, char** argv) {
 
     if(!verificarEntradas(argc,argv)) return 0;
+
     Config &config = Config::getInstance();
 
     //si no hay errores en las entradas imprimir configuracion
@@ -79,13 +80,20 @@ int main(int argc, char** argv) {
     cout << endl;
 
     cout << "main(): La ruta resultante es: " << endl;
-    swarm.printBestParticle();
+    //swarm.printBestParticle();
 
 
     Route r = Route();
     r.initRandomRoute(r);
-
     r.printPath();
+
+    Route r2 = Route();
+    r2.initRandomRoute(r2);
+    r2.printPath();
+
+    Route r3 = Route();
+    r3 = r2 - r;
+    r3.printPath();
 
     return 0;
 }
@@ -113,6 +121,10 @@ bool verificarEntradas(int argc, char** argv){
     config.setAlpha(0.5);
     config.setPivots(3);
 
+    //hermite inputs
+	config.setMode("hermite");
+	config.setHermiteBase(1);
+
     //revisar cada argumento dado
     for(int i=1; i<argc; i++){
     //cout << "main(): argv[" << i << "] = " << argv[i] << endl;
@@ -121,6 +133,15 @@ bool verificarEntradas(int argc, char** argv){
 	    //cout << "main::verificarEntradas(): mapa = " << argv[i+1] << endl;
 	    string t = string(argv[i+1]);
 	    config.setMapFile(t);
+	}
+
+	if(string(argv[i]) == "-mode"){
+	    string t = string(argv[i+1]);
+	    config.setMode(t);
+	}
+
+	if(string(argv[i]) == "-hbase"){
+	    config.setHermiteBase(atoi(argv[i+1]));
 	}
 
 	if(string(argv[i]) == "-iteraciones"){
@@ -162,123 +183,3 @@ bool verificarEntradas(int argc, char** argv){
 
     return true;
 }
-    /*
-    Route r = Route();
-
-    Point2D *p1 = new Point2D(4,0);
-    Point2D *p2 = new Point2D(0,4);
-    Point2D *p3 = new Point2D(-4, 0);
-    Point2D *p4 = new Point2D(0, -4);
-
-    vector <Point2D*> points;
-
-    points.push_back(p1);
-    points.push_back(p2);
-    points.push_back(p3);
-    points.push_back(p4);
-
-
-    r.setPoints(points);
-
-    // CREATING THE GRADIENT POINTS
-    Point2D *g1 = new Point2D(-1,2);
-    Point2D *g2 = new Point2D(-1,-2);
-    Point2D *g3 = new Point2D(1,-2);
-    Point2D *g4 = new Point2D(1, 2);
-
-    vector <Point2D*> gradients;
-    gradients.push_back(g1);
-    gradients.push_back(g2);
-    gradients.push_back(g3);
-    gradients.push_back(g4);
-
-    r.setGradients(gradients);
-
-    r.setPath(r.splines());
-
-
-
-
-    cout << r.toString() << endl;
-
-     // testing the parser
-    Map map = Map("map.txt");
-
-    Point2D p = Point2D(0, 0);
-    cout << map.getCollision(p) << endl;
-
-    // testing random point
-
-    for(int k=0; k < 100; k++)
-	cout << Point2D::getRandom(0, 640, 0, 480).toString() << endl;
-
-    return 0;
-
-     *
-     *
-    Route r = Route();
-    r.setStart(p1);
-    r.setGoal(p2);
-
-    vector <Point2D*> points = vector <Point2D*> (20);
-    r.setPoints(points);
-
-    vector <Point2D*> gradients = vector <Point2D*> (20);
-    r.setGradients(gradients);
-
-    r.initRandomPoints();
-    r.initRandomGradients();
-
-
-
- } //*/
-
-/*
-    Route r = Route();
-    r.initRandomRoute(r);
-    r.initRandomVelocity(r);
-
-    Route s = Route();
-    r.initRandomRoute(s);
-    r.initRandomVelocity(s);
-
-    cout << r.toString() << endl;
-    cout << s.toString() << endl;
-
-    Route t = r - s;
-
-    for (unsigned int  i=0; i < t.getPoints().size(); i++){
-	Point2D *p = t.getPoints()[i];
-	cout << p->toString();
-	cout << '-';
-    }
-    cout << endl;
-
-    cout << "FIN" << endl;
-*/
-
-/*
-    Route r = Route();
-    r.initRandomRoute(r);
-    r.initRandomVelocity(r);
-
-    Route s = Route();
-    r.initRandomRoute(s);
-    r.initRandomVelocity(s);
-
-    cout << r.toString() << endl;
-    r.printPath();
-    cout << s.toString() << endl;
-    s.printPath();
-
-    Route t = r - s;
-
-
-
-    cout << t.toString() << endl;
-    t.printPath() ;
-
-    Route f = Route();
-    f = t*2;
- *
- */

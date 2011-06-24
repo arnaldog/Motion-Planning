@@ -39,8 +39,8 @@ public:
         float rmax_x = (min_x >= max_x) ? min_x: max_x;
         float rmax_y = (min_y >= max_y) ? min_y: max_y;
 
-        float x = rmax_x*((float)rand()/(float)RAND_MAX) + rmin_x;
-        float y = rmax_y*((float)rand()/(float)RAND_MAX) + rmin_y;
+        float x = (rmax_x-rmin_x)*((float)rand()/(float)RAND_MAX) + rmin_x;
+        float y = (rmax_y-rmin_y)*((float)rand()/(float)RAND_MAX) + rmin_y;
 
         x = sqrt(pow(x,2));
         y = sqrt(pow(y,2));
@@ -50,15 +50,50 @@ public:
         return p;
     }
 
+    void scaleTo(int base){
+          
+          float norm = sqrt(pow(x,2)+pow(y,2));
+          norm = (norm <= 0) ? 1 : norm;
+          float xf = (float)x/norm;
+          float yf = (float)y/norm;
+
+          x = xf*base;
+          y = yf*base;
+          return;
+    }
+
+    void setToBound(int minx, int miny, int maxx, int maxy){
+        
+	x = (x < minx) ? minx : ((x >= maxx) ? maxx: x);
+        y = (y < miny) ? miny : ((y >= maxy) ? maxy: y);
+	
+        return;    
+    }
+
     static Point2D* getRandomPoint(float min_x, float min_y, float max_x, float max_y){
+
+		//cout << "G> min_x: " << min_x << endl;
+		//cout << "G> min_y: " << min_y << endl;
+		//cout << "G> max_y: " << max_x << endl;
+		//cout << "G> max_y: " << max_y << endl;
+
 
         float rmin_x = (min_x <= max_x) ? min_x: max_x;
         float rmin_y = (min_y <= max_y) ? min_y: max_y;
         float rmax_x = (min_x >= max_x) ? min_x: max_x;
         float rmax_y = (min_y >= max_y) ? min_y: max_y;
 
-        float x = rmax_x*((float)rand()/(float)RAND_MAX) + rmin_x;
-        float y = rmax_y*((float)rand()/(float)RAND_MAX) + rmin_y;
+
+		//cout << "G> rmin_x: " << rmin_x << endl;
+		//cout << "G> rmin_y: " << rmin_y << endl;
+		//cout << "G> rmax_x: " << rmax_x << endl;
+		//cout << "G> rmax_y: " << rmax_y << endl;
+
+        float x = (rmax_x-rmin_x)*((float)rand()/(float)RAND_MAX) + rmin_x;
+        float y = (rmax_y-rmin_y)*((float)rand()/(float)RAND_MAX) + rmin_y;
+
+        //cout << "G> x: " << x << endl;
+        //cout << "G> y: " << y << endl;
 
         Point2D *p = new Point2D(x, y);
 

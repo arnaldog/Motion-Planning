@@ -67,6 +67,20 @@ int Config::getIterations() const {
     return iterations;
 }
 
+void Config::setMode(string _mode){
+	this->mode = _mode;
+}
+string Config::getMode(){
+	return this->mode;
+}
+
+void Config::setHermiteBase(unsigned int _base){
+	this->hermite_base = _base;
+}
+unsigned int Config::getHermiteBase(){
+	return this->hermite_base;
+}
+
 void Config::printConfiguration(){
 	cout << endl;
 	cout << "Config:printConfiguration(): archivo de mapa = " << this->mapFile << endl;

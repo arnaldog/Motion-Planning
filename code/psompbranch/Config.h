@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Config.h
  * Author: alejandrasuarez
  *
@@ -21,7 +21,7 @@ public:
             pInstance_ = new Config();
         return *pInstance_;
     }
-    
+
     void setPivots(int pivots);
     int getPivots() const;
     void setAlpha(float alpha);
@@ -41,22 +41,33 @@ public:
     void setIterations(int iterations);
     int getIterations() const;
 
+	//mode
+	void setMode(string mode);
+	string getMode();
+
+    //hermite inputs
+	void setHermiteBase(unsigned int base);
+	unsigned int getHermiteBase();
+
 
     void printConfiguration();
-    
+
 private:
     static Config* pInstance_;
-    
+
     static void DestroyConfig(){
         if(pInstance_ != NULL) delete pInstance_;
     }
-    
+
     Config(){
         //set global random seed
         srand ( time(NULL) );
     };
 
     Config(const Config& s){};
+
+    string mode;
+    unsigned int hermite_base;
 
     int iterations;
     float phi_p;
