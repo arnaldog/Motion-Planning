@@ -85,11 +85,9 @@ string Point2D::toString(){
 }
 
 float Point2D::operator>>(const Point2D& p) const {
+    
     float lenght;
-
     lenght = sqrt( (x - p.x)^2 + (y - p.y)^2 );
-
-
     return lenght;
 }
 
