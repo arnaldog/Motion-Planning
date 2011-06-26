@@ -249,13 +249,13 @@ string Route::toString(){
     }
     ss << endl;
 
-	
+    /*
     ss << "Route::ToString Gradient:\t";
     for(unsigned int i = 0; i < this->gradients.size(); i++){
 	ss << this->gradients[i]->toString();
     }
     ss << endl;
-    /*
+    
     ss << "Route::toString Length:\t\t" << this->length << endl;
 
 	ss << "Route::toString Path:\t\t";
@@ -296,7 +296,7 @@ void Route::printPath(){
 
     for(unsigned int i=0; i< obstacles.size(); i++){
 	Point2D *p = obstacles[i];
-	 matrix[p->x][p->y] = -2;
+	 matrix[p->x % width ][p->y % height] = -2;
 
     }
 
@@ -434,21 +434,26 @@ void Route::initRandomRoute(Route& r){
     r.initRandomPoints();
     r.initRandomGradients();
 
-    //setear path dependiendo del parametro de entrada
-    if(config.getMode() == "hermite"){
-		r.setPath(r.HermiteSplines());
-	}
-	if(config.getMode() == "b"){
-		r.setPath(r.BSplines());
-	}
-	if(config.getMode() == "bezier"){
-		r.setPath(r.BezierSplines());
-	}
-	if(config.getMode() == "catmull"){
-		//r.setPath(r.CatmullSplines());
-		r.setPath(r.HermiteSplines());
-	}
+    r.setPath(r.BezierSplines());
 
+    /* setear path dependiendo del parametro de entrada 
+    if(config.getMode() == "hermite"){
+	r.setPath(r.HermiteSplines());
+    }
+
+    if(config.getMode() == "b"){
+	    r.setPath(r.BSplines());
+    }
+    if(config.getMode() == "bezier"){
+	cout << "this is bzier" << endl;
+	r.setPath(r.BezierSplines());
+	r.printPath();
+    }
+    if(config.getMode() == "catmull"){
+	    //r.setPath(r.CatmullSplines());
+	    r.setPath(r.HermiteSplines());
+    }
+    */
     r.setLength(r.getPath().size());
 
 	//cout << "Route::initRandomRoute: " << endl;
@@ -498,25 +503,24 @@ vector <Point2D*> Route::BezierSplines(){
 /*
  * Bezier splines:
  * Bezier splines are used to approach the convex hull propierty of solution.
- * This approximation does not require the gradient vector.
+ * This approximation does not require the gradient vector and is more
+ * versatil than hermite splines in pso optimization.
  *
  */
     Config &config = Config::getInstance();
-    Map *map = config.getMap();
+   // Map *map = config.getMap();
 
     int n = this->points.size();
-    vector <Point2D*> path;
     vector <Point2D*> tmp;
-
+    vector <Point2D*> path;
     //agregar start
     //tmp.push_back(this->start);
     for(unsigned int l, k=0; l <= n/3 ; k+=3, l++){
+
 	Point2D q0 = Point2D();
 	Point2D q1 = Point2D();
 	Point2D q2 = Point2D();
 	Point2D q3 = Point2D();
-
-
 
 	q0 = *this->points[k];
 	q1 = *this->points[k+1];
@@ -546,6 +550,7 @@ vector <Point2D*> Route::BezierSplines(){
 
 	    float xf = (pow(t,3)*a.x + pow(t, 2)*b.x + t*c.x + d.x);
 	    float yf = (pow(t,3)*a.y + pow(t, 2)*b.y + t*c.y + d.y);
+	    
 
 	    /* El crimen mas grande de la historia*/
 	    int x = xf;
@@ -556,6 +561,26 @@ vector <Point2D*> Route::BezierSplines(){
 	}
 
     }
+
+
+    Point2D *t = new Point2D(-1,-1);
+
+    for(unsigned int i = 0; i < tmp.size(); i++){
+	if ( !((*tmp[i]) == (*t))){
+	    path.push_back(tmp[i]);
+	    t = tmp[i];
+	}
+    }
+
+    for(unsigned int i=0; i<path.size(); i++){
+	for(unsigned int j=i+1; j<path.size(); j++){
+	    if( *(path[i]) == *(path[j]) ){
+		//this->slice(&path);
+	    }
+	}
+    }
+
+    return path;
 
     return tmp;
 }

@@ -68,7 +68,7 @@ int main(int argc, char** argv) {
     //swarm.initialization();
     swarm.initialize();
 
-    swarm.iterate();
+    //swarm.iterate();
 
 
 

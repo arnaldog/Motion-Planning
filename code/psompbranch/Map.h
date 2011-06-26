@@ -27,6 +27,7 @@ public:
     void printInformation();
 
     int getCollision(Point2D &p);
+    vector <Point2D*> getObstacles();
     void setGoal(Point2D* goal);
     Point2D* getGoal() const;
     void setStart(Point2D* start);
@@ -44,6 +45,7 @@ private:
     string filename;
     unsigned int width, height;
     Point2D *start, *goal;
+    vector < Point2D* > obstacles;
 };
 
 #endif	/* MAP_H */

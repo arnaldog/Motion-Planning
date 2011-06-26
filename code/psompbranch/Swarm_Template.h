@@ -1,3 +1,4 @@
+
 /*
  * File:   Swarm_Template.h
  * Author: alejandrasuarez
@@ -128,30 +129,16 @@ template <class T> void Swarm<T>::updateParticleVelocity(Particle<T> &particle){
     float rhop = (float)rand()/(float)RAND_MAX;
     float rhog = (float)rand()/(float)RAND_MAX;
 
-//    rhop = (rhop < 0) ? rhop : -1*rhop;
-//    rhog = (rhog < 0) ? rhog : -1*rhog;
 
-	v = particle.getVelocity();
-	p = particle.getBestPosition();
-	x = particle.getPosition();
-	g = this->population[this->getBestParticleIndex()].getBestPosition();
+    v = particle.getVelocity();
+    p = particle.getBestPosition();
+    x = particle.getPosition();
+    g = this->population[this->getBestParticleIndex()].getBestPosition();
 
-	/* Setting particle return value for descomposition */
-	T w = T();
-	//w = v + (p-x)*rhop + (g-x)*rhog;
-
-	/*
-	cout << "Swarm<T>::updateParticleVelocity(): rhop = " << rhop << endl;
-	cout << "Swarm<T>::updateParticleVelocity(): rhog = " << rhog << endl;
-	cout << "Swarm<T>::updateParticleVelocity(): v = " << endl << v.toString() << endl;
-	cout << "Swarm<T>::updateParticleVelocity(): p = " << endl << p.toString() << endl;
-	cout << "Swarm<T>::updateParticleVelocity(): g = " << endl << g.toString() << endl;
-	cout << "Swarm<T>::updateParticleVelocity(): x = " << endl << x.toString() << endl;
-	*/
-	w = v*0 + (p-x)*rhop + (g-x)*rhog;
-
-	//cout << "Swarm<T>::updateParticleVelocity(): w.toString():" << endl;
-	//cout << w.toString() << endl;
+    /* Setting particle return value for descomposition */
+    T w = T();
+    //w = v + (p-x)*rhop + (g-x)*rhog;
+    w = v*0 + (p-x)*rhop + (g-x)*rhog;
 
     /* updating the velocity of particle */
     particle.setVelocity(w);
@@ -248,6 +235,7 @@ template <class T> void Swarm<T>::iterate()
 			//if (f(pi) < f(g)) update the swarm's best known position:
 			//g ← pi
 			if (particleFitness < this->fitness) {
+                            cout << "Swarm::iterate: Updating best particle:" << i << endl;
 				this->setFitness(particleFitness);
 				this->setBestParticleIndex(i);
 			}
