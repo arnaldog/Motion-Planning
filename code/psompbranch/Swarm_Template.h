@@ -120,6 +120,10 @@ template <class T> void Swarm<T>::setInitVelocityFunction(void (T::*f)(T&)){
 
 template <class T> void Swarm<T>::updateParticleVelocity(Particle<T> &particle){
 
+	Config &config = Config::getInstance();
+	float phip = config.getPhi_p();
+	float phig = config.getPhi_g();
+
     // Particle propierties
     T v = T(); /* current velocity */
     T p = T(); /* best position of particle */
@@ -202,9 +206,6 @@ template <class T> void Swarm<T>::iterate()
 
 	while (iteration < this->iterations)
 	{
-		// debug
-		cout << "Swarm::iterate(): iteracion " << iteration << " ";
-
 		// para cada partícula, hacer:
 		for (unsigned int i = 0; i < this -> population.size(); i++) {
 
@@ -239,9 +240,13 @@ template <class T> void Swarm<T>::iterate()
 				this->setFitness(particleFitness);
 				this->setBestParticleIndex(i);
 			}
+
+			//debug
+			cout << p.toString();
 		}
 
-		//debug
+		// debug
+		cout << "Swarm::iterate(): resumen iteracion " << iteration << ": ";
 		cout << "mejor particula: " << this->getBestParticleIndex() << " mejor fitness: " << this->fitness << endl;
 
 		//next iteration

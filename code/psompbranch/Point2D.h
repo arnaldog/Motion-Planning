@@ -31,6 +31,7 @@ public:
     void setX(int x);
     int getX() const;
     static float getUniformPRand() { return (float)rand()/(float)RAND_MAX; } ;
+	void scaleTo(int base);
 
     static Point2D* getRandomAbsPoint(float min_x, float min_y, float max_x, float max_y){
 
@@ -50,24 +51,12 @@ public:
         return p;
     }
 
-    void scaleTo(int base){
-          
-          float norm = sqrt(pow(x,2)+pow(y,2));
-          norm = (norm <= 0) ? 1 : norm;
-          float xf = (float)x/norm;
-          float yf = (float)y/norm;
-
-          x = xf*base;
-          y = yf*base;
-          return;
-    }
-
     void setToBound(int minx, int miny, int maxx, int maxy){
-        
+
 	x = (x < minx) ? minx : ((x >= maxx) ? maxx: x);
         y = (y < miny) ? miny : ((y >= maxy) ? maxy: y);
-	
-        return;    
+
+        return;
     }
 
     static Point2D* getRandomPoint(float min_x, float min_y, float max_x, float max_y){

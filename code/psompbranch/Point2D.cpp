@@ -85,7 +85,7 @@ string Point2D::toString(){
 }
 
 float Point2D::operator>>(const Point2D& p) const {
-    
+
     float lenght;
     lenght = sqrt( (x - p.x)^2 + (y - p.y)^2 );
     return lenght;
@@ -109,3 +109,13 @@ int Point2D::getX() const {
     return x;
 }
 
+void Point2D::scaleTo(int base){
+	float norm = sqrt(pow(x,2)+pow(y,2));
+	norm = (norm == 0) ? 1 : norm;
+	float xf = (float)x/norm;
+	float yf = (float)y/norm;
+
+	x = xf*base;
+	y = yf*base;
+	return;
+}

@@ -8,7 +8,7 @@
 #include "Route.h"
 
 Route::Route() {
-        
+
 	Config &config = Config::getInstance();
     Map *map = config.getMap();
 
@@ -78,7 +78,7 @@ Route Route::operator+(const Route &b){
 
     int width = map->getWidth() -1;
     int height = map->getHeight() -1;
-    
+
     int n = size;
 
     vector <Point2D*> tmppoints;
@@ -87,7 +87,7 @@ Route Route::operator+(const Route &b){
 
     int size_b = b.getSize();
     if (size_b != size ) return tmp;
-    
+
     // updating points
     tmppoints.push_back(start);
     for(unsigned int i=1; i < n-1 ; i++){
@@ -139,13 +139,12 @@ Route Route::operator-(const Route &b){
 	vector <Point2D*> tmppoints;
 	vector <Point2D*> tmpgradients;
 	vector <Point2D*> tmpaccelerations;
-	
+
 	int size_b = b.getSize();
 	if (size_b != size ) return tmp;
-	
+
 
 	// updating points
-	
 	tmppoints.push_back(start);
 	for(unsigned int i=1; i < n-1 ; i++){
 
@@ -154,12 +153,9 @@ Route Route::operator-(const Route &b){
 	    Point2D *s = new Point2D(r.x, r.y);
 	    s->setToBound(0, 0, map->getWidth()-1, map->getHeight()-1);
 	    tmppoints.push_back(s);
-
-
 	}
 
 	tmppoints.push_back(goal);
-
 
 	//updating velocity
 	for(unsigned int i=0; i < n; i++){
@@ -180,7 +176,23 @@ Route Route::operator-(const Route &b){
 	tmp.setGradients(tmpgradients);
 	tmp.setAccelerations(tmpaccelerations);
 
-	tmp.setPath(tmp.HermiteSplines());
+	//tmp.setPath(tmp.HermiteSplines());
+
+	//setear path dependiendo del parametro de entrada
+    if(config.getMode() == "hermite"){
+		tmp.setPath(tmp.HermiteSplines());
+	}
+	if(config.getMode() == "b"){
+		tmp.setPath(tmp.BSplines());
+	}
+	if(config.getMode() == "bezier"){
+		tmp.setPath(tmp.BezierSplines());
+	}
+	if(config.getMode() == "catmull"){
+		//r.setPath(r.CatmullSplines());
+		tmp.setPath(tmp.HermiteSplines());
+	}
+
 	tmp.setLength(tmp.getPath().size());
 
 	//cout << tmp.toString() << endl;
@@ -249,13 +261,13 @@ string Route::toString(){
     }
     ss << endl;
 
-    /*
+
     ss << "Route::ToString Gradient:\t";
     for(unsigned int i = 0; i < this->gradients.size(); i++){
 	ss << this->gradients[i]->toString();
     }
     ss << endl;
-    
+    /*
     ss << "Route::toString Length:\t\t" << this->length << endl;
 
 	ss << "Route::toString Path:\t\t";
@@ -464,8 +476,8 @@ void Route::initRandomRoute(Route& r){
 
 void Route::initRandomGradients(){
 	Config &config = Config::getInstance();
-    int base = config.getHermiteBase();	
-    
+    int base = config.getHermiteBase();
+
     if (gradients.size() < 1) return;
     gradients[0] = Point2D::getRandomPoint(-1, -1, 1, 1);
     for(unsigned int i=1; i<gradients.size()-1; i++){
@@ -783,13 +795,14 @@ vector <Point2D*> Route::HermiteSplines()
 	}
     }
 
-    for(unsigned int i=0; i<path.size(); i++){
-	for(unsigned int j=i+1; j<path.size(); j++){
-	    if( *(path[i]) == *(path[j]) ){
-		//this->slice(&path);
-	    }
+	//slice
+	for(unsigned int i=0; i<path.size(); i++){
+		for(unsigned int j=i+1; j<path.size(); j++){
+			if( *(path[i]) == *(path[j]) ){
+				//this->slice(&path);
+			}
+		}
 	}
-    }
 
     return path;
 }
