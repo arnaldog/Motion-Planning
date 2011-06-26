@@ -25,6 +25,10 @@ int Map::getCollision(Point2D &p){
     int o = matrix[p.x][p.y];
     return o;
 }
+
+vector <Point2D*> Map::getObstacles(){
+    return obstacles;
+}
 void Map::setGoal(Point2D* goal) {
     this->goal = goal;
 }
@@ -77,9 +81,12 @@ Map::Map(string filename){
 	    if (c == '0')
 		matrix[i].push_back(0);
 
-	    if (c == '1')
+	    if (c == '1'){
 		matrix[i].push_back(1);
+		Point2D* obstacle = new Point2D(i,j);
+		obstacles.push_back(obstacle);
 
+	    }
 	    if (c == 'S'){
 		matrix[i].push_back(0);
 		start = new Point2D(i,j);

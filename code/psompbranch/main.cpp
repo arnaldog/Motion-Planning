@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     // ROUTE Swarm(size, iterations, fitness);
     int swarmSize = config.getQuantity();
     int swarmIterations = config.getIterations();
-    int swarmFitness = 9999999;
+    float swarmFitness = 99999999999999;
     Swarm<Route> swarm = Swarm<Route>(swarmSize, swarmIterations, swarmFitness);
 
     int particleSize = config.getPivots();
@@ -82,7 +82,8 @@ int main(int argc, char** argv) {
     cout << "main(): La ruta resultante es: " << endl;
     swarm.printBestParticle();
 
-	/*
+
+    /*
     Route r = Route();
     r.initRandomRoute(r);
     r.printPath();
@@ -99,6 +100,10 @@ int main(int argc, char** argv) {
     cout << r3.toString() << endl;
 	*/
 
+    Route r4 = Route();
+    r4 = r3 + r;
+    r4.printPath();
+    */
     return 0;
 }
 

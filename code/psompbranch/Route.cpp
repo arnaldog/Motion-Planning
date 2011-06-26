@@ -285,6 +285,9 @@ string Route::toString(){
 
 void Route::printPath(){
     Config &config = Config::getInstance();
+    Map* map = config.getMap();
+    vector < Point2D* > obstacles = map->getObstacles();
+    
     int width = config.getMap()->getWidth();
     int height = config.getMap()->getHeight();
 
@@ -303,6 +306,12 @@ void Route::printPath(){
 
     }
 
+    for(unsigned int i=0; i< obstacles.size(); i++){
+	Point2D *p = obstacles[i];
+	 matrix[p->x][p->y] = -2;
+
+    }
+
     for(unsigned int i=0; i< points.size(); i++){
 	Point2D *p = points[i];
 	 matrix[p->x % width ][p->y % height] = i+2;
@@ -314,6 +323,11 @@ void Route::printPath(){
 
 	    if(matrix[i][j] > 1){
 		cout << matrix[i][j]-2;
+		continue;
+	    }
+
+	    if(matrix[i][j] < -1) {
+		cout << "X";
 		continue;
 	    }
 
@@ -367,6 +381,7 @@ float Route::fitnessEvaluation(Route &r){
 
 	//fitness = length - pow(overlaps, 20); //WTF????????????, no era asi la FO que dije
 	fitness = length + overlaps*(1+pow(length, alpha));
+	//fitness = length + pow(overlaps, 10);
 
 	//cout << "overlaps ... " << overlaps  << endl;
 	//cout << "Route::fitnessEvaluation sqrt(length): " << r.getPath().size() << endl;
