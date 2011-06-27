@@ -1,0 +1,6 @@
+\frametitle {Ejecución del programa}
+\begin{tiny}
+\begin{semiverbatim}
+./psomp.bin -map maps/complexchico.dat  -iteraciones 1  -particulas 1 -pivotes 20  -omega 1 -phip 2 -phig 3 -alpha 10
+\end{semiverbatim}
+\end{tiny}

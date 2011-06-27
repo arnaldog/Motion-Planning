@@ -1,0 +1,7 @@
+\beamer@endinputifotherversion {3.07pt}
+\beamer@sectionintoc {1}{Introducci\'on}{2}{0}{1}
+\beamer@sectionintoc {2}{Particle Swarm Optimization}{7}{0}{2}
+\beamer@sectionintoc {3}{Representaci\'on}{8}{0}{3}
+\beamer@sectionintoc {4}{Algoritmo}{27}{0}{4}
+\beamer@sectionintoc {5}{Programa}{27}{0}{5}
+\beamer@sectionintoc {6}{Conclusiones}{28}{0}{6}

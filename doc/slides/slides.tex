@@ -1,0 +1,350 @@
+\documentclass[10pt]{beamer}
+
+\title{Global Path Planning Utilizdo Particle Swarm Optimización }
+\author{Joe Cabezas \and Arnaldo Gaspar}
+\usetheme{Warsaw}
+\usepackage[latin1]{inputenc}
+\usepackage{algorithm2e}
+
+\usefonttheme{professionalfonts}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newtheorem{Ejemplo}{Ejemplo}
+\newtheorem{Definicion}{Definici\'on}
+
+
+
+\begin{document}
+\maketitle
+
+% PARTES: introducción, algoritmo, representación, resultados, concluisiones
+
+\section{Introducción}
+\begin{frame}
+\frametitle{Motion Planning}
+\framesubtitle{Global Path Planning}
+\begin{itemize}
+\item <1-> Encontrar una o m\'as rutas para que un agente en particular logre llegar desde una regi\'on inicial 						   $p_{\text{inicial}}$ a otra regi\'on objetivo $p_{\text{objetivo}}$
+\item <2-> Considerando obst\'aculos, condiciones de movimiento, balance, etc.
+\item <3-> Corresponde a un problema de optimizaci\'on que puede incluir criterios como distancia, tiempo, energ\'ia, etc.
+\item <4-> Lo primero es resolver el problema en un entorno est\'atico, y posteriormente crear un plan para un entorno din\'amico.
+\item <5-> Nuestro objetivo es resolver el Global Path Planning
+\end{itemize}
+\end{frame}
+
+\section{Particle Swarm Optimization}
+
+%%% INTRODUCCION AL PARTICLE SWARM OPTIMIZATION  (PSO) %%%%
+\begin{frame}
+\frametitle{Particle Swarm Optimization}
+\framesubtitle{Conceptos}
+	\begin{enumerate}
+	\item El enjambre de partículas corresponde al conjunto de $S$ partículas
+	\item Cada partícula es una eventual solución y corresponde a una ruta
+	\item A cada solución se le calcula una velocidad de movimiento respecto
+		  a su mejor posición histórica y respecto a la mejor posición global
+	\item El objetivo es que cada partícula tome movimientos relativos al mejor
+		  del grupo y a su propia información de mejor posición usando la velocidad
+	\end{enumerate}
+\end{frame}
+
+%%% PARÁMETROS DEL PSO %%%%
+\section{Representación}
+\begin{frame}
+\frametitle{Representación}
+\framesubtitle{Variables}
+	\begin{enumerate}
+	\item El mapa está representado como una matriz  con coeficientes binarios
+	\[Map = \left[
+		\begin{array}{ccc}
+		(1,1)  & \cdots & (1, m) \\
+		\vdots & \ddots & \vdots \\
+		(n, 1) & \cdots & (n, m)  \\
+		\end{array}\right]
+	\]
+
+	\item Una partícula corresponde a una solución del problema, es decir una ruta $r$ de longitud $l$
+	\[ r = \{ (p_{1x}, p_{1y}) , \cdots, ( p_{lx}, p_{ly}) \}, \quad |r| = l \]
+	\item Todas las combinaciones de rutas posibles dentro del mapa representan el dominio de cada ruta
+	\item La longitud de $k$ la velocidad es fija, y cada punto se calcula con $k$ incrementos de
+		   $ \delta = \lfloor l/k \rfloor$ sobre la ruta $p$.
+	\[ v = \{ (p_{\delta x}, p_{\delta y}) , \cdots, ( p_{k\delta x}, p_{k \delta y}) \}, \quad |v| = k  \]
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Representación}
+\framesubtitle{Variantes}
+	\begin{enumerate}
+	\item Cada ruta $p$ será construida pseudo aleatoreamente 
+	\item La velocidad de la partícula en el inicio corresponderá a sus pivotes
+	\item Para evaluar la velocidad entre las partículas se actualizan los pivotes de las
+		  velocidades en vez de la posición.	
+    \item La actualización de la posición corresponde a la generación de nuevas rutas
+    	  que pasen por los pivotes antes calculados.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Representación}
+	\framesubtitle{Función Objetivo}
+	
+	\begin{block}{Función Objetivo}
+	\begin{equation}
+		\min F(r) = lenght(r) + C(1 + lenght(r)^\alpha)
+	\end{equation}
+	\end{block}
+	
+	\begin{enumerate}
+	\item $lenght(r)$ es el largo de la ruta
+	\item $ C$ es el número de colisiones
+	\item $\alpha$ es el nivel de penalización por rutas cortas con colisiones
+	\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}
+
+\frametitle{Particle Swarm Optimization}
+\framesubtitle{Parámetros de la velocidad de la partícula}
+	\begin{block}{Posición y velocidad de la partícula}
+		$r = \{ p_1, \ldots, p_l \} \\
+		v = \{ v_1, \ldots, v_k \} $
+	\end{block}
+	
+	\begin{enumerate}
+	\item La ruta $r$ se vá generando pseudo aleatoreamente 
+	\item Por ende, todas las rutas tienen largos distintos.
+	\item Sin embargo, la longitud del vector velocidad es constante dado como parámetro
+	\item En este caso difiere respecto a la velocidad respecto a la del PSO original.
+	\end{enumerate}
+	
+\end{frame}
+
+\begin{frame}
+\frametitle{Particle Swarm Optimization}
+\framesubtitle{Parámetros de la velocidad de la partícula}
+	\begin{block}{Actualizacíon de velocidad y posición de la partícula}
+	$ v_{i+1} = \omega v_i + \rho_g\phi_g (v(g) - v(x_i)) + \rho_p\phi_g (v(p_i) - v(r_i)) \\
+	  r_{i+1} = \text{Construir ruta a partir de }v_{i+1} $
+	\end{block}
+	Los parámetros son:
+	\begin{enumerate} 
+	\item $\omega$ que pondera el efecto de la velocidad actual
+	\item $\phi_g$ parámetro para favorecer la explotación
+	\item $\phi_p$ parámetro para favorecer la exploración
+	\item $\rho_g, \rho_p \sim U(0,1)$
+	\item $g$ la mejor posición global
+	\item $p_i$ la mejor posición de la partícula $i$
+	\item $r_i$ posición de la partícula $i$ (la ruta $i$).
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Particle Swarm Optimization}
+\framesubtitle{Consideraciónes respecto a las restas}
+	\begin{block}{Actualizacíon de velocidad y posición de la partícula}
+	$ v_{i+1} = \omega v_i + \rho_g\phi_g (v(g) - v(r_i)) + \rho_p\phi_g (v(p_i) - v(r_i)) \\
+	  r_{i+1} = \text{Construir ruta a partir de }v^{t+1} $
+	\end{block}
+	Se calculan las diferencias entre los pivotes (velocidades)
+	\begin{enumerate} 
+	\item $v(g) - v(r_i)$, la velocidad se calcula como
+	\item $v(p_i) - v(r_i)$ 
+	\end{enumerate}
+	Donde la velocidad corresponde a un punto en el plano con componentes $x,y$
+	\begin{eqnarray}
+		v_x &=& \omega v_i_x + \rho_g\phi_g (v(g_x) - v(r_x)) + \rho_p\phi_g (v(p_x) - v(r_x)) \\
+		v_y &=& \omega v_i_x + \rho_g\phi_g (v(g_y) - v(r_y)) + \rho_p\phi_g (v(p_y) - v(r_y))
+	\end{eqnarray}
+\end{frame}
+
+
+%%% PSEUDO CÓDIGO DEL PSO %%%
+\begin{frame}[fragile]
+\frametitle{Particle Swarm Optimization}
+\framesubtitle{Algoritmo en Pseudo Código para la Inicialización del enjambre}
+\begin{algorithm}[H]% <- necesario
+\SetLine \KwData{$S, \omega, \Phi_g, \Phi_p$}
+\KwResult{Mejor particula $s_i$. }
+\linesnumbered
+\SetVline
+\For{$i=1$ \KwTo $S$ }
+{
+	$r_i = $ \text{Inicializar la posicion de la particula aleatoreamente}\;
+	$p_i \leftarrow r_i$\;
+	$v_i = $ \text{Inicializar la velocidad con los pivotes de la particula}\;
+	\If{$f(p_i) < f(g)$}{
+		$g \leftarrow p_i$
+	}
+	
+}
+\end{algorithm}
+\end{frame}
+
+
+
+	%%% CÓDIGO DE LA INICIALIZACION %%%
+	\begin{frame}[fragile]
+	\frametitle{Código C++ de la inicialización}
+	\begin{scriptsize} 
+	\begin{semiverbatim}
+	\uncover<1->{\alert<1>{void Swarm::initialize()\{ }}
+		\uncover<2->{\alert<2>{ for(unsigned int i=0; i < this->population.size(); i++) \{ }}
+			\uncover<3->{\alert<3>{ Particle &p = this->population[i]; }}
+			\uncover<3->{\alert<3>{ p.initialize(); }}
+			\uncover<3->{\alert<3>{ p.evaluateFitness(); }}
+			\uncover<3->{\alert<3>{ p.initVelocity(); }}
+			\uncover<4->{\alert<4>{ p.setBestPosition(p.getPosition()); }}
+			\uncover<4->{\alert<4>{ p.setBestVelocity(p.getVelocity()); }}
+			\uncover<4->{\alert<4>{ p.setBestFitness(p.getFitness()); }}
+			\uncover<5->{\alert<5>{ if(p.getFitness() <= this->bestFitness)\{  }}
+				\uncover<5->{\alert<5>{ this->setBestFitness(p.getFitness());}}
+				\uncover<5->{\alert<5>{ this->bestParticle = i;}}
+			\uncover<5->{\alert<5>{ \} }}
+		\uncover<2>{\alert<2>{ \} }}
+	\uncover<1->{\alert<1>{ \} }}
+	\end{semiverbatim}
+	\end{scriptsize}
+	\end{frame}
+	
+\begin{frame}[fragile]
+\frametitle{Particle Swarm Optimization}
+\framesubtitle{Pseudo Code Algorithm para la iteración del enjambre}
+\begin{algorithm}[H]% <- necesario
+\SetLine \KwData{$S, \omega, \Phi_g, \Phi_p, I$}
+$i = 0$
+\KwResult{Mejor particula $g$. }
+\linesnumbered
+\While{$ i < I $}{
+	\For{$i=1$ \KwTo $S$}
+	{
+		$ r_p, r_g \sim U(0,1)$\;
+		$ v_i \rightarrow \omega v_i + \Phi_p r_p (v(p_i) - v(r_i)) + \Phi_g r_g(v(g) - v(r_i))$\;
+		$ x_i \rightarrow \text{ Generar ruta con pivotes en } v_i $\;
+		\If{$ f(r_i) < f(p_i)$}
+		{
+			$p_i \rightarrow r_i$\;
+			\If{$f(p_i) < f(g)$}
+			{
+				$g \rightarrow p_i$\;
+			}
+		}
+	}
+	$i=i+1$\;
+}
+\Return $g$ \;
+\end{algorithm}
+\end{frame}
+	
+	%%% CÓDIGO DE LA ITERACION %%%
+	\begin{frame}[fragile]
+	\frametitle{Código C++ de la iteración}
+	\begin{scriptsize} 
+	\begin{semiverbatim}
+	\uncover<1->{\alert<1>{ void Swarm::iterate() \{ }}
+    \uncover<2->{\alert<2>{while (iteration < this->iterations) \{ }}
+        \uncover<3->{\alert<3>{ for (unsigned int i = 0; i < this -> population.size(); i++)  \{ }}
+
+            \uncover<4->{\alert<4>{ Particle &p = this->population[i]; }}
+             \uncover<4->{\alert<4>{ p.updateVelocity(this->population[this->getBestParticle()] }}
+             	\uncover<4->{\alert<4>{ .getBestVelocity()); }}
+             \uncover<4->{\alert<4>{ p.updatePosition(); }}
+             \uncover<4->{\alert<4>{ p.initVelocity(); }}
+             \uncover<4->{\alert<4>{ p.evaluateFitness(); }}
+
+            \uncover<5->{\alert<5>{  if (p.getFitness() < p.getBestFitness()) \{ }}
+                 \uncover<5->{\alert<5>{  p.setBestPosition(p.getPosition()); }}
+                 \uncover<5->{\alert<5>{  p.setBestVelocity(p.getBestVelocity()); }}
+                \uncover<5->{\alert<5>{   p.setBestFitness(p.getFitness()); }}
+            \uncover<5->{\alert<5>{  \} }}
+
+             \uncover<6->{\alert<6>{  if (p.getFitness() < this -> bestFitness) \{ }}
+                 \uncover<6->{\alert<6>{   this -> bestFitness  = p.getFitness(); }}
+                 \uncover<6->{\alert<6>{   this -> bestParticle = i; }}
+              \uncover<6->{\alert<6>{  \} }}
+        \uncover<3->{\alert<3>{ \} }}
+
+        \uncover<2->{\alert<2>{ iteration++;  }}
+    \uncover<2->{\alert<2>{ \} }}
+	\uncover<1->{\alert<1>{ \} }}	
+	\end{semiverbatim}
+	\end{scriptsize}
+	\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Algoritmo}
+
+\section{Programa}
+\begin{frame}[fragile] 
+\frametitle{Ejecución del programa}
+\begin{tiny}
+\begin{semiverbatim}
+./psomp.bin -map maps/complexchico.dat  -iteraciones 1  -particulas 1 -pivotes 20  -omega 1 -phip 2 -phig 3 -alpha 10
+\end{semiverbatim}
+\end{tiny}
+\end{frame}
+
+\section{Conclusiones}
+\begin{frame}{Conclusiones}
+
+\begin{enumerate}
+\item Las rutas aleatoreas no aseguran estabilidad en el algoritmo
+\item En instancias grandes la generación de rutas aleatoreas no converge
+\item Se requiere un cambio de representación para el problema.
+\end{enumerate}
+\end{frame}
+
+
+\end{document}
+
+\begin{frame}{Superficie $S$ y proyección}
+\begin{figure}[h]
+	\centering
+	%\includegraphics{images/fig12.pdf}
+	\caption{Superficie $S$}
+	\label{Beamer:fig12}
+	\end{figure}
+\end{frame}
+
+
+\section{Resultados}
+\begin{frame}{Resultados}
+Tabla con la configuración de los parámetros para cada problema
+\begin{tabular}{lllllll}
+Instancia & Particulas & Pivotes & $\phi_g$ & $\phi_p$ & $\omega$ & $\alpha$ \\
+\hline
+Tchico	  & 2		   & 20		 & 0.5	    & 0.5 	   & 1		  & 0.5 \\
+Tchico	  & 2		   & 20		 & 0.5	    & 0.5 	   & 1		  & 0.5 \\
+Tchico	  & 2		   & 20		 & 0.5	    & 0.5 	   & 1		  & 0.5 \\
+Tchico	  & 2		   & 20		 & 0.5	    & 0.5 	   & 1		  & 0.5 \\
+\end{tabular}
+
+\end{frame}
+
+\section{Resultados}
+\begin{frame}{Resultados}
+\begin{tabular}{lllll}
+Instancia & Calidad del Tour & Calidad Promedio & Tiempo & Entregable \\
+\hline
+Tchico	  & 2		   & 20		 & 0.5	    & 0.5 	 \\
+Tchico	  & 2		   & 20		 & 0.5	    & 0.5 	 \\
+Tchico	  & 2		   & 20		 & 0.5	    & 0.5 	 \\
+Tchico	  & 2		   & 20		 & 0.5	    & 0.5 	 \\
+\end{tabular}
+
+\end{frame}
+

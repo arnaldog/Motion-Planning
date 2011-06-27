@@ -1,0 +1,49 @@
+\ProvidesPackage{myconfig}
+
+\newcommand{\theauthors}{Arnaldo Gaspar and Joe Cabezas}
+\newcommand{\theemails}{agaspar@alumnos.inf.utfsm.cl and jcabezas@alumnos.inf.utfsm.cl}
+\newcommand{\theteacher}{Elizabeth Montero}
+\newcommand{\thedepartment}{Departamento de Inform\'atica}
+\newcommand{\theuniversity}{Universidad T\'ecnica Federico Santa Mar\'ia}
+\newcommand{\themaintitle}{Particle Swarm Optimizatión On Global Path Planning with Hermite and Bezier Splines}
+
+%% UTIL COMMANDS %%
+\newcommand{\imagefolder}{./img/}
+\newcommand{\sectionfolder}{./section/}
+
+\newcommand{\imagepath}[1]{\imagefolder #1}
+\newcommand{\sectionpath}[1]{\sectionfolder #1}
+
+\usepackage[style=altlist,
+			nonumberlist,
+			numberedsection,
+			acronym,
+			toc]{glossaries}
+			
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{booktabs}
+\usepackage{algorithm2e}
+
+\makeglossaries
+
+	%% COMANDO 		: AGREGA AL GLOSARIO Y A LA LISTA DE ACRONIMOS
+	%% ARGUMENTOS %%
+	%% #1 : referencia de glosario = nombre en acronimo
+	%% #2 : referencia en acronimos 
+	%% #3 : entrada de acronimo
+	%% #4 : descripcion del acronimo
+	
+	\newcommand{\newglossarycrossentry}[4]
+	{
+		\newglossaryentry{#1}
+		{
+			name=\glslink{#2}{#3},	%% acronym link and name
+			text=#3,				%% Text
+			description={#4}
+		}
+		\newacronym[description={\glslink{#1}{#3}}] % link reference and description
+		{#2}{#2}{#3} %% explained 
+	}
