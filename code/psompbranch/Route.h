@@ -27,6 +27,8 @@ public:
     Route operator+(const Route &b);
     Route operator*(float m);
     Route operator-(const Route &b);
+    Route operator>(const Route &b);
+    
     void  operator!();
 
     //void createRandomRoute();

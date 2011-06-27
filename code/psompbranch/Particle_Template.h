@@ -67,7 +67,7 @@ template <class T> string Particle<T>::toString(){
 }
 
 template <class T> void Particle<T>::updatePosition(){
-    this->position = this->position + this->velocity;
+    this->position = this->position > this->velocity;
 }
 
 #endif	/* PARTICLE_TEMPLATE_H */

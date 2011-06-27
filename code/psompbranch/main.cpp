@@ -68,7 +68,10 @@ int main(int argc, char** argv) {
     //swarm initialization
     swarm.initialize();
 
-    //swarm.iterate();
+    cout << "main(): La ruta resultante al inicializar: " << endl;
+    swarm.printBestParticle();
+
+    swarm.iterate();
 
 
 
@@ -98,7 +101,7 @@ int main(int argc, char** argv) {
     r3 = r2 - r;
     r3.printPath();
     cout << r3.toString() << endl;
-	*/
+	
 
     Route r4 = Route();
     r4 = r3 + r;
