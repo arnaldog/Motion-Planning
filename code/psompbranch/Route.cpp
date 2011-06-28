@@ -169,12 +169,10 @@ Route Route::operator-(const Route &b){
 
 	// updating points
 	for(unsigned int i=0; i < size ; i++){
-
-	    Point2D r = Point2D();
-
-	    r = (*points[i]) - (*b.points[i]);
-
-	    tmppoints.push_back(&r);
+		Point2D r = Point2D();
+		r = (*points[i]) - (*b.points[i]);
+		Point2D *s = new Point2D(r.x, r.y);
+		tmppoints.push_back(s);
 	}
 
 	//tmppoints.push_back(goal);
@@ -184,8 +182,8 @@ Route Route::operator-(const Route &b){
 	    Point2D r = Point2D();
 	    r = (*gradients[i]) - (*b.gradients[i]);
 	    // r.scaleTo(base)
-	    //Point2D *s = new Point2D(r.x, r.y);
-	    tmpgradients.push_back(&r);
+	    Point2D *s = new Point2D(r.x, r.y);
+	    tmpgradients.push_back(s);
 	}
 
 	/* setting the attributes of route */
@@ -243,25 +241,32 @@ string Route::toString(){
 
 	//ss << "Route::toString Size:\t\t" << this->size << endl;
 
-    ss << "Route::toString Points:\t\t";
+    //ss << "Route::toString Points:\t\t";
     for(unsigned int i = 0; i < this->points.size(); i++){
-	ss << this->points[i]->toString();
-	if (i % 15 == 0 && i > 0)
-	    ss << endl << "\t\t\t\t\t\t\t";
+		ss << this->points[i]->toString();
+		if (i % 15 == 0 && i > 0)
+			ss << endl << "\t\t\t\t\t\t\t";
     }
 
-    /*
     ss << endl;
 
-
-    ss << "Route::ToString Gradient:\t";
+    //ss << "Route::ToString Gradient:\t";
+    //ss << "\t\t\t\t\t\t\t";
     for(unsigned int i = 0; i < this->gradients.size(); i++){
-	ss << this->gradients[i]->toString();
+		ss << this->gradients[i]->toString();
     }
     ss << endl;
 
-    ss << "Route::toString Length:\t\t" << this->length << endl;
+    //ss << "Route::ToString Gradient Norms:\t";
+    //ss << "\t\t\t\t\t\t\t";
+    for(unsigned int i = 0; i < this->gradients.size(); i++){
+		ss << "(" << sqrt( pow(this->gradients[i]->x,2) + pow(this->gradients[i]->y,2) ) << ")";
+    }
+    ss << endl;
 
+    //ss << "Route::toString Length:\t\t" << this->length << endl;
+
+	/*
 	ss << "Route::toString Path:\t\t";
 	for(unsigned i=0; i< this->path.size(); i++){
 	ss << this->path[i]->toString();
@@ -372,7 +377,6 @@ void Route::createPath(){
 	Config &config = Config::getInstance();
 
 	if(config.getMode() == "hermite"){
-		cout << "this is hermite" << endl;
 		this->setPath(this->HermiteSplines());
 	}
 
@@ -380,7 +384,6 @@ void Route::createPath(){
 		this->setPath(this->BSplines());
 	}
 	if(config.getMode() == "bezier"){
-		cout << "this is bzier" << endl;
 		this->setPath(this->BezierSplines());
 		this->printPath();
 	}

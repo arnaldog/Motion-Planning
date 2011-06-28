@@ -62,7 +62,7 @@ template <class T> Particle<T>::~Particle() {
 }
 
 template <class T> string Particle<T>::toString(){
-	this->position.printPath();
+	//this->position.printPath();
     return this->position.toString();
 }
 

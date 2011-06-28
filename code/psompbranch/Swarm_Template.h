@@ -141,29 +141,35 @@ template <class T> void Swarm<T>::updateParticleVelocity(Particle<T> &particle){
 
     /* Setting particle return value for descomposition */
     T w = T();
-    T w1 = T();
-    T w2 = T();
-    T w3 = T();
+    //T w1 = T();
+    //T w2 = T();
+    //T w3 = T();
 
-	cout << "void Swarm<T>::updateParticleVelocity(): PRE W" << endl;
-    w = v*omega + (p-x)*(rhop*phip) + (g-x)*(rhog*phig);
-    cout << "void Swarm<T>::updateParticleVelocity(): POST W" << endl;
+	//cout << "Swarm<T>::updateParticleVelocity(): rhop = " << rhop << endl;
+	//cout << "Swarm<T>::updateParticleVelocity(): rhog = " << rhog << endl;
+	//cout << "Swarm<T>::updateParticleVelocity(): v = " << endl << v.toString() << endl;
+	//cout << "Swarm<T>::updateParticleVelocity(): p = " << endl << p.toString() << endl;
+	//cout << "Swarm<T>::updateParticleVelocity(): g = " << endl << g.toString() << endl;
+	//cout << "Swarm<T>::updateParticleVelocity(): x = " << endl << x.toString() << endl;
 
-    w.toString();
+	w = v*omega + (p-x)*(rhop*phip) + (g-x)*(rhog*phig);
 
-/*
-	cout << "v*Omega , omega = " << omega <<  endl;
-	(v*omega).toString();
+	/*
+	w1 = v*omega;
+	cout << "Swarm<T>::updateParticleVelocity(): v*omega = \t\t" << endl;
+	cout << w1.toString() << endl;
 
-	cout << "(p-x)*rhop*phig, rhop:" << rhop << " phip: " << phip << endl;
-	w2 =((p-x)*rhop);
+	w2 = (p-x)*(rhop*phip);
+	cout << "Swarm<T>::updateParticleVelocity(): (p-x)*(rhop*phip) = " << endl;
+	cout << w2.toString() << endl;
 
-	cout << "(g-x)*rhog*phig, rhog:" << rhog << " phig: " << phip << endl;
-	w3 = ((g-x)*rhog);
+	w3 = (g-x)*(rhog*phig);
+	cout << "Swarm<T>::updateParticleVelocity(): (g-x)*(rhog*phig) = " << endl;
+	cout << w3.toString() << endl;
 
-	cout << "v*omega + (p-x)*rhop*phip + (g-x)*rhog*phig";
-	w = w1+w2+w3;
-*/
+	cout << "Swarm<T>::updateParticleVelocity(): w.toString():" << endl;
+	cout << w.toString() << endl;
+	*/
 
     /* updating the velocity of particle */
     particle.setVelocity(w);
@@ -179,7 +185,7 @@ template <class T> void Swarm<T>::initialize(){
     //inicializar cada particula de la poblacion
     for(unsigned int i=0; i < this->population.size(); i++){
 
-        cout << "Swarm::initialize(): inicializando la particula: " << i << endl;
+        //cout << "Swarm::initialize(): inicializando la particula: " << i << endl;
 
         Particle<T> &p = this->population[i];
 
@@ -189,13 +195,13 @@ template <class T> void Swarm<T>::initialize(){
         float fitness;
 
         /* Particle inictialization of position and velocity */
-		cout << "Swarm::initialize(): PRE evaluateInitPosition..." << endl;
+		//cout << "Swarm::initialize(): PRE evaluateInitPosition..." << endl;
         this->evaluateInitPosition(position);
-        cout << "Swarm::initialize(): POST evaluateInitPosition..." << endl;
+        //cout << "Swarm::initialize(): POST evaluateInitPosition..." << endl;
 
-        cout << "Swarm::initialize(): PRE evaluateInitVelocity..." << endl;
+        //cout << "Swarm::initialize(): PRE evaluateInitVelocity..." << endl;
         this->evaluateInitVelocity(velocity);
-        cout << "Swarm::initialize(): POST evaluateInitVelocity..." << endl;
+        //cout << "Swarm::initialize(): POST evaluateInitVelocity..." << endl;
 
         /* Fitness evaluation*/
         fitness = this->evaluateFitness(position);
@@ -209,10 +215,10 @@ template <class T> void Swarm<T>::initialize(){
         p.setBestVelocity(velocity);
         p.setBestFitness(fitness);
 
-        cout << "Swarm::initialize(): particula " << i << ", fitness: "<< p.getFitness() << endl;
+        //cout << "Swarm::initialize(): particula " << i << ", fitness: "<< p.getFitness() << endl;
 
-//        cout << "Swarm::initialize(): data:" << endl;
-//        cout << p.toString() << endl;
+		//cout << "Swarm::initialize(): data:" << endl;
+		//cout << p.toString() << endl;
 
         //actualizar la mejor solucion conocida
         if(fitness <= this->fitness) {
@@ -236,7 +242,7 @@ template <class T> void Swarm<T>::iterate()
 		// para cada partícula, hacer:
 		for (unsigned int i = 0; i < this -> population.size(); i++) {
 
-			cout << "Swarm::iterate(): iterando sobre particula " << i << endl;
+			//cout << "Swarm::iterate(): iterando sobre particula " << i << endl;
 
 			Particle<T> &p = this -> population[i];
 
@@ -246,13 +252,13 @@ template <class T> void Swarm<T>::iterate()
 			T bestVelocity = T();
 			bestVelocity = p.getBestVelocity();
 
-			cout << "Swarm::iterate(): PRE updateParticleVelocity " << i << endl;
+			//cout << "Swarm::iterate(): PRE updateParticleVelocity " << i << endl;
 			this->updateParticleVelocity(p);
-			cout << "Swarm::iterate(): POST updateParticleVelocity " << i << endl;
+			//cout << "Swarm::iterate(): POST updateParticleVelocity " << i << endl;
 
-			cout << "Swarm::iterate(): PRE updatePosition" << i << endl;
+			//cout << "Swarm::iterate(): PRE updatePosition" << i << endl;
 			p.updatePosition();
-			cout << "Swarm::iterate(): POST updatePosition" << i << endl;
+			//cout << "Swarm::iterate(): POST updatePosition" << i << endl;
 
 			float particleFitness;
 			particleFitness = this->evaluateFitness(position);
@@ -268,19 +274,20 @@ template <class T> void Swarm<T>::iterate()
 			//if (f(pi) < f(g)) update the swarm's best known position:
 			//g ← pi
 			if (particleFitness < this->fitness) {
-                           // cout << "Swarm::iterate: Updating best particle:" << i << endl;
+				// cout << "Swarm::iterate: Updating best particle:" << i << endl;
 				this->setFitness(particleFitness);
 				this->setBestParticleIndex(i);
 			}
 
 			//debug
+			//cout << "Swarm::iterate(): finalmente la particula en esta iteracion quedo como: " << endl;
 			//cout << p.toString();
 		}
 
 		// debug
-		cout << "Swarm::iterate(): resumen de iteracion " << iteration << ":";
-		cout << " mejor particula: " << this->getBestParticleIndex();
-		cout << " mejor fitness: " << this->fitness << endl;
+		//cout << "Swarm::iterate(): resumen de iteracion " << iteration << ":";
+		//cout << " mejor particula: " << this->getBestParticleIndex();
+		//cout << " mejor fitness: " << this->fitness << endl;
 
 		//next iteration
 		iteration++;
