@@ -32,8 +32,8 @@ public:
     string getMapFile() const;
     void setQuantity(unsigned int quantity);
     unsigned int getQuantity() const;
-    void setOmega(int omega);
-    int getOmega() const;
+    void setOmega(float omega);
+    float getOmega() const;
     void setPhi_g(float phi_g);
     float getPhi_g() const;
     void setPhi_p(float phi_p);
@@ -72,7 +72,7 @@ private:
     int iterations;
     float phi_p;
     float phi_g;
-    int omega;
+    float omega;
     unsigned int quantity; // particle quantity
     string mapFile;
     Map* map;

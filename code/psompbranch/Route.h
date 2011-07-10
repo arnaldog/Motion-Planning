@@ -28,7 +28,7 @@ public:
     Route operator*(float m);
     Route operator-(const Route &b);
     Route operator>(const Route &b);
-    
+
     void  operator!();
 
     //void createRandomRoute();
@@ -63,7 +63,7 @@ public:
     void initRandomRoute(Route &r);
     void initRandomVelocity(Route &r);
 
-
+	void createPath();
 
 private:
     int size;
@@ -78,7 +78,7 @@ private:
     vector <Point2D*> path;
 
     void slice(vector<Point2D*> *ruta);
-    
+
 };
 
 #endif	/* ROUTE_H */

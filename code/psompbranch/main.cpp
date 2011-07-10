@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
     r3 = r2 - r;
     r3.printPath();
     cout << r3.toString() << endl;
-	
+
 
     Route r4 = Route();
     r4 = r3 + r;
@@ -139,59 +139,67 @@ bool verificarEntradas(int argc, char** argv){
 
     //revisar cada argumento dado
     for(int i=1; i<argc; i++){
-    //cout << "main(): argv[" << i << "] = " << argv[i] << endl;
 
-	if(string(argv[i]) == "-map"){
-	    //cout << "main::verificarEntradas(): mapa = " << argv[i+1] << endl;
-	    string t = string(argv[i+1]);
-	    config.setMapFile(t);
-	}
+		if(string(argv[i]) == "-map"){
+			//cout << "main::verificarEntradas(): mapa = " << argv[i+1] << endl;
+			string t = string(argv[i+1]);
+			config.setMapFile(t);
+		}
 
-	if(string(argv[i]) == "-mode"){
-	    string t = string(argv[i+1]);
-	    config.setMode(t);
-	}
+		if(string(argv[i]) == "-mode"){
+			string t = string(argv[i+1]);
+			config.setMode(t);
+		}
 
-	if(string(argv[i]) == "-hbase"){
-	    config.setHermiteBase(atoi(argv[i+1]));
-	}
+		if(string(argv[i]) == "-hbase"){
+			config.setHermiteBase(atoi(argv[i+1]));
+		}
 
-	if(string(argv[i]) == "-iteraciones"){
-	    //cout << "main::verificarEntradas(): iteraciones = " << argv[i+1] << endl;
-	    config.setIterations(atoi(argv[i+1]));
-	}
+		if(string(argv[i]) == "-iteraciones"){
+			//cout << "main::verificarEntradas(): iteraciones = " << argv[i+1] << endl;
+			config.setIterations(atoi(argv[i+1]));
+		}
 
-	if(string(argv[i]) == "-particulas"){
-	    //cout << "main::verificarEntradas(): particulas = " << argv[i+1] << endl;
-	    config.setQuantity(atoi(argv[i+1]));
-	}
+		if(string(argv[i]) == "-particulas"){
+			//cout << "main::verificarEntradas(): particulas = " << argv[i+1] << endl;
+			config.setQuantity(atoi(argv[i+1]));
+		}
 
-	if(string(argv[i]) == "-pivotes"){
-	    //cout << "main::verificarEntradas(): pivotes = " << argv[i+1] << endl;
-	    config.setPivots(atoi(argv[i+1]));
-	}
+		if(string(argv[i]) == "-pivotes"){
+			//cout << "main::verificarEntradas(): pivotes = " << argv[i+1] << endl;
+			config.setPivots(atoi(argv[i+1]));
+		}
 
-	if(string(argv[i]) == "-alpha"){
-	    //cout << "main::verificarEntradas(): alpha = " << argv[i+1] << endl;
-	    config.setAlpha(atoi(argv[i+1]));
-	}
+		if(string(argv[i]) == "-alpha"){
+			//cout << "main::verificarEntradas(): alpha = " << argv[i+1] << endl;
+			config.setAlpha(atoi(argv[i+1]));
+		}
 
-	if(string(argv[i]) == "-omega"){
-	    //cout << "main::verificarEntradas(): omega = " << argv[i+1] << endl;
-	    config.setOmega(atoi(argv[i+1]));
-	}
+		if(string(argv[i]) == "-omega"){
+			//cout << "main::verificarEntradas(): omega = " << argv[i+1] << endl;
+			config.setOmega(atoi(argv[i+1]));
+		}
 
-	if(string(argv[i]) == "-phip"){
-	    //cout << "main::verificarEntradas(): phip = " << argv[i+1] << endl;
-	    config.setPhi_p(atoi(argv[i+1]));
-	}
+		if(string(argv[i]) == "-phip"){
+			//cout << "main::verificarEntradas(): phip = " << argv[i+1] << endl;
+			config.setPhi_p(atoi(argv[i+1]));
+		}
 
-	if(string(argv[i]) == "-phig"){
-	    //cout << "main::verificarEntradas(): phig = " << argv[i+1] << endl;
-	    config.setPhi_g(atoi(argv[i+1]));
-	}
-
+		if(string(argv[i]) == "-phig"){
+			//cout << "main::verificarEntradas(): phig = " << argv[i+1] << endl;
+			config.setPhi_g(atoi(argv[i+1]));
+		}
     }
 
-    return true;
+    //normalizacion
+	//phip + phig + omega = 1
+	float omega = config.getOmega();
+	float phip = config.getPhi_p();
+	float phig = config.getPhi_g();
+
+	config.setOmega( omega/(phip+phig+omega) );
+	config.setPhi_p( phip/(phip+phig+omega) );
+	config.setPhi_g( phig/(phip+phig+omega) );
+
+	return true;
 }

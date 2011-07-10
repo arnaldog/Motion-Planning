@@ -42,10 +42,10 @@ void Config::setQuantity(unsigned int quantity) {
 unsigned int Config::getQuantity() const {
     return quantity;
 }
-void Config::setOmega(int omega) {
+void Config::setOmega(float omega) {
     this->omega = omega;
 }
-int Config::getOmega() const {
+float Config::getOmega() const {
     return omega;
 }
 void Config::setPhi_g(float phi_g) {

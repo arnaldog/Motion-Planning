@@ -67,86 +67,60 @@ Route::~Route() {
 }
 
 Route Route::operator>(const Route &b){
-    /*
-     * Sobrecarga de operador para suma
-     * de rutas 'no explicitas' o bien
-     * el operador es llamado 'relacion de rutas'
-     * en el contexto del mapa.
-     */
-    
+
     Route tmp = Route(); /* object to return */
     Config &config = Config::getInstance();
     Map* map = config.getMap();
 
-    int n = size;
-
     vector <Point2D*> tmppoints; /* temporal points */
     vector <Point2D*> tmpgradients; /* temporal gradients */
-
-    vector <Point2D*> tmppath; /* temporal path */
 
     int size_b = b.getSize();
     if (size_b != size ) return tmp;
 
-    /* Point Sum:
-     *
-     *
-     */
-    int width = map->getWidth() -1;
-    int height = map->getHeight() -1;
+	int width = map->getWidth();
+    int height = map->getHeight();
 
     tmppoints.push_back(start);
-    for(unsigned int i=1; i < n-1 ; i++){
+    for(unsigned int i=1; i < size-1 ; i++){
 
-	Point2D r = Point2D();
-	r = (*points[i]) + (*b.points[i]);
+		Point2D r = Point2D();
+		r = (*points[i]) + (*b.points[i]);
 
-	Point2D *s = new Point2D(r.x, r.y);
-	s->setToBound(0, 0, width, height); /* fitting into bound map */
+		Point2D *s = new Point2D(r.x, r.y);
+		s->setToBound(0, 0, width-1, height-1);
 
-	tmppoints.push_back(s);
-	
+		tmppoints.push_back(s);
+
     }
     tmppoints.push_back(goal);
 
-    /* Gradient Sum:
-     *
-     */
     int base = config.getHermiteBase();
-    for(unsigned int i=0; i < n; i++){
+    for(unsigned int i=0; i < size; i++){
 
-	Point2D r = Point2D();
-	r = (*gradients[i]) + (*b.gradients[i]);
+		Point2D r = Point2D();
+		r = (*gradients[i]) + (*b.gradients[i]);
 
-	Point2D *s = new Point2D(r.x, r.y);
-	s->scaleTo(base); /* fitting the gradient to a base norm*/
+		Point2D *s = new Point2D(r.x, r.y);
+		s->scaleTo(base); /* fitting the gradient to a base norm*/
 
-	tmpgradients.push_back(s);
+		tmpgradients.push_back(s);
     }
 
     /* setting the attributes of route */
-    tmp.setLength(length);
     tmp.setStart(start);
     tmp.setGoal(goal);
-    tmp.setSize(n);
+    tmp.setSize(size);
     tmp.setPoints(tmppoints);
     tmp.setGradients(tmpgradients);
 
-    tmppath = tmp.BezierSplines(); /* interpolating method (why ?) */
-    tmp.setPath(tmppath);
-    tmp.setLength(tmp.getPath().size());
-    //cout << tmp.toString() << endl;
     return tmp;
 }
 
 // suma explícita de una ruta
 Route Route::operator+(const Route &b){
-    // sumar los puntos
-    // sumar las gradientes
-    // recalcular el path
-    Route tmp = Route();
 
-    int n = size;
+    Route tmp = Route();
 
     vector <Point2D*> tmppoints;
     vector <Point2D*> tmpgradients;
@@ -154,54 +128,31 @@ Route Route::operator+(const Route &b){
     int size_b = b.getSize();
     if (size_b != size ) return tmp;
 
-    /* Points Sum:
-     * Each point is updated by the sum between
-     * each pair of points with no restrictions.
-     */
-    //tmppoints.push_back(start);
-    for(unsigned int i=0; i < n ; i++){
+	for(unsigned int i=0; i< size ; i++){
 
-	Point2D r = Point2D();
-	r = (*points[i]) + (*b.points[i]);
+		Point2D r = Point2D();
+		r = (*points[i]) + (*b.points[i]);
 
-	Point2D *s = new Point2D(r.x, r.y);
+		Point2D *s = new Point2D(r.x, r.y);
+		tmppoints.push_back(s);
 
-	tmppoints.push_back(s);
-    }
-    //tmppoints.push_back(goal);
+	}
 
+	for(unsigned int i=0; i < size; i++){
 
-    /* Gradients Sum:
-     * Each gradient is updated by the sum betweeen
-     * each pair of gradients scaled to a base.
-     */
-    for(unsigned int i=0; i < n; i++){
+		Point2D r = Point2D();
+		r = (*gradients[i]) + (*b.gradients[i]);
 
-	Point2D r = Point2D();
-	r = (*gradients[i]) + (*b.gradients[i]);
+		Point2D *s = new Point2D(r.x, r.y);
+		tmpgradients.push_back(s);
+	}
 
-	Point2D *s = new Point2D(r.x, r.y);
-
-	tmpgradients.push_back(s);
-    }
-
-        /* setting the attributes of route */
-    tmp.setStart(start);
-    tmp.setGoal(goal);
-    tmp.setSize(n);
+    tmp.setSize(size);
     tmp.setPoints(tmppoints);
     tmp.setGradients(tmpgradients);
 
-    /*
-    tmppath = tmp.BezierSplines();
-    tmp.setPath(tmppath);
-    tmp.setLength(tmp.getPath().size());
-     */
-    //cout << tmp.toString() << endl;
+
     return tmp;
-
-    // TODO: updating acceleration
-
 }
 // resta de una ruta para hoy
 Route Route::operator-(const Route &b){
@@ -210,9 +161,6 @@ Route Route::operator-(const Route &b){
     // recalcular el path
     // la resta es solamente sobre puntos, lo único que importa.
 	Route tmp = Route();
-	int n = size;
-	Config &config = Config::getInstance();
-	int base = config.getHermiteBase();
 
 	vector <Point2D*> tmppoints;
 	vector <Point2D*> tmpgradients;
@@ -220,61 +168,30 @@ Route Route::operator-(const Route &b){
 	int size_b = b.getSize();
 	if (size_b != size ) return tmp;
 
-
-	
 	// updating points
-	//tmppoints.push_back(start);
-	for(unsigned int i=0; i < n ; i++){
-
-	    Point2D r = Point2D();
-	    
-	    r = (*points[i]) - (*b.points[i]);
-	    Point2D *s = new Point2D(r.x, r.y);
-
-//	    cout << (*points[i]).toString() << "-" << (*b.points[i]).toString() ;
-//	    cout << " = " << s->toString() << endl;
-	    
-	   // s->setToBound(0, 0, map->getWidth()-1, map->getHeight()-1);
-	    tmppoints.push_back(s);
+	for(unsigned int i=0; i < size ; i++){
+		Point2D r = Point2D();
+		r = (*points[i]) - (*b.points[i]);
+		Point2D *s = new Point2D(r.x, r.y);
+		tmppoints.push_back(s);
 	}
 
 	//tmppoints.push_back(goal);
 
 	//updating velocity
-	for(unsigned int i=0; i < n; i++){
+	for(unsigned int i=0; i < size; i++){
 	    Point2D r = Point2D();
 	    r = (*gradients[i]) - (*b.gradients[i]);
-	    r.scaleTo(base);
+	    // r.scaleTo(base)
 	    Point2D *s = new Point2D(r.x, r.y);
 	    tmpgradients.push_back(s);
 	}
 
 	/* setting the attributes of route */
 
-	tmp.setStart(start);
-	tmp.setGoal(goal);
-	tmp.setSize(n);
+	tmp.setSize(size);
 	tmp.setPoints(tmppoints);
 	tmp.setGradients(tmpgradients);
-	//tmp.setPath(tmp.HermiteSplines());
-
-	/*setear path dependiendo del parametro de entrada
-        if(config.getMode() == "hermite"){
-		tmp.setPath(tmp.HermiteSplines());
-	}
-	if(config.getMode() == "b"){
-		tmp.setPath(tmp.BSplines());
-	}
-	if(config.getMode() == "bezier"){
-		tmp.setPath(tmp.BezierSplines());
-	}
-	if(config.getMode() == "catmull"){
-		//r.setPath(r.CatmullSplines());
-		tmp.setPath(tmp.HermiteSplines());
-	}
-	 */
-
-	//cout << tmp.toString() << endl;
 
 	return tmp;
 
@@ -294,29 +211,22 @@ Route Route::operator*(float m){
     vector <Point2D*> tmpaccelerations ;
 
     for(unsigned int i=0; i < size; i++){
-	float _x = (points[i]->x)*m;
-	float _y = (points[i]->y)*m;
-	Point2D *s = new Point2D(_x, _y);
-	tmppoints.push_back(s);
+		float _x = (points[i]->x)*m;
+		float _y = (points[i]->y)*m;
+		Point2D *s = new Point2D(_x, _y);
+		tmppoints.push_back(s);
     }
 
     for(unsigned int i=0; i < size; i++){
-	Point2D q = Point2D();
-	q = (*gradients[i])*m;
-	Point2D *s = new Point2D(q.x, q.y);
-	tmpgradients.push_back(s);
+		Point2D q = Point2D();
+		q = (*gradients[i])*m;
+		Point2D *s = new Point2D(q.x, q.y);
+		tmpgradients.push_back(s);
     }
 
-    tmp.setLength(length);
-    tmp.setStart(start);
-    tmp.setGoal(goal);
     tmp.setSize(size);
     tmp.setPoints(tmppoints);
     tmp.setGradients(tmpgradients);
-    tmp.setAccelerations(tmpaccelerations);
-
-    tmp.setPath(tmp.BezierSplines());
-    tmp.setLength(tmp.getPath().size());
 
     return tmp;
 
@@ -332,25 +242,32 @@ string Route::toString(){
 
 	//ss << "Route::toString Size:\t\t" << this->size << endl;
 
-   // ss << "Route::toString Points:\t\t";
+    //ss << "Route::toString Points:\t\t";
     for(unsigned int i = 0; i < this->points.size(); i++){
-	ss << "" << this->points[i]->toString();
-	if (i % 15 == 0 && i > 0)
-	    ss << endl << "\t\t\t\t\t\t\t";
+		ss << this->points[i]->toString();
+		if (i % 15 == 0 && i > 0)
+			ss << endl << "\t\t\t\t\t\t\t";
     }
 
-    /*
     ss << endl;
 
-    
-    ss << "Route::ToString Gradient:\t";
+    //ss << "Route::ToString Gradient:\t";
+    //ss << "\t\t\t\t\t\t\t";
     for(unsigned int i = 0; i < this->gradients.size(); i++){
-	ss << this->gradients[i]->toString();
+		ss << this->gradients[i]->toString();
     }
     ss << endl;
-    
-    ss << "Route::toString Length:\t\t" << this->length << endl;
 
+    //ss << "Route::ToString Gradient Norms:\t";
+    //ss << "\t\t\t\t\t\t\t";
+    for(unsigned int i = 0; i < this->gradients.size(); i++){
+		ss << "(" << sqrt( pow(this->gradients[i]->x,2) + pow(this->gradients[i]->y,2) ) << ")";
+    }
+    ss << endl;
+
+    //ss << "Route::toString Length:\t\t" << this->length << endl;
+
+	/*
 	ss << "Route::toString Path:\t\t";
 	for(unsigned i=0; i< this->path.size(); i++){
 	ss << this->path[i]->toString();
@@ -365,76 +282,69 @@ string Route::toString(){
 }
 
 void Route::printPath(){
+
+	this->createPath();
+
     Config &config = Config::getInstance();
     Map* map = config.getMap();
     vector < Point2D* > obstacles = map->getObstacles();
-    
+
     int width = config.getMap()->getWidth();
     int height = config.getMap()->getHeight();
 
     vector < vector <int> > matrix = vector < vector <int> > (height);
 
-    for(unsigned int i = 0; i < width; i++){
-	matrix[i] = vector <int> (height);
-	for(unsigned int j = 0; j < height; j++){
-	    matrix[i][j] = 0;
-	}
+	for(unsigned int i = 0; i < width; i++){
+		matrix[i] = vector <int> (height);
+		for(unsigned int j = 0; j < height; j++){
+			matrix[i][j] = 0;
+		}
     }
 
     for(unsigned int i=0; i< path.size(); i++){
-	Point2D *p = path[i];
-	 matrix[p->x % width ][p->y % height] = 1;
-
-    }
-
-    for(unsigned int i=0; i< obstacles.size(); i++){
-	Point2D *p = obstacles[i];
-	 matrix[p->x % width ][p->y % height] = -2;
-
-    }
-
-    for(unsigned int i=0; i< points.size(); i++){
-	Point2D *p = points[i];
-	 matrix[p->x % width ][p->y % height] = i+2;
-    }
-
-    for(unsigned int i = 0; i < width; i++){
-	cout << "\t\t\t\t";
-	for(unsigned int j = 0 ; j < height; j++){
-
-	    if(matrix[i][j] > 1){
-		cout << matrix[i][j]-2;
-		continue;
-	    }
-
-	    if(matrix[i][j] < -1) {
-		cout << "X";
-		continue;
-	    }
-
-	    if( matrix[i][j] == 1){
-		cout << "." ;
-		continue;
-	    }
-
-	    if(i == width -1 || i == 0){
-		cout << "-";
-		continue;
-	    }
-
-	    if(j == height -1|| j == 0){
-		cout << "|";
-		continue;
-	    }
-
-
-	    cout << " ";
-
-
+		Point2D *p = path[i];
+		matrix[p->x % width ][p->y % height] = 1;
 	}
 
-	cout << endl;
-    }
+    for(unsigned int i=0; i< obstacles.size(); i++){
+		Point2D *p = obstacles[i];
+		matrix[p->x % width ][p->y % height] = -2;
+	}
+
+	for(unsigned int i=0; i< points.size(); i++){
+		Point2D *p = points[i];
+		matrix[p->x % width ][p->y % height] = i+2;
+	}
+
+    for(unsigned int i = 0; i < width; i++){
+		cout << "\t\t\t\t";
+		for(unsigned int j = 0 ; j < height; j++){
+			if(matrix[i][j] > 1){
+			cout << matrix[i][j]-2;
+			continue;
+		}
+		if(matrix[i][j] < -1) {
+			cout << "X";
+			continue;
+		}
+		if( matrix[i][j] == 1){
+			cout << "." ;
+			continue;
+		}
+
+		if(i == width -1 || i == 0){
+			cout << "-";
+			continue;
+		}
+
+		if(j == height -1|| j == 0){
+			cout << "|";
+			continue;
+		}
+		cout << " ";
+	}
+		cout << endl;
+	}
 
 }
 
@@ -444,25 +354,46 @@ float Route::fitnessEvaluation(Route &r){
 	Map *map = config.getMap();
 	float alpha = config.getAlpha();
 
-
-	float fitness;
-
+	float fitness=0;
 	int overlaps = 0;
-	float length = r.getPath().size();
 
-	for(unsigned i = 0; i < r.getPath().size(); i++){
-		Point2D *p = r.getPath().at(i);
-		//cout << "analizando punto " << i << " = " << p->toString() << endl;
+	Route tmp = Route();
+	tmp = r;
+
+	tmp.createPath();
+
+	float length = tmp.getPath().size();
+
+	for(unsigned i = 0; i < length; i++){
+		Point2D *p = tmp.getPath().at(i);
 		overlaps+=map->getCollision(*p);
 	}
 
-	fitness = pow(overlaps,2)*(1+pow(length, alpha));
-	//fitness = 5*overlaps - 10*length;
-	//fitness = overlaps;
-	
+	fitness = length + overlaps*(1+pow(length, alpha));
+
 	return fitness;
 }
 
+void Route::createPath(){
+	Config &config = Config::getInstance();
+
+	if(config.getMode() == "hermite"){
+		this->setPath(this->HermiteSplines());
+	}
+
+	if(config.getMode() == "b"){
+		this->setPath(this->BSplines());
+	}
+	if(config.getMode() == "bezier"){
+		this->setPath(this->BezierSplines());
+		this->printPath();
+	}
+
+	if(config.getMode() == "catmull"){
+		//r.setPath(r.CatmullSplines());
+		this->setPath(this->HermiteSplines());
+	}
+}
 
 void Route::initRandomVelocity(Route &r){
 
@@ -488,7 +419,27 @@ void Route::initRandomVelocity(Route &r){
     /* setting the points */
     r.initRandomPoints();
     r.initRandomGradients();
-    r.setPath(r.BezierSplines());
+
+	/*
+    //setear path dependiendo del parametro de entrada
+	if(config.getMode() == "hermite"){
+		cout << "this is hermite" << endl;
+		r.setPath(r.HermiteSplines());
+	}
+
+	if(config.getMode() == "b"){
+		r.setPath(r.BSplines());
+	}
+	if(config.getMode() == "bezier"){
+		cout << "this is bzier" << endl;
+		r.setPath(r.BezierSplines());
+		r.printPath();
+	}
+	if(config.getMode() == "catmull"){
+		//r.setPath(r.CatmullSplines());
+		r.setPath(r.HermiteSplines());
+	}
+	*/
 
 //    cout << "Route::initRandomVelocity: " << endl;
 //    cout << r.toString() << endl;
@@ -521,31 +472,6 @@ void Route::initRandomRoute(Route& r){
     r.initRandomPoints();
     r.initRandomGradients();
 
-    r.setPath(r.BezierSplines());
-
-    /* setear path dependiendo del parametro de entrada 
-    if(config.getMode() == "hermite"){
-	r.setPath(r.HermiteSplines());
-    }
-
-    if(config.getMode() == "b"){
-	    r.setPath(r.BSplines());
-    }
-    if(config.getMode() == "bezier"){
-	cout << "this is bzier" << endl;
-	r.setPath(r.BezierSplines());
-	r.printPath();
-    }
-    if(config.getMode() == "catmull"){
-	    //r.setPath(r.CatmullSplines());
-	    r.setPath(r.HermiteSplines());
-    }
-    */
-    r.setLength(r.getPath().size());
-
-	//cout << "Route::initRandomRoute: " << endl;
-    //cout << r.toString() << endl;
-    //r.printPath();
     return;
 }
 
@@ -613,7 +539,7 @@ vector <Point2D*> Route::BezierSplines(){
 	q1 = *this->points[k+1];
 	q2 = *this->points[k+2];
 	q3 = *this->points[k+3];
-	
+
 	/*
 	 * The matrix G =
 	 *
@@ -638,6 +564,7 @@ vector <Point2D*> Route::BezierSplines(){
 	    float xf = (pow(t,3)*a.x + pow(t, 2)*b.x + t*c.x + d.x);
 	    float yf = (pow(t,3)*a.y + pow(t, 2)*b.y + t*c.y + d.y);
 
+
 	    /* El crimen mas grande de la historia*/
 	    int x = xf;
 	    int y = yf;
@@ -647,7 +574,10 @@ vector <Point2D*> Route::BezierSplines(){
 	}
 
     }
-    
+
+
+
+
     Point2D *t = new Point2D(-1,-1);
 
     // a very hard calculus
@@ -668,8 +598,8 @@ vector <Point2D*> Route::BezierSplines(){
 	}
     }
 
-    
-    return path;
+
+    return tmp;
 }
 
 
