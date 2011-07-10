@@ -62,12 +62,14 @@ template <class T> Particle<T>::~Particle() {
 }
 
 template <class T> string Particle<T>::toString(){
-	this->position.printPath();
+    //this->position.printPath();
     return this->position.toString();
 }
 
 template <class T> void Particle<T>::updatePosition(){
     this->position = this->position > this->velocity;
+//    cout << "Posicion final\t\t\t:";
+//    cout << position.toString() << endl;
 }
 
 #endif	/* PARTICLE_TEMPLATE_H */

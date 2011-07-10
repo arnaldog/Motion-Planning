@@ -120,9 +120,9 @@ template <class T> void Swarm<T>::setInitVelocityFunction(void (T::*f)(T&)){
 
 template <class T> void Swarm<T>::updateParticleVelocity(Particle<T> &particle){
 
-    Config &config = Config::getInstance();
-    float phip = config.getPhi_p();
-    float phig = config.getPhi_g();
+//    Config &config = Config::getInstance();
+//    float phip = config.getPhi_p();
+//    float phig = config.getPhi_g();
 
     // Particle propierties
     T v = T(); /* current velocity */
@@ -132,6 +132,7 @@ template <class T> void Swarm<T>::updateParticleVelocity(Particle<T> &particle){
 
     float rhop = (float)rand()/(float)RAND_MAX;
     float rhog = (float)rand()/(float)RAND_MAX;
+    float omeg = (float)rand()/(float)RAND_MAX;
 
 
     v = particle.getVelocity();
@@ -140,12 +141,39 @@ template <class T> void Swarm<T>::updateParticleVelocity(Particle<T> &particle){
     g = this->population[this->getBestParticleIndex()].getBestPosition();
 
     /* Setting particle return value for descomposition */
+
+
+//    cout << endl;
+//    cout << "Posición inicial\t\t:";
+//    cout << x.toString() << endl ;
+//    cout << "Velocidad inicial\t\t:";
+//    cout << v.toString() << endl ;
+
+
     T w = T();
     T w1 = T();
     T w2 = T();
     T w3 = T();
-    w = v*(0.1f) + (p-x)*rhop + (g-x)*rhog;
-    
+    w = v*(1.0f) + (p-x)*rhop*3  + (g-x)*rhog*3;
+
+//
+//    w1 = (v*(0.5f));
+//    cout << "v*omega\t\t\t\t:";
+//    cout << w1.toString() << endl;
+//
+//    w3 = ((g-x)*rhog);
+//    cout << "(g-x)*rhog\t\t\t:";
+//    cout << w3.toString() << endl;
+//
+//    w2 =((p-x)*rhop);
+//    cout << "(p-x)*rhop\t\t\t:";
+//    cout << w2.toString() << endl;
+//
+//    cout << "Velocidad final\t\t\t:";
+//    cout << w.toString() << endl;
+//
+
+
 //    cout << "- V*Omega , omega = " << omega <<  endl;
 //    w1 = (v*(0.1f));
 //
@@ -198,13 +226,13 @@ template <class T> void Swarm<T>::initialize(){
         p.setBestVelocity(velocity);
         p.setBestFitness(fitness);
 
-        cout << "Swarm::initialize(): particula " << i << ", fitness: "<< p.getFitness() << endl;
+       // cout << "Swarm::initialize(): particula " << i << ", fitness: "<< p.getFitness() << endl;
 
 //        cout << "Swarm::initialize(): data:" << endl;
 //        cout << p.toString() << endl;
 
         //actualizar la mejor solucion conocida
-        if(fitness <= this->fitness) {
+        if(fitness < this->fitness) {
             //actualizar la mejor solucion de la poblacion
             this->setFitness(fitness);
             this->bestParticleIndex = i;
@@ -236,6 +264,7 @@ template <class T> void Swarm<T>::iterate()
                         bestVelocity = p.getBestVelocity();
 
 			// v = v*w + Op*(p-x) + Og*(g-x);
+                        
 			this->updateParticleVelocity(p);
 			p.updatePosition();
 
