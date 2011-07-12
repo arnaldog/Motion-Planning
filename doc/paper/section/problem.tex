@@ -3,19 +3,19 @@
 %%%% AMBITO DEL PROBLEMA %%%%
 El principal objetivo de Motion Planning es encontrar una o m\'as rutas para que un agente en particular logre llegar desde una región inicial ($p_{\text{inicial}}$) a otra regi\'on objetivo ($p_{\text{objetivo}}$) bajo restricciones como obst\'aculos, condiciones de movimiento, balance y cualquier indeseable presente en la trayectoria.
 
-En el contexto de  investigaci\'on de la Inteligencia Artifical (IA), Motion Planning corresponde en su expresi\'on m\'as frecuente a un problema de optimizaci\'on que puede incluir criterios como distancia, tiempo, energ\'ia, etc. Sus aplicaciones se pueden efectuar en la rob\'otica, la manufactura, el ensamblado, el transporte y servicios entre otros.
+En el contexto de  investigaci\'on de la Inteligencia Artifical (IA), Motion Planning corresponde en su expresi\'on m\'as frecuente a un problema de optimizaci\'on que puede incluir criterios como distancia a recorrer, tiempo utilizado durante el trayecto, energ\'ia consumida conforme a las condiciones del entorno, etc. Sus aplicaciones se pueden efectuar en la rob\'otica, la manufactura, el ensamblado, el transporte y servicios entre otros.
 
-El método general es la resolución para un entorno est\'atico, y posteriormente crear un plan para un entorno din\'amico. Un entorno estático es aquel que no cambia su configuración durante el transcurso del tiempo. 
+El método general es la resolución para un entorno est\'atico, y posteriormente crear un plan de movimiento para un entorno din\'amico. Un entorno estático es aquel en el que no cambia la configuración durante el transcurso del tiempo. 
 
-Para el caso est\'atico, el punto incial, el punto de llegada, las regiones a evitar y las regiones a visitar son  conocidas antes que el plan sea constriudo y se asume que las condiciones no cambiar\'an. 
+Para el caso est\'atico, la región incial, la región de llegada, las regiones a evitar y las regiones a visitar son  conocidas antes que el plan sea constriudo y se asume que tales condiciones no cambiar\'an. 
 
 El planemantieno en entornos estáticos recibe el nombre de  \textit{Global Path Planning} (GPP).
 
-Para el caso din\'animco, algunas de las regiones a evitar no se conocen y su planificación no puede ser realizada de antemano. Este problema recibe el nombre de \textit{Dinamyc Path Planning} (DPP). 
+Para el caso din\'amico, algunas de las regiones a evitar no se conocen y su planificación no puede ser realizada de antemano. Este problema recibe el nombre de \textit{Dinamyc Path Planning} (DPP). 
 
 Aunque ambos casos en general son similares, el contexto en el que se desenvuelven es diferente y por ende sus soluciones tambi\'en.
 
-En \textit{Global Path Planning} (GPP) no es muy importante minimizar el tiempo requerido para formular el plan, en cambio para \textit{Dinamic Path Planning} el tiempo es cr\'itico.
+En \textit{Global Path Planning} (GPP) no es muy importante minimizar el tiempo requerido para formular el plan de movimiento porque es realizado a priori, en cambio para \textit{Dinamic Path Planning} el tiempo es cr\'itico pues el agente puede agotar sus recursos durante la exploración del entorno.
 
 En un entorno est\'atico, el problema de Global Path Planning puede ser expresado como un problema de encontrar al menos un camino libre de colisiones de tama\~no m\'inimo. 
 
@@ -23,138 +23,78 @@ El entorno puede ser descrito como un mapa, donde un camino entre dos posiciones
 
 Una instancia del problema est\'a dada por un mapa de $m \times n$, con sectores de tamaño fijo marcados como obst\'aculos. 
 
-La representación más sencilla es la de una malla cuadriculada con celdas de tamaño fijo y constituye el dominio de cada variable. 
+La representación más sencilla es la de una malla cuadriculada con celdas de tamaño fijo y constituye el dominio de cada variable de desición. 
 
 %%%% VARIABLES INVOLUCRADAS %%%%
 
 El principal objetivo del GPP es encontrar rutas factibles que se encuentren en las zonas libres de obstáculos, por lo tanto la representación del entorno determina la estructura de la ruta.  
 
-La forma más simple de representar rutas dada una instancia representada por un mapa en forma matriz es a través de una secuencia de posiciones adyacentes que vayan desde el punto inicial hasta el objetivo.
+La forma más simple de representar rutas dada una instancia descrita por un mapa en forma matriz es a través de una secuencia de posiciones adyacentes que vayan desde el punto inicial hasta el objetivo.
 
-Cada ruta generada constituye una variable de decisión y el dominio corresponde a los puntos o areas del mapa cualesquiera para constituir la ruta. 
+Cada ruta generada constituye una variable de decisión y el dominio corresponde a los puntos o areas del mapa cualesquiera para constituir la ruta. Esta forma considera la generación de soluciones iniciales infactibles las cuales van mejorando durante el transcurso de la ejecución del algoritmo que implementa una metaheurística para este caso.
 
 %%%% RESTRICCIONES INVOLUCRADAS %%%%
 
-La principal restricción es que la ruta generada esté confinada a los márgenes de la instancia. Esta restricción puede parecer un tanto burda, sin embargo, al utilizar técnicas de interpolación como Splines de Hermite es muy probable que las rutas generadas escapen del cuadro del mapa al no satisfacer la restricción de ajustarse al polígono de espácio mínimo (convex hull).
+La principal restricción es que la ruta generada esté confinada a los márgenes de la instancia. Esta restricción puede parecer un tanto burda, sin embargo, al utilizar técnicas de interpolación a tramos (Splines) es muy probable que las rutas generadas sobrepasen el cuadro del mapa al no satisfacer la restricción de ajuste al polígono de espácio mínimo (convex hull). Para tales razones tambien se considera interpolación y aproximación por tramos que cumplan dicha propiedad.
 
-Para efectos de optimización, se consideran las colisiones como restricciónes blandas y se penalizan en la función objetivo dado que su consideración dura podría no generar soluciones factibles iniciales.
+Desde la perspectiva de la optimización, se consideran las colisiones como restricciónes que se penalizan en la función objetivo dado que su consideración dura podría no generar soluciones iniciales de acuerdo a las diferentes instancias que puedan ser estudiadas.
 
 También existen restricciones desde la perspectiva del contexto en el que se encuentre; por ejemplo en la robótica se consideran restricciones como la energía utilizada, la inercia, etc. 
 
-Para efectos prácticos e investigativos de la técnica utilizada en este artículo se consideran solamente las restricciones más generales del GPP y en especial, para efectos de esta investigación, no se consideran las regiones a visitar.
+Para efectos prácticos e investigativos de la técnica utilizada en este artículo se consideran solamente las restricciones más generales del GPP y en especial, para esta investigación, no se consideran las regiones a visitar.
 
 %%%% EXPLICAR COMO SE MIDE LA CALIDAD DE LA SOLUCIÓN %%%%
 
-Se espera encontrar rutas las cuales no pasen por obstáculos y que tengan la menor longitud posible. Otra característica de la solución a evaluar puede ser la suavidad de la ruta generada. 
+Se espera encontrar rutas las cuales no pasen por obstáculos y que tengan la menor longitud posible. Otra característica de la solución a evaluar puede ser la suavidad de la ruta generada.  Muchas representaciones consideran la inicialización de las partículas o soluciones iniciales como rutas generadas pseudo aleatoreamente de forma constructiva (agregación de puntos consecutivamente), lo cual no garantiza suavidad aunque existan intenciones de suavización post generación de rutas factibles. Otra forma de abarcar el problema es considerando la interpolación paramétrica entre pares de puntos garantizando suavidad de movimiento para el agente.
 
-En términos generales se espera que el algoritmo pueda dar resolución a problemas que puedan tender a converger prematuramente, por esa razón, además de penalizar la cantidad de colisiones y el largo de la ruta, se considera además el hecho de haber penalizaciones en rutas muy cortas de solución las cuales no representen una solución adecuada al problema.
+En términos generales el algoritmo debe dar resolución a problemas que puedan tender a converger prematuramente, por esa razón, además de penalizar la cantidad de colisiones y el largo de la ruta, se considera el hecho de que existan rutas muy cortas de solución las cuales no representen una solución adecuada al problema, situación que tambien sufre castigos reflejados en la función objetivo.
 
 %%%% MODELO MATEMÁTICO %%%%%
-La representación del problema planteado en forma matemática se puede expresar para cualquier dimensión, sin embargo en el presente estudio se considera la resolución en el plano, siendo $C \in \mathbb{R}^2$ el espacio de operaci\'on, donde el conjunto de $|O| = m$ obstaculos se define como
+La representación del problema planteado en forma matemática se puede expresar para cualquier dimensión según el espacio de operación, sin embargo en el presente estudio se considera la resolución en el plano, siendo $C \in \mathbb{R}^2$ el espacio de operaci\'on, donde el conjunto de $O$ de $|O|=m$ obstaculos $o_i$ se define como
 
 \begin{equation}
 	O = \{ o_i : o_i \in C, \forall i = 1:m \}
 \end{equation}
-Definiendo $A$ como la región inicial en $C$ y $B$ como la región objetivo. El espacio determinado por la aplicaci\'on $R: \mathbb{R} \longrightarrow \mathbb{R}^n$ donde $q \longrightarrow R(q)$ corresponde a la regi\'on ocupada por el agente en el punto $q$ en $C$. El espacio ocupado por $o_i$  ser\'a
+
+Donde se define a $a$ como la región inicial en $C$ y $b$ como la región objetivo. El espacio determinado por la aplicaci\'on $R: \mathbb{R} \longrightarrow \mathbb{R}^n$ donde $q \longrightarrow R(q)$ corresponde a la regi\'on ocupada por el agente en el punto $q$ en $C$. Además, el espacio ocupado por $\hat{o}_i$  ser\'a el considerado para penalizar en la función objetivo, el cual representa a las colisiones que vaya teniendo el agente durante  el transcurso de la ruta $r \subseteq C $, donde
 
 \begin{equation}
-	\hat{o}_i = \{  q \in C : R(q) \cap o_i \neq \oslash, \forall i=1:m \}
+	\hat{o}_i = \{  q \in r : R(q) \cap o_i \neq \oslash, \forall i=1:m \}
 \end{equation}
 
-Por lo tanto, el espacio libre corresponde a
+Por lo tanto, el espacio libre corresponde a l conjunto 
+\begin{equation}
+	C_{\text{libre}} = C - \cup_{\forall i} \hat{o}_i
+\end{equation}
+
+Donde una trayectoria v\'alida ser\'ia aquella ruta $r \subseteq C_{\text{libre}}$ de largo $|r| = l$ tal que
 
 \begin{equation}
-	C_{\text{libre}} = C - \cup_{\forall i} \hat{o}
+	r = \{q \in C_{\text{libre}} : q_0, \ldots, q_\ell \text{ tal que } q_0 = a, q_\ell = b  \}
 \end{equation}
 
-Donde una trayectoria v\'alida ser\'ia aquella ruta $p \subseteq C_{\text{libre}}$ de largo $|p| = l$ tal que
+Con el fin de hacer un estudio en una escala aplicable, se considera un modelo m\'as simple, cuyas consideraciones son las de un espacio de operación en $\mathbb{N}^2$ como una matriz $C \in Mat(m \times n, \{0,1\})$ que describe el espacio de operaci\'on seg\'un las coordenadas. Si en una cierta coordenada $i,j$ existe un obst\'aculo, entonces $C_{ij} = 1$, de lo contrario $C_{ij} = 0$. Además, se considera la aplicación $R(q) = q$, donde $q$ representa un elemento en la matriz descrita. Respecto a las restricciones, ciertas consideraciones f\'isicas no ser\'an parte de este problema, no existe aceleraci\'on, velocidad, ni fuerzas que prohiban el movimiento libre por el espacio de operaci\'on. La ruta $r$ está representada por un vector de largo variable $\ell$ que almacena la lista de casillas visitadas sin repetición donde $q_0$ es la región inicial, $q_{\ell}$ la región final y $q_i$ la región adyacente a $q_{i+1}$ representadas por celdas de la cuadrícula o matriz.
 
-\begin{equation}
-	p = \{s \in C_{\text{libre}} : s_1, \ldots, s_l \text{ tal que } s_1 = A, s_l = B  \}
-\end{equation}
+El largo de la ruta $r$ está dado por el valor $\ell$.
+La función objetivo por lo tanto  queda expresada como
 
-Con el fin de hacer un estudio en una escala aplicable, se considera un modelo m\'as simple, cuyas consideraciones son:
-\begin{itemize}
-	\item Una matriz que describa el espacio de operaci\'on en dos dimensiones, segun las coordenadas de la matriz:
-	\begin{itemize}
-		\item Si en una cierta coordenada existe un obst\'aculo, en la matriz se escribe un $1$
-		\item Si est\'a libre se escribe $0$
-	\end{itemize}
-	
-	\item El agente tiene un tamaño tal que en cualquier instante esta en s\'olo una casilla, es decir, tiene tama\'no $1x1$
-	\item Al agente no se le permiten movimientos en diagonal
-	\item Ciertas consideraciones f\'isicas no ser\'an parte de este problema, no existe aceleraci\'on, velocidad, ni fuerzas que prohiban el movimiento libre por el espacio de operaci\'on\\
-\end{itemize}
-
-\begin{enumerate}
-	\item Para almacenar la informacion b\'asica:
-
-	\begin{itemize}
-		\item Una matriz $C$, que describe el espacio de operaci\'on tal que:
-	
-		\begin{itemize}
-			\item $C \in \mathbb{R}^2$
-		\end{itemize}
-		
-		\begin{equation}
-			C_{ij}=
-				\begin{cases}
-					\begin{matrix}
-						1 & \text{si hay obst\'aculo en la posicion $i,j$}\\
-						0 & \text{si no}
-					\end{matrix}
-				\end{cases}
-		\end{equation}
-		
-		\item Un vector $p$, de largo variable $l$ que almacena la lista de casillas visitadas en orden donde:
-			\begin{itemize}
-				\item $p_{0}$ es la posici\'on de inicio
-				\item $p_{l}$ es la posici\'on final
-				\item $p_{i}$ es adyacente con $p_{i+1}$
-			\end{itemize}
-			
-		Este vector contendr\'a la soluci\'on final
-		\\
-	\end{itemize}
-	
-	\item La funci\'on objetivo:
-	
 	\begin{equation}
-		Min: F(p) = lenght(p) + Pn(p)
+		Min: F(\ell) = \ell + Pn(\ell)
 	\end{equation}
-	
-	donde:
-	\begin{itemize}
-		\item $p$ es el vector de ruta obtenido
-		
-		\item $lenght(p)$ es el largo de la ruta, que en este caso, como la distancia entre lugares es 
-		constante entre lugares adyacentes y vale $d_{min}=1$, esta funcion es equivalente a la cantidad 
-		de elementos del vector $p$
-		
-		\item $Pn(p)$ es una función de penalizaci\'on que vale $0$ si es una ruta sin colisiones, es decir, 
-		no pasa por ningun lugar marcado como obst\'aculo, en caso contrario, esta funci\'on se define:
-			\begin{equation}
-				Pn(p) = NC (1 + lenght(p)^\alpha)
-			\end{equation}
-		Con:\\
-		
-		\begin{itemize}
-			\item $NC =$ n\'umero de colisiones\\
-		\end{itemize}
-		
-		El razonamiento detr\'as de de esta funci\'on de penalizacion es como sigue:\\
-		Primero garantiza que se penalice por cada casilla marcada como obstáculo que intenta pasar, contándola dos veces, una vez al contar el largo del vector, y una segunda vez si la casilla es un obst\'aculo.
-		
-		Segundo, adem\'as penaliza de manera proporcional a la cantidad de colisiones y potencialmente al largo de la ruta, por lo que si $\alpha < 0$ se puede penalizar de manera m\'as fuerte a las rutas cortas, debido a que la ruta mas corta entre el punto de inicio $X = C_{i,j}$ y el punto de meta $X'=C_{k,l}$ mide: $lenght(p) = |i-k| + |j-l|$, la cual es una ruta directa la cual probablemente pase por m\'as de alg\'un obst\'aculo y al ser muy corta, puede quedar como candidata en vez de privilegiar a aquellas que son mas largas pero que no tienen colisiones.
-	\end{itemize}
-	
-	\item Sujeto a las siguientes restricciones:
-	
-	\begin{itemize}
-		\item Los vectores de ruta $p$ deben tener en su primer elemento la casilla de inicio, y como \'ultimo elemento la casilla de meta
-		\item El elemento del vector $p_{i}$ es adyacente con $p_{i+1}$
-	\end{itemize}
-\end{enumerate}
+
+$lenght(r)$ es el largo de la ruta, que en este caso, como la distancia entre lugares es  constante entre lugares adyacentes y vale $d_{min}=1$, esta funcion es equivalente a la cantidad de elementos del vector $p$.
+
+$Pn(p)$ es una función de penalizaci\'on que vale $0$ si es una ruta sin colisiones, es decir, 
+no pasa por ningun lugar marcado como obst\'aculo, en caso contrario, esta funci\'on se define:
+
+\begin{equation}
+	Pn(\ell) = NC (1 + {\ell}^\alpha)
+\end{equation}
+
+$NC =$ n\'umero de colisiones\\
+
+El razonamiento detr\'as de de esta funci\'on de penalizacion garantiza que se penalice por cada casilla marcada como obstáculo que intenta pasar, contándola dos veces, una vez al contar el largo del vector, y una segunda vez si la casilla es un obst\'aculo. Adem\'as penaliza de manera proporcional a la cantidad de colisiones y potencialmente al largo de la ruta, por lo que si $\alpha < 0$ se puede penalizar de manera m\'as fuerte a las rutas cortas, debido a que la ruta mas corta entre el punto de inicio $a = C_{i,j}$ y el punto de meta $b=C_{k,\ell}$ mide: $lenght(p) = |i-k| + |j-l|$, la cual es una ruta directa la cual probablemente pase por m\'as de alg\'un obst\'aculo y al ser muy corta, puede quedar como candidata en vez de privilegiar a aquellas que son mas largas pero que no tienen colisiones.
+
 
 
 

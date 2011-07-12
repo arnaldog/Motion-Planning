@@ -190,7 +190,7 @@ template <class T> void Swarm<T>::updateParticleVelocity(Particle<T> &particle){
 /* Concrete Methods */
 template <class T> void Swarm<T>::initialize(){
 
-    cout << "Swarm::initialize(): inicializando particulas..." << endl;
+    //cout << "Swarm::initialize(): inicializando particulas..." << endl;
 
     //inicializar cada particula de la poblacion
     for(unsigned int i=0; i < this->population.size(); i++){

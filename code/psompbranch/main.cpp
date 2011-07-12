@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
     Config &config = Config::getInstance();
 
     //si no hay errores en las entradas imprimir configuracion
-    config.printConfiguration();
+    //config.printConfiguration();
 
     //crear mapa en la configuracion
     string mapfilename = config.getMapFile();
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     config.setMap(&map);
 
     //imprimir informacion del mapa
-    map.printInformation();
+   // map.printInformation();
 
     // ROUTE Swarm(size, iterations, fitness);
     int swarmSize = config.getQuantity();
@@ -64,49 +64,39 @@ int main(int argc, char** argv) {
     swarm.setOmega(config.getOmega());
     swarm.setRhog(0.1);
     swarm.setRhop(0.1);
+   
+    double tstart, tstop, ttime;
+
+    tstart = (double)clock()/CLOCKS_PER_SEC;
+
+    /* YOUR CODES */
 
     //swarm initialization
     swarm.initialize();
 
-    cout << "main(): La ruta resultante al inicializar: " << endl;
+   // cout << "main(): La ruta resultante al inicializar: " << endl;
+    float prevfitness = swarm.getFitness();
     swarm.printBestParticle();
-
     swarm.iterate();
 
+    tstop = (double)clock()/CLOCKS_PER_SEC;
 
+    ttime= tstop-tstart; /*ttime is how long your code run */
 
-    cout << "main(): Mejor particula obtenida: " << endl;
-    cout << swarm.getBestParticleIndex() << endl;
+    //cout << "El tiempo de ejecución " << ttime << endl;
+    cout << ttime << "," ;
 
-    cout << "main(): Mejor fitness obtenido: ";
-    cout << swarm.getFitness() << endl;
-    cout << endl;
+    //cout << "main(): Mejor particula obtenida: " << endl;
+    //cout << swarm.getBestParticleIndex() << endl;
 
-    cout << "main(): La ruta resultante es: " << endl;
+    //cout << "main(): Mejor fitness obtenido: ";
+    cout << prevfitness << "," << swarm.getFitness() << endl;
+
+    
+
+    //cout << "main(): La ruta resultante es: " << endl;
     swarm.printBestParticle();
 
-
-    /*
-    Route r = Route();
-    r.initRandomRoute(r);
-    r.printPath();
-    cout << r.toString() << endl;
-
-    Route r2 = Route();
-    r2.initRandomRoute(r2);
-    r2.printPath();
-    cout << r2.toString() << endl;
-
-    Route r3 = Route();
-    r3 = r2 - r;
-    r3.printPath();
-    cout << r3.toString() << endl;
-
-
-    Route r4 = Route();
-    r4 = r3 + r;
-    r4.printPath();
-    */
     return 0;
 }
 
@@ -188,6 +178,10 @@ bool verificarEntradas(int argc, char** argv){
 		if(string(argv[i]) == "-phig"){
 			//cout << "main::verificarEntradas(): phig = " << argv[i+1] << endl;
 			config.setPhi_g(atoi(argv[i+1]));
+		}
+		if(string(argv[i]) == "-f"){
+			//cout << "main::verificarEntradas(): resultfile = " << argv[i+1] << endl;
+			config.setResultfile(argv[i+1]);
 		}
     }
 

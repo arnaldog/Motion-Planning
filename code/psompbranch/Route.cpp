@@ -234,7 +234,7 @@ Route Route::operator*(float m){
 
 
 void Route::operator!(){
-    cout << this->toString() << endl;
+    //cout << this->toString() << endl;
     this->printPath();
 }
 string Route::toString(){
@@ -285,6 +285,9 @@ void Route::printPath(){
 
 	this->createPath();
 
+
+    std::ostringstream ss;
+
     Config &config = Config::getInstance();
     Map* map = config.getMap();
     vector < Point2D* > obstacles = map->getObstacles();
@@ -314,37 +317,61 @@ void Route::printPath(){
 	for(unsigned int i=0; i< points.size(); i++){
 		Point2D *p = points[i];
 		matrix[p->x % width ][p->y % height] = i+2;
+//		matrix[p->x-1 % width ][p->y % height] = i+2;
+//		matrix[p->x+1% width ][p->y % height] = i+2;
+//		matrix[p->x % width ][p->y -1 % height] = i+2;
+//		matrix[p->x % width ][p->y +1 % height] = i+2;
 	}
+
+    string black = "0 0 0 ";
+    string blue = "0 0 255 ";
+    string red = "255 0 0 ";
+    string white = "255 255 255 ";
 
     for(unsigned int i = 0; i < width; i++){
-		cout << "\t\t\t\t";
+		//cout << "\t\t\t\t";
+		
 		for(unsigned int j = 0 ; j < height; j++){
+
 			if(matrix[i][j] > 1){
-			cout << matrix[i][j]-2;
+			//cout << matrix[i][j]-2; /* pivots */
+			ss << red;
+			continue;
+			}
+		if(matrix[i][j] < -1) { /* obstacles */
+			//cout << "X";
+			ss << black;
 			continue;
 		}
-		if(matrix[i][j] < -1) {
-			cout << "X";
-			continue;
-		}
-		if( matrix[i][j] == 1){
-			cout << "." ;
+		if( matrix[i][j] == 1){ /* path */
+			//cout << "*" ;
+			ss << blue;
 			continue;
 		}
 
-		if(i == width -1 || i == 0){
-			cout << "-";
+		if(i == width -1 || i == 0){ /* lower border */
+			//cout << "-";
+			ss << black;
 			continue;
 		}
 
-		if(j == height -1|| j == 0){
-			cout << "|";
+		if(j == height -1|| j == 0){ /* left or right border */
+			//cout << "|";
+			ss << black;
 			continue;
 		}
-		cout << " ";
+		//cout << " ";
+		ss << white;
+		//ss << " next ";
 	}
-		cout << endl;
+		//cout << endl;
+		ss << "\n";
 	}
+
+    std:string o = ss.str();
+    config.writePpm(o);
+
+    config.getDate();
 
 }
 
@@ -386,11 +413,9 @@ void Route::createPath(){
 	}
 	if(config.getMode() == "bezier"){
 		this->setPath(this->BezierSplines());
-		this->printPath();
 	}
 
 	if(config.getMode() == "catmull"){
-		//r.setPath(r.CatmullSplines());
 		this->setPath(this->HermiteSplines());
 	}
 }
@@ -520,6 +545,8 @@ vector <Point2D*> Route::BezierSplines(){
  * versatil than hermite splines in pso optimization.
  *
  */
+
+ 
 
     int n = this->points.size();
     int l, k;

@@ -12,6 +12,67 @@ Config* Config::pInstance_ = NULL;
 
 Config::~Config() {
 }
+
+void Config::writePpm(string input){
+
+    Map *map = this->getMap();
+    int width  = map->getWidth();
+    int height = map->getHeight();
+
+    std::ostringstream ss;
+
+    ofstream myfile;
+    /* File name conventions
+     * date_instance_particles_alpha_omega_phip_phig_pivotes_mehod_[init|end]
+     *
+     */
+
+    ss << this->resultfile << "/";
+    ss << this->getDate() << "_";
+    ss << this->mapFile << "_";
+    ss << this->quantity << "_";
+    ss << this->alpha << "_";
+    ss << this->omega << "_";
+    ss << this->phi_p << "_";
+    ss << this->phi_g << "_";
+    ss << this->pivots << "_";
+    ss << this->mode << "_";
+
+    string resultfile = ss.str();
+
+    //remove(resultfile.begin(), resultfile.end(), '.');
+
+    resultfile = (nfile == 0) ? resultfile + "_init.ppm": resultfile + "_end.ppm";
+    const char* filename = resultfile.c_str ();
+    myfile.open(filename);
+    // format for pnm
+    myfile << "P3" << endl;
+    myfile << height <<  " " << width << endl;
+    myfile << "255" << endl;
+    myfile << input ;
+    myfile.close();
+    nfile++;
+    return;
+
+}
+
+string Config::getDate(){
+
+  time_t tiempo;
+  char cad[80];
+  struct tm *tmPtr;
+
+  tiempo = time(NULL);
+  tmPtr = localtime(&tiempo);
+  strftime( cad, 80, "%Y_%B_%A_%H%M%S", tmPtr );
+
+//  printf( "La hora local es: %s\n", asctime(tmPtr) );
+//  printf( "La hora y fecha locales son: %s\n", cad );
+
+  string date = cad;
+  return date;
+
+}
 void Config::setPivots(int pivots) {
     this->pivots = pivots;
 }
@@ -95,4 +156,10 @@ void Config::printConfiguration(){
 	//cout << "Config:printConfiguration():  = " << this-> << endl;
 
 	cout << endl;
+}
+void Config::setResultfile(string resultfile) {
+    this->resultfile = resultfile;
+}
+string Config::getResultfile() const {
+    return resultfile;
 }
