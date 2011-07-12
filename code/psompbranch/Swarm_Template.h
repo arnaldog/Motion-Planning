@@ -182,6 +182,9 @@ template <class T> void Swarm<T>::initialize(){
 
     cout << "Swarm::initialize(): inicializando particulas..." << endl;
 
+	//debug informe CSV
+    cout << "particula,fitness" << endl;
+
     //inicializar cada particula de la poblacion
     for(unsigned int i=0; i < this->population.size(); i++){
 
@@ -216,6 +219,9 @@ template <class T> void Swarm<T>::initialize(){
         p.setBestFitness(fitness);
 
         //cout << "Swarm::initialize(): particula " << i << ", fitness: "<< p.getFitness() << endl;
+
+        //debug para informe CSV
+        cout << i << "," << p.getFitness() << endl;
 
 		//cout << "Swarm::initialize(): data:" << endl;
 		//cout << p.toString() << endl;
@@ -288,6 +294,9 @@ template <class T> void Swarm<T>::iterate()
 		//cout << "Swarm::iterate(): resumen de iteracion " << iteration << ":";
 		//cout << " mejor particula: " << this->getBestParticleIndex();
 		//cout << " mejor fitness: " << this->fitness << endl;
+
+		//debug para informe CSV
+        cout << this->getBestParticleIndex() << "," << this->fitness << endl;
 
 		//next iteration
 		iteration++;
