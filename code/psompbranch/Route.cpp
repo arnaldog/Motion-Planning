@@ -159,6 +159,7 @@ Route Route::operator-(const Route &b){
     // sumar los puntos
     // sumar las gradientes
     // recalcular el path
+    // la resta es solamente sobre puntos, lo único que importa.
 	Route tmp = Route();
 
 	vector <Point2D*> tmppoints;
@@ -520,9 +521,6 @@ vector <Point2D*> Route::BezierSplines(){
  *
  */
 
-    Config &config = Config::getInstance();
-   // Map *map = config.getMap();
-
     int n = this->points.size();
     int l, k;
 
@@ -581,6 +579,9 @@ vector <Point2D*> Route::BezierSplines(){
 
 
     Point2D *t = new Point2D(-1,-1);
+
+    // a very hard calculus
+    //sort(tmp.begin(), tmp.end());
 
     for(unsigned int i = 0; i < tmp.size(); i++){
 	if ( !((*tmp[i]) == (*t))){

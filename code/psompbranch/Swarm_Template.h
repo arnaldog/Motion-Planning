@@ -133,6 +133,7 @@ template <class T> void Swarm<T>::updateParticleVelocity(Particle<T> &particle){
 
     float rhop = (float)rand()/(float)RAND_MAX;
     float rhog = (float)rand()/(float)RAND_MAX;
+    float omeg = (float)rand()/(float)RAND_MAX;
 
     v = particle.getVelocity();
     p = particle.getBestPosition();
@@ -140,6 +141,15 @@ template <class T> void Swarm<T>::updateParticleVelocity(Particle<T> &particle){
     g = this->population[this->getBestParticleIndex()].getBestPosition();
 
     /* Setting particle return value for descomposition */
+
+
+//    cout << endl;
+//    cout << "Posición inicial\t\t:";
+//    cout << x.toString() << endl ;
+//    cout << "Velocidad inicial\t\t:";
+//    cout << v.toString() << endl ;
+
+
     T w = T();
     //T w1 = T();
     //T w2 = T();
@@ -227,7 +237,7 @@ template <class T> void Swarm<T>::initialize(){
 		//cout << p.toString() << endl;
 
         //actualizar la mejor solucion conocida
-        if(fitness <= this->fitness) {
+        if(fitness < this->fitness) {
             //actualizar la mejor solucion de la poblacion
             this->setFitness(fitness);
             this->bestParticleIndex = i;
