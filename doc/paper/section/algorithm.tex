@@ -2,119 +2,119 @@
 
 %%% REPRESENTACION PARA EL ENJAMBRE
 	
+% ENJAMBRE
 El enjambre de partículas corresponde al conjunto de $S$ partículas, donde partícula es una eventual solución y corresponde a una ruta a la que se le calcula una velocidad de movimiento respecto a su mejor posición histórica y respecto a la mejor posición global determinada la inicialización y posteriormente determinado durante la iteración.
 El objetivo del Global Path Planning PSO es que cada partícula tome movimientos relativos al mejor del grupo y a su propia información de mejor posición.
 
-
-	\begin{enumerate}
-	\item El mapa está representado como una matriz  con coeficientes binarios
-	\[Map = \left[
-		\begin{array}{ccc}
-		(1,1)  & \cdots & (1, m) \\
-		\vdots & \ddots & \vdots \\
-		(n, 1) & \cdots & (n, m)  \\
-		\end{array}\right]
-	\]
-
-	\item Una partícula corresponde a una solución del problema, es decir una ruta $r$ de longitud $l$
-	\[ r = \{ (p_{1x}, p_{1y}) , \cdots, ( p_{lx}, p_{ly}) \}, \quad |r| = l \]
-	\item Todas las combinaciones de rutas posibles dentro del mapa representan el dominio de cada ruta
-	\item La longitud de $k$ la velocidad es fija, y cada punto se calcula con $k$ incrementos de
-		   $ \delta = \lfloor l/k \rfloor$ sobre la ruta $p$.
-	\[ v = \{ (p_{\delta x}, p_{\delta y}) , \cdots, ( p_{k\delta x}, p_{k \delta y}) \}, \quad |v| = k  \]
-	\end{enumerate}
-	
-	Representación
-	\begin{enumerate}
-	\item Cada ruta $p$ será construida pseudo aleatoreamente 
-	\item La velocidad de la partícula en el inicio corresponderá a sus pivotes
-	\item Para evaluar la velocidad entre las partículas se actualizan los pivotes de las
-		  velocidades en vez de la posición.	
-    \item La actualización de la posición corresponde a la generación de nuevas rutas
-    	  que pasen por los pivotes antes calculados.
-	\end{enumerate}
-	
-	Función objetivo
-	\begin{equation}
-		\min F(r) = lenght(r) + C(1 + lenght(r)^\alpha)
-	\end{equation}
-	
-	\begin{enumerate}
-	\item $lenght(r)$ es el largo de la ruta
-	\item $ C$ es el número de colisiones
-	\item $\alpha$ es el nivel de penalización por rutas cortas con colisiones
-	\end{enumerate}
-	
-	{Posición y velocidad de la partícula}
+%PARTICULA
+Una partícula corresponde a una eventual solución del problema, es decir una partícula $s$ de longitud fija $k$ de puntos $q \in \mathbb{N}^2$ con su velocidad $v$ de igual longitud $k$ corresponde a la configuración $s = (x, p, v)$ donde $x$ es la posición instantanea, $p$ la mejor posición histórica y $v$ la velocidad de la partícula. 
 	\begin{eqnarray}
-		r = \{ p_1, \ldots, p_l \} \\
-		v = \{ v_1, \ldots, v_k \} 
+		x = \{ a, q_2, \ldots q_{k-1}, b \} \\
+		v = \{ v_0, \ldots, v_k \} 
 	\end{eqnarray}
-	
-	\begin{enumerate}
-	\item La ruta $r$ se vá generando pseudo aleatoreamente 
-	\item Por ende, todas las rutas tienen largos distintos.
-	\item Sin embargo, la longitud del vector velocidad es constante dado como parámetro
-	\item En este caso difiere respecto a la velocidad respecto a la del PSO original.
-	\end{enumerate}
-	
-	{Actualizacíon de velocidad y posición de la partícula}
+En este caso $x$ y $p$ obviamente tienen los mísmos puntos al comienzo y al final dado que representan una solución candidata donde los puntos de origen y final representan a las regiones inicial y objetivo respectivamente.
+
+La posición $x$ de la partícula $s \in S$ corresponde a un conjunto de puntos que interpolados o aproximados entre sí constituyen la ruta $r$ mediante diferentes métodos de interpolación o aproximación. Para esta investigación se realizaron implementaciones de los métodos de interpolación paramétrica Cubic Hermité Splines y Cubic Bezier Splines, dado los puntos sugeridos por cada particula. Se realizaron experimentos con B Splines pero se descartaron porque no aproxima desde la región inicial ni a la región objetivo aunque pueden ser utilizadas otras técnicas para satisfacer tal condición pero introducen complejidad  adicional para realizar comparaciones de los métodos. 
+La representación de la ruta está dada entonces por el conjunto de polinomios interpoladores o aproximadores sobre los pares sucesivos de los $k$ puntos $q$ definidos como posición en la partícula $s$. Las formas 
+\paragraph{Cubic Bezier Splines}  Esta aproximación es utilizada para mantener la propiedad de cobertura de area mínima (convex hull) de los polinomios generados por cada par de puntos asegurando que las rutas generadas satisfagan la restricción de preservar la frontera de entorno de operación. Cada polinomio $i$ generado entre los puntos $i$ e $i+1$ se genera a partir de la expresión
+\begin{small}
+\begin{equation}
+[x_i(t), y_i(t)] = \left[\begin{array}{c}
+			t^3 \\ t^2 \\ t \\ 1
+			\end{array}
+			\right]^T \left[ 
+			\begin{array}{rrrr}
+			-1 &  3 & -3 &  1 \\
+			 3 & -6 &  3 &  0 \\
+			-3 &  3 &  0 &  0 \\
+			 1 &  0 &  0 &  0 
+			\end{array}
+		\right] \left[
+			\begin{array}{c}
+			 q_{i-1} \\
+			 q_{i} \\
+			 q_{i+1} \\
+			 q_{i+2}
+			 \end{array}
+		\right]
+\end{equation}
+\end{small}
+
+\paragraph{Cubic Hermite Splines} Esta interpolación consta además de una variante en la representación de la partícula $s$ la cual considera, además de los puntos en el entorno de operación, la gradiente de cada punto $(\nabla q)$ para determinar la forma de la ruta generada, por tanto $x_h = (x, \nabla x)$. Cada polinomio $i$ generado entre los puntos $i$ e $i+1$ se genera a partir de la expresión:
+\begin{small} 
+\begin{equation}
+[x_i(t), y_i(t)] = \left[\begin{array}{c}
+			t^3 \\ t^2 \\ t \\ 1
+			\end{array}
+			\right]^T \left[ 
+			\begin{array}{rrrr}
+			 2 & -2 &  1 &  1 \\
+			-3 &  3 & -2 & -1 \\
+			 0 &  0 &  1 &  0 \\
+			 1 &  0 &  0 &  0 
+			\end{array}
+		\right] \left[
+			\begin{array}{r}
+			 q_{i} \\
+			 q_{i+1} \\
+			 \nabla q_{i} \\
+			 \nabla q_{i+1}
+			 \end{array}
+		\right]
+\end{equation}
+\end{small}
+Todas las combinaciones de rutas posibles dentro del mapa representan el dominio de cada ruta ya que estas son generadas a partir de puntos y gradientes descritas por la partícula.
+
+La longitud de la ruta está dada por
+\begin{equation}
+\ell =\sum_{i=1}^{k-1} \int_{0}^{1}\sqrt{x_{i}'(t) + y_{i}'(t)} dt
+\end{equation}
+
+Cada posición $x$ y velocidad $v$ es generada pseudo aleatoreamente dentro del encuadre del entorno de operación y son entendidas como pivotes o puntos de control (según el método utilizado). 
+La actualización de la posición corresponde a la generación de nuevas rutas que pasen por los pivotes o puntos de control modificados respecto a la información que se tenga en el enjambre.
+La función objetivo 
+	\begin{equation}
+		\min F(\ell) = \ell + NC(1 + {\ell}^\alpha)
+	\end{equation}
+donde  $ C$ es el número de colisiones y $\alpha$ es el nivel de penalización por rutas cortas con colisiones.
+
+Bajo esta representación todas las rutas tienen largos distintos pero las longitudes de las posiciones y velocidades permanecen constantes lo que significa gran comodidad para operar durante la ejecución del algoritmo
+
+La actualización de la velocidad de la partícula $s$ está dada por
 	\begin{eqnarray}
 	 v_{i+1} = \omega v_i + \rho_g\phi_g (g - x_i) + \rho_p\phi_g (p_i- x_i) \\
-	  r_{i+1} =  r_i +  v_i 
+	  x_{i+1} =  x_i +  v_i 
 	\end{eqnarray}
-	
-	Los parámetros son:
-	\begin{enumerate} 
-	\item $\omega$ que pondera el efecto de la velocidad actual
-	\item $\phi_g$ parámetro para favorecer la explotación
-	\item $\phi_p$ parámetro para favorecer la exploración
-	\item $\rho_g, \rho_p \sim U(0,1)$
-	\item $g$ la mejor posición global
-	\item $p_i$ la mejor posición de la partícula $i$
-	\item $r_i$ posición de la partícula $i$ (la ruta $i$).
-	\end{enumerate}
-	
-	{Actualizacíon de velocidad y posición de la partícula}
-	\begin{eqnarray}
-	 v_{i+1} = \omega v_i + \rho_g\phi_g (v(g) - v(r_i)) + \rho_p\phi_g (v(p_i) - v(r_i)) \\
-	  r_{i+1} = \text{Construir ruta a partir de }v^{t+1}
-	\end{eqnarray}
-	
-	Se calculan las diferencias entre los pivotes (velocidades)
-	\begin{enumerate} 
-	\item $v(g) - v(r_i)$, la velocidad se calcula como
-	\item $v(p_i) - v(r_i)$ 
-	\end{enumerate}
-	Donde la velocidad corresponde a un punto en el plano con componentes $x,y$
-	\begin{eqnarray}
-		v_x &=& \omega v_i_x + \rho_g\phi_g (v(g_x) - v(r_x)) + \rho_p\phi_g (v(p_x) - v(r_x)) \\
-		v_y &=& \omega v_i_x + \rho_g\phi_g (v(g_y) - v(r_y)) + \rho_p\phi_g (v(p_y) - v(r_y))
-	\end{eqnarray}
+donde los parámetros mencionados son: $\omega$ que pondera el efecto de la velocidad actual, $\phi_g$ parámetro para favorecer la explotación,  $\phi_p$ parámetro para favorecer la exploración, $\rho_g, \rho_p \sim U(0,1)$, $g$ la mejor posición global, $p_i$ la mejor posición de la partícula $i$, $x_i$ posición de la partícula $i$. 
 
 %%%% OPERADORES DE RUTA
-
+Para realizar las operaciones se consideró una definición especial para restar, sumar y multiplicar posiciones y velocidades las que se realizan punto a punto, lo que produce incrementos o decrementos en los puntos dentro del entorno de operación para realizar la exploración y explotación necesaria para el algoritmo.
 
 %%% ALGORITMO PSO
+El algoritmo PSO consta de una fase de inicialización, luego una fase de iteración para terminar con la finalización
 Inicialización del enjambre
+\begin{center}
 \begin{algorithm}[H]% <- necesario
-\SetLine \KwData{$S, \omega, \Phi_g, \Phi_p$}
+\SetLine \KwData{$S, \omega, \Phi_g, \Phi_p$, $g \leftarrow $ MAX\_INT}
 \KwResult{Mejor particula $s_i$. }
 \linesnumbered
 \SetVline
 \For{$i=1$ \KwTo $S$ }
 {
-	$r_i = $ \text{Inicializar posicion aleatoreamente}\;
-	$p_i \leftarrow r_i$\;
+	$x_i = $ \text{Inicializar posición aleatoreamente}\;
+	$p_i \leftarrow x_i$\;
 	$v_i = $ \text{Inicializar velocidad aleatoreamente}\;
 	\If{$f(p_i) < f(g)$}{
 		$g \leftarrow p_i$
 	}
 	
 }
+\caption{Inicialización PSO}
 \end{algorithm}
+\end{center}
 
 Iteración del enjambre
+\begin{center}
 \begin{algorithm}[H]% <- necesario
 \SetLine \KwData{$S, \omega, \Phi_g, \Phi_p, I$}
 \KwResult{Mejor particula $g$. }
@@ -124,11 +124,11 @@ $i = 0$
 	\For{$i=1$ \KwTo $S$}
 	{
 		$ r_p, r_g \sim U(0,1)$\;
-		$ v_i \leftarrow \omega v_i + \Phi_p r_p (p_i - r_i) + \Phi_g r_g(g - r_i)$\;
+		$ v_i \leftarrow \omega v_i + \Phi_p r_p (p_i - x_i) + \Phi_g r_g(g - x_i)$\;
 		$ x_i \leftarrow x_i + v_i $\;
 		\If{$ f(r_i) < f(p_i)$}
 		{
-			$p_i \leftarrow r_i$\;
+			$p_i \leftarrow x_i$\;
 			\If{$f(p_i) < f(g)$}
 			{
 				$g \leftarrow p_i$\;
@@ -138,4 +138,6 @@ $i = 0$
 	$i=i+1$\;
 }
 \Return $g$ \;
+\caption{Iteración PSO}
 \end{algorithm}
+\end{center}

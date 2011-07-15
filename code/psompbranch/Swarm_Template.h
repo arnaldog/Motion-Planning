@@ -190,7 +190,7 @@ template <class T> void Swarm<T>::updateParticleVelocity(Particle<T> &particle){
 /* Concrete Methods */
 template <class T> void Swarm<T>::initialize(){
 
-    cout << "Swarm::initialize(): inicializando particulas..." << endl;
+    //cout << "Swarm::initialize(): inicializando particulas..." << endl;
 
 	//debug informe CSV
     cout << "particula,fitness" << endl;

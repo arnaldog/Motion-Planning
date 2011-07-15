@@ -11,6 +11,7 @@
 using namespace std;
 
 #include "Map.h"
+#include <ctime>
 
 class Config {
 public:
@@ -22,6 +23,9 @@ public:
         return *pInstance_;
     }
 
+    string getDate();
+
+    void writePpm(string input);
     void setPivots(int pivots);
     int getPivots() const;
     void setAlpha(float alpha);
@@ -51,6 +55,10 @@ public:
 
 
     void printConfiguration();
+        void setResultfile(string resultfile);
+        string getResultfile() const;
+
+    
 
 private:
     static Config* pInstance_;
@@ -76,6 +84,9 @@ private:
     unsigned int quantity; // particle quantity
     string mapFile;
     Map* map;
+
+    string resultfile;
+    int nfile;
 
     float alpha; // objective function parameter for penalizing
     int pivots; // number of pivots to set the route
