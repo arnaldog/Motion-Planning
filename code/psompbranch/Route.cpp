@@ -317,10 +317,10 @@ void Route::printPath(){
 	for(unsigned int i=0; i< points.size(); i++){
 		Point2D *p = points[i];
 		matrix[p->x % width ][p->y % height] = i+2;
-//		matrix[p->x-1 % width ][p->y % height] = i+2;
-//		matrix[p->x+1% width ][p->y % height] = i+2;
-//		matrix[p->x % width ][p->y -1 % height] = i+2;
-//		matrix[p->x % width ][p->y +1 % height] = i+2;
+		//matrix[p->x-1 % width ][p->y % height] = i+2;
+		//matrix[p->x+1% width ][p->y % height] = i+2;
+		//matrix[p->x % width ][p->y -1 % height] = i+2;
+		//matrix[p->x % width ][p->y +1 % height] = i+2;
 	}
 
     string black = "0 0 0 ";
@@ -330,7 +330,7 @@ void Route::printPath(){
 
     for(unsigned int i = 0; i < width; i++){
 		//cout << "\t\t\t\t";
-		
+
 		for(unsigned int j = 0 ; j < height; j++){
 
 			if(matrix[i][j] > 1){
@@ -368,11 +368,10 @@ void Route::printPath(){
 		ss << "\n";
 	}
 
-    std:string o = ss.str();
-    config.writePpm(o);
+	std::string o = ss.str();
+	config.writePpm(o);
 
-    config.getDate();
-
+    //config.getDate();
 }
 
 float Route::fitnessEvaluation(Route &r){
@@ -523,14 +522,14 @@ void Route::initRandomPoints(){
 
     points[0] = start;
     for(unsigned int i=1; i<points.size()-1; i++){
-	// [TODO] tienen que ser el principio y el final del mapa
-	Point2D *p = Point2D::getRandomAbsPoint(0, 0, map->getWidth(), map->getHeight());
-	if ( ((*p) == (*start)) || ((*p) == (*goal))){
-	    i--;
-	    continue;
+		// [TODO] tienen que ser el principio y el final del mapa
+		Point2D *p = Point2D::getRandomAbsPoint(0, 0, map->getWidth(), map->getHeight());
+		if ( ((*p) == (*start)) || ((*p) == (*goal))){
+			i--;
+			continue;
+		}
+		points[i] = p;
 	}
-	points[i] = p;
-    }
 
     points[points.size()-1] = goal;
     return;
@@ -546,7 +545,7 @@ vector <Point2D*> Route::BezierSplines(){
  *
  */
 
- 
+
 
     int n = this->points.size();
     int l, k;

@@ -15,9 +15,6 @@ using namespace std;
 #include "Point2D.h"
 #include "Map.h"
 #include "Config.h"
-/*
- *
- */
 
 typedef  float (Route::*fnRoute)(Route &r);
 typedef  void (Route::*fnpRoute)(Route &r);
@@ -64,7 +61,7 @@ int main(int argc, char** argv) {
     swarm.setOmega(config.getOmega());
     swarm.setRhog(0.1);
     swarm.setRhop(0.1);
-   
+
     double tstart, tstop, ttime;
 
     tstart = (double)clock()/CLOCKS_PER_SEC;
@@ -74,25 +71,26 @@ int main(int argc, char** argv) {
     //swarm initialization
     swarm.initialize();
 
-   // cout << "main(): La ruta resultante al inicializar: " << endl;
     float prevfitness = swarm.getFitness();
-    swarm.printBestParticle();
+
+	//cout << "main(): La ruta resultante al inicializar: " << endl;
+	swarm.printBestParticle();
+
+	//swarm iteration
     swarm.iterate();
 
     tstop = (double)clock()/CLOCKS_PER_SEC;
-
     ttime= tstop-tstart; /*ttime is how long your code run */
 
-    //cout << "El tiempo de ejecución " << ttime << endl;
-    cout << ttime << "," ;
+	//imprimir informe de tiempo en csv
+	std::ostringstream ss;
 
-    //cout << "main(): Mejor particula obtenida: " << endl;
-    //cout << swarm.getBestParticleIndex() << endl;
+	ss << "time" << "," << "init" << "," << "end" << endl;
+	ss << ttime << "," << prevfitness << "," << swarm.getFitness() << endl;
 
-    //cout << "main(): Mejor fitness obtenido: ";
-    cout << prevfitness << "," << swarm.getFitness() << endl;
-
-    
+    string filename = "log";
+    string input = ss.str();
+	config.writeCsv(filename, input);
 
     //cout << "main(): La ruta resultante es: " << endl;
     swarm.printBestParticle();
@@ -122,6 +120,7 @@ bool verificarEntradas(int argc, char** argv){
     config.setPhi_p(2);
     config.setAlpha(0.5);
     config.setPivots(3);
+    config.setResultfile(".");
 
     //hermite inputs
 	config.setMode("hermite");
@@ -162,22 +161,22 @@ bool verificarEntradas(int argc, char** argv){
 
 		if(string(argv[i]) == "-alpha"){
 			//cout << "main::verificarEntradas(): alpha = " << argv[i+1] << endl;
-			config.setAlpha(atoi(argv[i+1]));
+			config.setAlpha(atof(argv[i+1]));
 		}
 
 		if(string(argv[i]) == "-omega"){
 			//cout << "main::verificarEntradas(): omega = " << argv[i+1] << endl;
-			config.setOmega(atoi(argv[i+1]));
+			config.setOmega(atof(argv[i+1]));
 		}
 
 		if(string(argv[i]) == "-phip"){
 			//cout << "main::verificarEntradas(): phip = " << argv[i+1] << endl;
-			config.setPhi_p(atoi(argv[i+1]));
+			config.setPhi_p(atof(argv[i+1]));
 		}
 
 		if(string(argv[i]) == "-phig"){
 			//cout << "main::verificarEntradas(): phig = " << argv[i+1] << endl;
-			config.setPhi_g(atoi(argv[i+1]));
+			config.setPhi_g(atof(argv[i+1]));
 		}
 		if(string(argv[i]) == "-f"){
 			//cout << "main::verificarEntradas(): resultfile = " << argv[i+1] << endl;
@@ -185,8 +184,10 @@ bool verificarEntradas(int argc, char** argv){
 		}
     }
 
-    //normalizacion
+	//DEPRECATED
+	//normalizacion
 	//phip + phig + omega = 1
+	/*
 	float omega = config.getOmega();
 	float phip = config.getPhi_p();
 	float phig = config.getPhi_g();
@@ -194,6 +195,7 @@ bool verificarEntradas(int argc, char** argv){
 	config.setOmega( omega/(phip+phig+omega) );
 	config.setPhi_p( phip/(phip+phig+omega) );
 	config.setPhi_g( phig/(phip+phig+omega) );
+	*/
 
 	return true;
 }

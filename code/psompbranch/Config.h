@@ -23,25 +23,37 @@ public:
         return *pInstance_;
     }
 
-    string getDate();
+	string getDate();
+
+	void setInitDate(const string);
+	string getInitDate();
 
     void writePpm(string input);
+    void writeCsv(string filename, string input);
+
     void setPivots(int pivots);
     int getPivots() const;
     void setAlpha(float alpha);
     float getAlpha() const;
+
     void setMap(Map* map);
     Map* getMap() const;
     void setMapFile(string mapFile);
     string getMapFile() const;
+    string getMapFileName() const;
+
     void setQuantity(unsigned int quantity);
     unsigned int getQuantity() const;
+
     void setOmega(float omega);
     float getOmega() const;
+
     void setPhi_g(float phi_g);
     float getPhi_g() const;
+
     void setPhi_p(float phi_p);
     float getPhi_p() const;
+
     void setIterations(int iterations);
     int getIterations() const;
 
@@ -54,11 +66,11 @@ public:
 	unsigned int getHermiteBase();
 
 
-    void printConfiguration();
-        void setResultfile(string resultfile);
-        string getResultfile() const;
+	void printConfiguration();
+	void setResultfile(string resultfile);
+	string getResultfile() const;
 
-    
+
 
 private:
     static Config* pInstance_;
@@ -87,6 +99,8 @@ private:
 
     string resultfile;
     int nfile;
+
+    string initDate;
 
     float alpha; // objective function parameter for penalizing
     int pivots; // number of pivots to set the route

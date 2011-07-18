@@ -28,8 +28,9 @@ void Config::writePpm(string input){
      */
 
     ss << this->resultfile << "/";
-    ss << this->getDate() << "_";
-    ss << this->mapFile << "_";
+    //ss << nfile << "_";
+    ss << this->getInitDate() << "_";
+    ss << this->getMapFileName() << "_";
     ss << this->quantity << "_";
     ss << this->alpha << "_";
     ss << this->omega << "_";
@@ -53,7 +54,28 @@ void Config::writePpm(string input){
     myfile.close();
     nfile++;
     return;
+}
 
+void Config::writeCsv(string filename, string input){
+
+	ofstream myfile;
+
+	string fileurl;
+
+	fileurl.append(this->resultfile);
+	fileurl.append("/");
+	fileurl.append(this->getInitDate());
+	fileurl.append("_");
+	fileurl.append(filename);
+	fileurl.append(".csv");
+
+	const char* filestr = fileurl.c_str();
+
+	myfile.open(filestr);
+	myfile << input ;
+	myfile.close();
+
+	return;
 }
 
 string Config::getDate(){
@@ -70,8 +92,26 @@ string Config::getDate(){
 //  printf( "La hora y fecha locales son: %s\n", cad );
 
   string date = cad;
+
+  //set the initial date
+  this->setInitDate(date);
   return date;
 
+}
+void Config::setInitDate(const string s){
+	if(this->initDate.empty()){
+		if(s.empty()){
+			this->initDate.assign(this->getDate());
+		} else {
+			this->initDate.assign(s);
+		}
+	}
+}
+string Config::getInitDate(){
+	if(this->initDate.empty()){
+		this->initDate.assign(this->getDate());
+	}
+	return this->initDate;
 }
 void Config::setPivots(int pivots) {
     this->pivots = pivots;
@@ -96,6 +136,11 @@ void Config::setMapFile(string mapFile) {
 }
 string Config::getMapFile() const {
     return mapFile;
+}
+string Config::getMapFileName() const {
+	size_t pos;
+	pos = this->mapFile.find_last_of("/\\");;
+	return this->mapFile.substr(pos+1);
 }
 void Config::setQuantity(unsigned int quantity) {
     this->quantity = quantity;
