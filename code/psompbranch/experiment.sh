@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#instances=(bugtrap1chico Tchico rooms_easychico complexchico) #todas estan tiran segfault, revisar
-instances=(Tchico)
+#instances=(bugtrap1chico Tchico rooms_easychico complexchico)
+instances=(bugtrap1chico) #probar con este primero
 population=(50 250)
 omegas=(0.7 1.5)
 phips=(0.6 1 1.4)
