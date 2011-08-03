@@ -1,0 +1,693 @@
+
+Config:printConfiguration(): archivo de mapa = map.txt
+Config:printConfiguration(): numero particulas = 3
+Config:printConfiguration(): numero iteraciones = 20
+Config:printConfiguration(): numero pivotes = 2
+Config:printConfiguration(): alpha = 3
+Config:printConfiguration(): omega = 0
+Config:printConfiguration(): phi_p = 1
+Config:printConfiguration(): phi_g = 5
+
+
+Map::printInformation(): Map size: 64x64
+
+Swarm::initialize(): inicializando particulas...
+Swarm::initialize(): particula 0, fitness: 2.81997e+06
+Swarm::initialize(): particula 1, fitness: 1.90826e+06
+Swarm::initialize(): particula 2, fitness: 2.12585e+06
+main(): La ruta resultante al inicializar: 
+Route::toString Points:		 (63,63) (47,8) (17,51) (0,0)
+				3.--------------------------------------------------------------
+				| . .                                                          |
+				|    ..                                                        |
+				|       ..                                                     |
+				|         ..  X                                                |
+				|           . X                                                |
+				|            .X                                                |
+				|             X..                                              |
+				|             X  .                                             |
+				|             X   .                                            |
+				|             X    ..                                          |
+				|             XXXXXXXXXXXXXXXXXXXXXXXXXX                       |
+				|             X      ..               XXX                      |
+				|             X       .                X                       |
+				|             X        .               X                       |
+				|             X         .              X                       |
+				|             X         .              X                       |
+				|             X          .             X           2           |
+				|             X          ..            X                       |
+				|             X           .            X                       |
+				|             X           .            X                       |
+				|             X            .           X                       |
+				|             X            .           X                       |
+				|             X            .           X                       |
+				|      XXXXXXXXX            .          X                       |
+				|      X                    .          X                       |
+				|      X                    .          X                       |
+				|      X                     .         X                       |
+				|      X                     .         X                       |
+				|      X                     .         X                       |
+				|                            .         X                       |
+				|                 X          ..        X            X          |
+				|                 X           .        X            X          |
+				|                 X           .                     X          |
+				|                 X           .                     X          |
+				|                 X           .                     X          |
+				|                 X           ..                    X          |
+				|                 X            .                    X          |
+				|                 X            .                    X          |
+				|                  X           .                    X          |
+				|                   XXXXXXXXX   .                   X          |
+				|                               .                   X          |
+				|                                .                  X          |
+				|                                . X                X          |
+				|                                 .X                X          |
+				|                                 .X                X          |
+				|                                  X                X          |
+				|       1                          X.               X          |
+				|                                  X..              X          |
+				|                                  X .              X          |
+				|                                  X  .             X          |
+				|                                  X   ..           X          |
+				|                                  X    .           X          |
+				|                 X                X     ..         X          |
+				|                 X                X       ..       X          |
+				|                 X                          .      X          |
+				|                 X                           ..    X          |
+				|                 X                             ..  X          |
+				|                 X                               ..X          |
+				|                 X                                 . .        |
+				|                 X                                    .       |
+				|                 X                                     . .    |
+				|                                                          . . |
+				---------------------------------------------------------------0
+particula 0 iteración 0
+V inicial
+Route::toString Points:		 (63,63) (52,55) (13,30) (0,0)
+
+Route::toString Points:		 (44,44) (36,38) (9,21) (0,0)
+Route::toString Points:		 (0,0) (3,-10) (-2,6) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (31,31) (32,7) (2,27) (0,0)
+particula 1 iteración 0
+V inicial
+Route::toString Points:		 (63,63) (33,8) (45,28) (0,0)
+
+Route::toString Points:		 (44,44) (23,5) (31,19) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (31,31) (16,4) (22,14) (0,0)
+particula 2 iteración 0
+V inicial
+Route::toString Points:		 (63,63) (1,47) (31,16) (0,0)
+
+Route::toString Points:		 (44,44) (0,32) (21,11) (0,0)
+Route::toString Points:		 (0,0) (4,-4) (2,5) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (31,31) (8,15) (19,18) (0,0)
+particula 0 iteración 1
+V inicial
+Route::toString Points:		 (31,31) (32,7) (2,27) (0,0)
+
+Route::toString Points:		 (21,21) (22,4) (1,18) (0,0)
+Route::toString Points:		 (0,0) (-1,-3) (0,-1) (0,0)
+Route::toString Points:		 (0,0) (-6,-1) (0,-6) (0,0)
+V final
+Route::toString Points:		 (15,15) (2,-5) (1,-1) (0,0)
+particula 1 iteración 1
+V inicial
+Route::toString Points:		 (31,31) (16,4) (22,14) (0,0)
+
+Route::toString Points:		 (21,21) (11,2) (15,9) (0,0)
+Route::toString Points:		 (0,0) (-13,-3) (-19,-10) (0,0)
+Route::toString Points:		 (0,0) (-10,-2) (-14,-7) (0,0)
+V final
+Route::toString Points:		 (15,15) (-38,-8) (-55,-27) (0,0)
+particula 2 iteración 1
+V inicial
+Route::toString Points:		 (31,31) (8,15) (19,18) (0,0)
+
+Route::toString Points:		 (21,21) (5,10) (13,12) (0,0)
+Route::toString Points:		 (0,0) (9,-26) (-2,6) (0,0)
+Route::toString Points:		 (0,0) (-4,-9) (-11,-11) (0,0)
+V final
+Route::toString Points:		 (15,15) (14,-63) (-17,-1) (0,0)
+particula 0 iteración 2
+V inicial
+Route::toString Points:		 (15,15) (2,-5) (1,-1) (0,0)
+
+Route::toString Points:		 (10,10) (1,-3) (0,0) (0,0)
+Route::toString Points:		 (0,0) (-2,-4) (-1,-1) (0,0)
+Route::toString Points:		 (0,0) (-3,0) (0,-3) (0,0)
+V final
+Route::toString Points:		 (7,7) (-9,-10) (-2,-8) (0,0)
+particula 1 iteración 2
+V inicial
+Route::toString Points:		 (15,15) (-38,-8) (-55,-27) (0,0)
+
+Route::toString Points:		 (10,10) (-26,-5) (-38,-18) (0,0)
+Route::toString Points:		 (0,0) (16,3) (13,11) (0,0)
+Route::toString Points:		 (0,0) (12,2) (9,8) (0,0)
+V final
+Route::toString Points:		 (7,7) (37,6) (17,25) (0,0)
+particula 2 iteración 2
+V inicial
+Route::toString Points:		 (15,15) (14,-63) (-17,-1) (0,0)
+
+Route::toString Points:		 (10,10) (9,-44) (-11,0) (0,0)
+Route::toString Points:		 (0,0) (-20,3) (-3,-4) (0,0)
+Route::toString Points:		 (0,0) (-14,20) (-1,-11) (0,0)
+V final
+Route::toString Points:		 (7,7) (-61,15) (-16,-30) (0,0)
+particula 0 iteración 3
+V inicial
+Route::toString Points:		 (7,7) (-9,-10) (-2,-8) (0,0)
+
+Route::toString Points:		 (4,4) (-6,-7) (-1,-5) (0,0)
+Route::toString Points:		 (0,0) (-8,-6) (-7,-5) (0,0)
+Route::toString Points:		 (0,0) (8,9) (1,7) (0,0)
+V final
+Route::toString Points:		 (3,3) (-4,1) (-13,0) (0,0)
+particula 1 iteración 3
+V inicial
+Route::toString Points:		 (7,7) (37,6) (17,25) (0,0)
+
+Route::toString Points:		 (4,4) (25,4) (11,17) (0,0)
+Route::toString Points:		 (0,0) (-15,-2) (-7,-10) (0,0)
+Route::toString Points:		 (0,0) (-25,-4) (-11,-17) (0,0)
+V final
+Route::toString Points:		 (3,3) (-62,-9) (-28,-42) (0,0)
+particula 2 iteración 3
+V inicial
+Route::toString Points:		 (7,7) (-61,15) (-16,-30) (0,0)
+
+Route::toString Points:		 (4,4) (-42,10) (-11,-21) (0,0)
+Route::toString Points:		 (0,0) (22,-9) (0,22) (0,0)
+Route::toString Points:		 (0,0) (11,6) (0,5) (0,0)
+V final
+Route::toString Points:		 (3,3) (36,1) (-8,39) (0,0)
+particula 0 iteración 4
+V inicial
+Route::toString Points:		 (3,3) (-4,1) (-13,0) (0,0)
+
+Route::toString Points:		 (2,2) (-2,0) (-9,0) (0,0)
+Route::toString Points:		 (0,0) (-9,-8) (-3,-6) (0,0)
+Route::toString Points:		 (0,0) (0,0) (3,0) (0,0)
+V final
+Route::toString Points:		 (1,1) (-20,-16) (-6,-12) (0,0)
+particula 1 iteración 4
+V inicial
+Route::toString Points:		 (3,3) (-62,-9) (-28,-42) (0,0)
+
+Route::toString Points:		 (2,2) (-43,-6) (-19,-29) (0,0)
+Route::toString Points:		 (0,0) (18,2) (0,12) (0,0)
+Route::toString Points:		 (0,0) (1,0) (0,1) (0,0)
+V final
+Route::toString Points:		 (1,1) (7,0) (-14,5) (0,0)
+particula 2 iteración 4
+V inicial
+Route::toString Points:		 (3,3) (36,1) (-8,39) (0,0)
+
+Route::toString Points:		 (2,2) (25,0) (-5,27) (0,0)
+Route::toString Points:		 (0,0) (-12,-5) (0,-10) (0,0)
+Route::toString Points:		 (0,0) (-30,0) (0,-33) (0,0)
+V final
+Route::toString Points:		 (1,1) (-66,-10) (-4,-67) (0,0)
+particula 0 iteración 5
+V inicial
+Route::toString Points:		 (1,1) (-20,-16) (-6,-12) (0,0)
+
+Route::toString Points:		 (0,0) (-14,-11) (-4,-8) (0,0)
+Route::toString Points:		 (0,0) (-13,-4) (-2,-9) (0,0)
+Route::toString Points:		 (0,0) (7,4) (5,3) (0,0)
+V final
+Route::toString Points:		 (0,0) (-22,-8) (3,-18) (0,0)
+particula 1 iteración 5
+V inicial
+Route::toString Points:		 (1,1) (7,0) (-14,5) (0,0)
+
+Route::toString Points:		 (0,0) (4,0) (-9,3) (0,0)
+Route::toString Points:		 (0,0) (-5,0) (0,-4) (0,0)
+Route::toString Points:		 (0,0) (-4,0) (0,-3) (0,0)
+V final
+Route::toString Points:		 (0,0) (-15,0) (-7,-12) (0,0)
+particula 2 iteración 5
+V inicial
+Route::toString Points:		 (1,1) (-66,-10) (-4,-67) (0,0)
+
+Route::toString Points:		 (0,0) (-46,-7) (-2,-46) (0,0)
+Route::toString Points:		 (0,0) (5,-3) (0,18) (0,0)
+Route::toString Points:		 (0,0) (0,7) (0,9) (0,0)
+V final
+Route::toString Points:		 (0,0) (-23,3) (-2,21) (0,0)
+particula 0 iteración 6
+V inicial
+Route::toString Points:		 (0,0) (-22,-8) (3,-18) (0,0)
+
+Route::toString Points:		 (0,0) (-15,-5) (2,-12) (0,0)
+Route::toString Points:		 (0,0) (0,0) (-1,0) (0,0)
+Route::toString Points:		 (0,0) (13,5) (-1,11) (0,0)
+V final
+Route::toString Points:		 (0,0) (15,6) (-3,13) (0,0)
+particula 1 iteración 6
+V inicial
+Route::toString Points:		 (0,0) (-15,0) (-7,-12) (0,0)
+
+Route::toString Points:		 (0,0) (-10,0) (-4,-8) (0,0)
+Route::toString Points:		 (0,0) (3,0) (0,5) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (-1,0) (-3,4) (0,0)
+particula 2 iteración 6
+V inicial
+Route::toString Points:		 (0,0) (-23,3) (-2,21) (0,0)
+
+Route::toString Points:		 (0,0) (-16,2) (-1,14) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-6) (0,0)
+V final
+Route::toString Points:		 (0,0) (-11,1) (-1,-2) (0,0)
+particula 0 iteración 7
+V inicial
+Route::toString Points:		 (0,0) (15,6) (-3,13) (0,0)
+
+Route::toString Points:		 (0,0) (10,4) (-2,9) (0,0)
+Route::toString Points:		 (0,0) (-11,-4) (-2,-11) (0,0)
+Route::toString Points:		 (0,0) (-12,-5) (2,-11) (0,0)
+V final
+Route::toString Points:		 (0,0) (-39,-15) (-1,-38) (0,0)
+particula 1 iteración 7
+V inicial
+Route::toString Points:		 (0,0) (-1,0) (-3,4) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (-2,2) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-2) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-3) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (-1,-8) (0,0)
+particula 2 iteración 7
+V inicial
+Route::toString Points:		 (0,0) (-11,1) (-1,-2) (0,0)
+
+Route::toString Points:		 (0,0) (-7,0) (0,-1) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,1) (0,0)
+V final
+Route::toString Points:		 (0,0) (-5,0) (0,1) (0,0)
+particula 0 iteración 8
+V inicial
+Route::toString Points:		 (0,0) (-39,-15) (-1,-38) (0,0)
+
+Route::toString Points:		 (0,0) (-27,-10) (0,-26) (0,0)
+Route::toString Points:		 (0,0) (0,0) (-3,13) (0,0)
+Route::toString Points:		 (0,0) (4,2) (0,7) (0,0)
+V final
+Route::toString Points:		 (0,0) (-11,-3) (-6,21) (0,0)
+particula 1 iteración 8
+V inicial
+Route::toString Points:		 (0,0) (0,0) (-1,-8) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,-5) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,2) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,6) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,12) (0,0)
+particula 2 iteración 8
+V inicial
+Route::toString Points:		 (0,0) (-5,0) (0,1) (0,0)
+
+Route::toString Points:		 (0,0) (-3,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,-8) (0,-11) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (-2,-16) (0,-22) (0,0)
+particula 0 iteración 9
+V inicial
+Route::toString Points:		 (0,0) (-11,-3) (-6,21) (0,0)
+
+Route::toString Points:		 (0,0) (-7,-2) (-4,14) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-9) (0,0)
+Route::toString Points:		 (0,0) (0,0) (3,-19) (0,0)
+V final
+Route::toString Points:		 (0,0) (-5,-1) (3,-46) (0,0)
+particula 1 iteración 9
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,12) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,8) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-3) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-8) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,-16) (0,0)
+particula 2 iteración 9
+V inicial
+Route::toString Points:		 (0,0) (-2,-16) (0,-22) (0,0)
+
+Route::toString Points:		 (0,0) (-1,-11) (0,-15) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,5) (0,0)
+Route::toString Points:		 (0,0) (0,9) (0,19) (0,0)
+V final
+Route::toString Points:		 (0,0) (-1,10) (0,37) (0,0)
+particula 0 iteración 10
+V inicial
+Route::toString Points:		 (0,0) (-5,-1) (3,-46) (0,0)
+
+Route::toString Points:		 (0,0) (-3,0) (2,-32) (0,0)
+Route::toString Points:		 (0,0) (0,0) (-1,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,6) (0,0)
+V final
+Route::toString Points:		 (0,0) (-2,0) (-1,-11) (0,0)
+particula 1 iteración 10
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,-16) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,-11) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,14) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,18) (0,0)
+particula 2 iteración 10
+V inicial
+Route::toString Points:		 (0,0) (-1,10) (0,37) (0,0)
+
+Route::toString Points:		 (0,0) (0,7) (0,25) (0,0)
+Route::toString Points:		 (0,0) (0,-7) (0,-27) (0,0)
+Route::toString Points:		 (0,0) (0,-1) (0,-7) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,-11) (0,-50) (0,0)
+particula 0 iteración 11
+V inicial
+Route::toString Points:		 (0,0) (-2,0) (-1,-11) (0,0)
+
+Route::toString Points:		 (0,0) (-1,0) (0,-7) (0,0)
+Route::toString Points:		 (0,0) (0,2) (0,10) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (-1,4) (0,15) (0,0)
+particula 1 iteración 11
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,18) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,12) (0,0)
+Route::toString Points:		 (0,0) (0,2) (0,4) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-9) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,4) (0,-1) (0,0)
+particula 2 iteración 11
+V inicial
+Route::toString Points:		 (0,0) (0,-11) (0,-50) (0,0)
+
+Route::toString Points:		 (0,0) (0,-7) (0,-35) (0,0)
+Route::toString Points:		 (0,0) (0,7) (0,27) (0,0)
+Route::toString Points:		 (0,0) (0,3) (0,12) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,15) (0,53) (0,0)
+particula 0 iteración 12
+V inicial
+Route::toString Points:		 (0,0) (-1,4) (0,15) (0,0)
+
+Route::toString Points:		 (0,0) (0,2) (0,10) (0,0)
+Route::toString Points:		 (0,0) (0,-1) (0,-3) (0,0)
+Route::toString Points:		 (0,0) (0,-2) (0,-8) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,-4) (0,-15) (0,0)
+particula 1 iteración 12
+V inicial
+Route::toString Points:		 (0,0) (0,4) (0,-1) (0,0)
+
+Route::toString Points:		 (0,0) (0,2) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,-2) (0,-11) (0,0)
+Route::toString Points:		 (0,0) (0,-1) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,-4) (0,-22) (0,0)
+particula 2 iteración 12
+V inicial
+Route::toString Points:		 (0,0) (0,15) (0,53) (0,0)
+
+Route::toString Points:		 (0,0) (0,10) (0,37) (0,0)
+Route::toString Points:		 (0,0) (0,-9) (0,-33) (0,0)
+Route::toString Points:		 (0,0) (0,-14) (0,-51) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,-39) (0,-142) (0,0)
+particula 0 iteración 13
+V inicial
+Route::toString Points:		 (0,0) (0,-4) (0,-15) (0,0)
+
+Route::toString Points:		 (0,0) (0,-2) (0,-10) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,3) (0,12) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,4) (0,17) (0,0)
+particula 1 iteración 13
+V inicial
+Route::toString Points:		 (0,0) (0,-4) (0,-22) (0,0)
+
+Route::toString Points:		 (0,0) (0,-2) (0,-15) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,1) (0,9) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,7) (0,0)
+particula 2 iteración 13
+V inicial
+Route::toString Points:		 (0,0) (0,-39) (0,-142) (0,0)
+
+Route::toString Points:		 (0,0) (0,-27) (0,-99) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,-19) (0,-71) (0,0)
+particula 0 iteración 14
+V inicial
+Route::toString Points:		 (0,0) (0,4) (0,17) (0,0)
+
+Route::toString Points:		 (0,0) (0,2) (0,11) (0,0)
+Route::toString Points:		 (0,0) (0,-3) (-1,-13) (0,0)
+Route::toString Points:		 (0,0) (0,-3) (0,-13) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,-10) (-2,-44) (0,0)
+particula 1 iteración 14
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,7) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,4) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-4) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,-5) (0,0)
+particula 2 iteración 14
+V inicial
+Route::toString Points:		 (0,0) (0,-19) (0,-71) (0,0)
+
+Route::toString Points:		 (0,0) (0,-13) (0,-49) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,-9) (0,-35) (0,0)
+particula 0 iteración 15
+V inicial
+Route::toString Points:		 (0,0) (0,-10) (-2,-44) (0,0)
+
+Route::toString Points:		 (0,0) (0,-7) (-1,-30) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,2) (1,10) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,-1) (1,-2) (0,0)
+particula 1 iteración 15
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,-5) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,-3) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,3) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,2) (0,0)
+particula 2 iteración 15
+V inicial
+Route::toString Points:		 (0,0) (0,-9) (0,-35) (0,0)
+
+Route::toString Points:		 (0,0) (0,-6) (0,-24) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,-4) (0,-17) (0,0)
+particula 0 iteración 16
+V inicial
+Route::toString Points:		 (0,0) (0,-1) (1,-2) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+particula 1 iteración 16
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,2) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,1) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+particula 2 iteración 16
+V inicial
+Route::toString Points:		 (0,0) (0,-4) (0,-17) (0,0)
+
+Route::toString Points:		 (0,0) (0,-2) (0,-11) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,-2) (0,-8) (0,0)
+particula 0 iteración 17
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+particula 1 iteración 17
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+particula 2 iteración 17
+V inicial
+Route::toString Points:		 (0,0) (0,-2) (0,-8) (0,0)
+
+Route::toString Points:		 (0,0) (0,-1) (0,-5) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,-1) (0,-4) (0,0)
+particula 0 iteración 18
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+particula 1 iteración 18
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,-2) (0,0)
+particula 2 iteración 18
+V inicial
+Route::toString Points:		 (0,0) (0,-1) (0,-4) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,-2) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,-2) (0,0)
+particula 0 iteración 19
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+particula 1 iteración 19
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,-2) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,1) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,1) (0,0)
+particula 2 iteración 19
+V inicial
+Route::toString Points:		 (0,0) (0,0) (0,-2) (0,0)
+
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+Route::toString Points:		 (0,0) (0,0) (0,0) (0,0)
+V final
+Route::toString Points:		 (0,0) (0,0) (0,-1) (0,0)
+main(): Mejor particula obtenida: 
+2
+main(): Mejor fitness obtenido: 281270
+
+main(): La ruta resultante es: 
+Route::toString Points:		 (63,63) (0,0) (0,0) (0,0)
+				3---------------------------------------------------------------
+				|.                                                             |
+				| .                                                            |
+				|  .                                                           |
+				|   .         X                                                |
+				|    .        X                                                |
+				|     .       X                                                |
+				|      .      X                                                |
+				|       .     X                                                |
+				|        .    X                                                |
+				|         .   X                                                |
+				|          .  XXXXXXXXXXXXXXXXXXXXXXXXXX                       |
+				|           . X                       XXX                      |
+				|            .X                        X                       |
+				|             X                        X                       |
+				|             X.                       X                       |
+				|             X .                      X                       |
+				|             X  .                     X                       |
+				|             X   .                    X                       |
+				|             X    .                   X                       |
+				|             X     .                  X                       |
+				|             X      .                 X                       |
+				|             X       .                X                       |
+				|             X        .               X                       |
+				|      XXXXXXXXX        .              X                       |
+				|      X                 .             X                       |
+				|      X                  .            X                       |
+				|      X                   .           X                       |
+				|      X                    .          X                       |
+				|      X                     .         X                       |
+				|                                      X                       |
+				|                 X            .       X            X          |
+				|                 X             .      X            X          |
+				|                 X              .                  X          |
+				|                 X               .                 X          |
+				|                 X                                 X          |
+				|                 X                 .               X          |
+				|                 X                  .              X          |
+				|                 X                   .             X          |
+				|                  X                                X          |
+				|                   XXXXXXXXX           .           X          |
+				|                                        .          X          |
+				|                                         .         X          |
+				|                                  X                X          |
+				|                                  X        .       X          |
+				|                                  X         .      X          |
+				|                                  X                X          |
+				|                                  X           .    X          |
+				|                                  X                X          |
+				|                                  X             .  X          |
+				|                                  X              . X          |
+				|                                  X                X          |
+				|                                  X                X          |
+				|                 X                X                X          |
+				|                 X                X                X .        |
+				|                 X                                 X  .       |
+				|                 X                                 X          |
+				|                 X                                 X    .     |
+				|                 X                                 X          |
+				|                 X                                        .   |
+				|                 X                                            |
+				|                 X                                          . |
+				|                                                              |
+				---------------------------------------------------------------0

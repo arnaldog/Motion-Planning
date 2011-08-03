@@ -12,37 +12,37 @@ iterations=(100)
 alphas=(2)
 bases=(50 20)
 
-	for f in ${instances[*]}
-	do
-		for s in ${population[*]}
-		do
-			for w in ${omegas[*]}
-			do
-				for p in ${phips[*]} 
-				do
-					for g in ${phigs[*]}
-					do
-						for q in ${pivots[*]}
-						do 
-							for m in ${methods[*]}
-							do
-								for i in ${iterations[*]} 
-								do
-									for a in ${alphas[*]}
-									do
-										for b in  ${bases[*]}
-										do
+for f in ${instances[*]}
+do
+for s in ${population[*]}
+do
+for w in ${omegas[*]}
+do
+for p in ${phips[*]} 
+do
+for g in ${phigs[*]}
+do
+for q in ${pivots[*]}
+do 
+for m in ${methods[*]}
+do
+for i in ${iterations[*]} 
+do
+for a in ${alphas[*]}
+do
+for b in  ${bases[*]}
+do
 
-										echo './psomp.bin  -iteraciones '$i ' -particulas '$s'  -alpha '$a' -omega '$w'  -phip '$p' -phig '$g' -map '$f'.dat  -pivotes '$q' -mode '$m' -hbase '$b' -f out/ >> log/'$f'_'$m'.log'
-										#echo $f $i $s $a $w $p $g $q $m $b >> 'log/'$f'_'$m'.log'
-										done
-									done
-								done
-							done
-						done
-					done
-				done
-			done
-		done
-	done
+echo './psomp.bin  -iteraciones '$i ' -particulas '$s'  -alpha '$a' -omega '$w'  -phip '$p' -phig '$g' -map '$f'.dat  -pivotes '$q' -mode '$m' -hbase '$b' -f out/ >> log/'$f'_'$m'.log'
+#echo $f $i $s $a $w $p $g $q $m $b >> 'log/'$f'_'$m'.log'
+done
+done
+done
+done
+done
+done
+done
+done
+done
+done
 

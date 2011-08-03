@@ -1,0 +1,111 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BSplines	Route.cpp	/^vector <Point2D*> Route::BSplines(){$/;"	f	class:Route
+BezierSplines	Route.cpp	/^vector <Point2D*> Route::BezierSplines(){$/;"	f	class:Route
+HermiteSplines	Route.cpp	/^vector <Point2D*> Route::HermiteSplines()$/;"	f	class:Route
+Map	Map.cpp	/^Map::Map() {$/;"	f	class:Map
+Map	Map.cpp	/^Map::Map(const Map& orig) {$/;"	f	class:Map
+Map	Map.cpp	/^Map::Map(string filename){$/;"	f	class:Map
+Point2D	Point2D.cpp	/^Point2D::Point2D() {$/;"	f	class:Point2D
+Point2D	Point2D.cpp	/^Point2D::Point2D(const Point2D& orig) {$/;"	f	class:Point2D
+Point2D	Point2D.cpp	/^Point2D::Point2D(int x, int y) {$/;"	f	class:Point2D
+Route	Route.cpp	/^Route::Route() {$/;"	f	class:Route
+Route	Route.cpp	/^Route::Route(const Route& orig) {$/;"	f	class:Route
+createPath	Route.cpp	/^void Route::createPath(){$/;"	f	class:Route
+fitnessEvaluation	Route.cpp	/^float Route::fitnessEvaluation(Route &r){$/;"	f	class:Route
+fnRoute	main.cpp	/^typedef  float (Route::*fnRoute)(Route &r);$/;"	t	file:
+fnpRoute	main.cpp	/^typedef  void (Route::*fnpRoute)(Route &r);$/;"	t	file:
+getAccelerations	Route.cpp	/^vector<Point2D*> Route::getAccelerations() const {$/;"	f	class:Route
+getAlpha	Config.cpp	/^float Config::getAlpha() const {$/;"	f	class:Config
+getCollision	Map.cpp	/^int Map::getCollision(Point2D &p){$/;"	f	class:Map
+getDate	Config.cpp	/^string Config::getDate(){$/;"	f	class:Config
+getFilename	Map.cpp	/^string Map::getFilename() const {$/;"	f	class:Map
+getGoal	Map.cpp	/^Point2D* Map::getGoal() const {$/;"	f	class:Map
+getGradients	Route.cpp	/^vector<Point2D*> Route::getGradients() const {$/;"	f	class:Route
+getHeight	Map.cpp	/^unsigned int Map::getHeight() const {$/;"	f	class:Map
+getHermiteBase	Config.cpp	/^unsigned int Config::getHermiteBase(){$/;"	f	class:Config
+getIterations	Config.cpp	/^int Config::getIterations() const {$/;"	f	class:Config
+getLength	Route.cpp	/^int Route::getLength() const {$/;"	f	class:Route
+getMap	Config.cpp	/^Map* Config::getMap() const {$/;"	f	class:Config
+getMapFile	Config.cpp	/^string Config::getMapFile() const {$/;"	f	class:Config
+getMatrix	Map.cpp	/^vector < vector <int> > Map::getMatrix(){$/;"	f	class:Map
+getMode	Config.cpp	/^string Config::getMode(){$/;"	f	class:Config
+getObstacles	Map.cpp	/^vector <Point2D*> Map::getObstacles(){$/;"	f	class:Map
+getOmega	Config.cpp	/^float Config::getOmega() const {$/;"	f	class:Config
+getPath	Route.cpp	/^vector<Point2D*> Route::getPath() const {$/;"	f	class:Route
+getPhi_g	Config.cpp	/^float Config::getPhi_g() const {$/;"	f	class:Config
+getPhi_p	Config.cpp	/^float Config::getPhi_p() const {$/;"	f	class:Config
+getPivots	Config.cpp	/^int Config::getPivots() const {$/;"	f	class:Config
+getPoints	Route.cpp	/^vector<Point2D*> Route::getPoints() const {$/;"	f	class:Route
+getQuantity	Config.cpp	/^unsigned int Config::getQuantity() const {$/;"	f	class:Config
+getResultfile	Config.cpp	/^string Config::getResultfile() const {$/;"	f	class:Config
+getSize	Route.cpp	/^int Route::getSize() const {$/;"	f	class:Route
+getStart	Map.cpp	/^Point2D* Map::getStart() const {$/;"	f	class:Map
+getWidth	Map.cpp	/^unsigned int Map::getWidth() const {$/;"	f	class:Map
+getX	Point2D.cpp	/^int Point2D::getX() const {$/;"	f	class:Point2D
+getY	Point2D.cpp	/^int Point2D::getY() const {$/;"	f	class:Point2D
+initRandomGradients	Route.cpp	/^void Route::initRandomGradients(){$/;"	f	class:Route
+initRandomPoints	Route.cpp	/^void Route::initRandomPoints(){$/;"	f	class:Route
+initRandomRoute	Route.cpp	/^void Route::initRandomRoute(Route& r){$/;"	f	class:Route
+initRandomVelocity	Route.cpp	/^void Route::initRandomVelocity(Route &r){$/;"	f	class:Route
+main	main.cpp	/^int main(int argc, char** argv) {$/;"	f
+operator !	Route.cpp	/^void Route::operator!(){$/;"	f	class:Route
+operator !=	Point2D.cpp	/^bool Point2D::operator!=(const Point2D &p) const{$/;"	f	class:Point2D
+operator *	Point2D.cpp	/^Point2D Point2D::operator*(float m) const{$/;"	f	class:Point2D
+operator *	Route.cpp	/^Route Route::operator*(float m){$/;"	f	class:Route
+operator +	Point2D.cpp	/^Point2D Point2D::operator+(const Point2D& p) const {$/;"	f	class:Point2D
+operator +	Point2D.cpp	/^Point2D* Point2D::operator+(const Point2D *p) const {$/;"	f	class:Point2D
+operator +	Route.cpp	/^Route Route::operator+(const Route &b){$/;"	f	class:Route
+operator -	Point2D.cpp	/^Point2D Point2D::operator-(const Point2D& p) const {$/;"	f	class:Point2D
+operator -	Route.cpp	/^Route Route::operator-(const Route &b){$/;"	f	class:Route
+operator /	Point2D.cpp	/^Point2D Point2D::operator\/(float m) const{$/;"	f	class:Point2D
+operator ==	Point2D.cpp	/^bool Point2D::operator==(const Point2D &p) const{$/;"	f	class:Point2D
+operator >	Point2D.cpp	/^bool Point2D::operator>(float m) const{$/;"	f	class:Point2D
+operator >	Route.cpp	/^Route Route::operator>(const Route &b){$/;"	f	class:Route
+operator >>	Point2D.cpp	/^float Point2D::operator>>(const Point2D& p) const {$/;"	f	class:Point2D
+pInstance_	Config.cpp	/^Config* Config::pInstance_ = NULL;$/;"	m	class:Config	file:
+printConfiguration	Config.cpp	/^void Config::printConfiguration(){$/;"	f	class:Config
+printInformation	Map.cpp	/^void Map::printInformation()$/;"	f	class:Map
+printPath	Route.cpp	/^void Route::printPath(){$/;"	f	class:Route
+scaleTo	Point2D.cpp	/^void Point2D::scaleTo(int base){$/;"	f	class:Point2D
+setAccelerations	Route.cpp	/^void Route::setAccelerations(vector<Point2D*> accelerations) {$/;"	f	class:Route
+setAlpha	Config.cpp	/^void Config::setAlpha(float alpha) {$/;"	f	class:Config
+setFilename	Map.cpp	/^void Map::setFilename(string filename) {$/;"	f	class:Map
+setGoal	Map.cpp	/^void Map::setGoal(Point2D* goal) {$/;"	f	class:Map
+setGoal	Route.cpp	/^void Route::setGoal(Point2D* goal){$/;"	f	class:Route
+setGradients	Route.cpp	/^void Route::setGradients(vector<Point2D*> gradients) {$/;"	f	class:Route
+setHeight	Map.cpp	/^void Map::setHeight(unsigned int height) {$/;"	f	class:Map
+setHermiteBase	Config.cpp	/^void Config::setHermiteBase(unsigned int _base){$/;"	f	class:Config
+setIterations	Config.cpp	/^void Config::setIterations(int iterations) {$/;"	f	class:Config
+setLength	Route.cpp	/^void Route::setLength(int length) {$/;"	f	class:Route
+setMap	Config.cpp	/^void Config::setMap(Map* map) {$/;"	f	class:Config
+setMapFile	Config.cpp	/^void Config::setMapFile(string mapFile) {$/;"	f	class:Config
+setMatrix	Map.cpp	/^void Map::setMatrix(vector<vector<int> > matrix) {$/;"	f	class:Map
+setMode	Config.cpp	/^void Config::setMode(string _mode){$/;"	f	class:Config
+setOmega	Config.cpp	/^void Config::setOmega(float omega) {$/;"	f	class:Config
+setPath	Route.cpp	/^void Route::setPath(vector<Point2D*> path) {$/;"	f	class:Route
+setPhi_g	Config.cpp	/^void Config::setPhi_g(float phi_g) {$/;"	f	class:Config
+setPhi_p	Config.cpp	/^void Config::setPhi_p(float phi_p) {$/;"	f	class:Config
+setPivots	Config.cpp	/^void Config::setPivots(int pivots) {$/;"	f	class:Config
+setPoints	Route.cpp	/^void Route::setPoints(vector<Point2D*> points) {$/;"	f	class:Route
+setQuantity	Config.cpp	/^void Config::setQuantity(unsigned int quantity) {$/;"	f	class:Config
+setResultfile	Config.cpp	/^void Config::setResultfile(string resultfile) {$/;"	f	class:Config
+setSize	Route.cpp	/^void Route::setSize(int size) {$/;"	f	class:Route
+setStart	Map.cpp	/^void Map::setStart(Point2D* start) {$/;"	f	class:Map
+setStart	Route.cpp	/^void Route::setStart(Point2D* start){$/;"	f	class:Route
+setWidth	Map.cpp	/^void Map::setWidth(unsigned int width) {$/;"	f	class:Map
+setX	Point2D.cpp	/^void Point2D::setX(int x) {$/;"	f	class:Point2D
+setY	Point2D.cpp	/^void Point2D::setY(int y) {$/;"	f	class:Point2D
+slice	Route.cpp	/^void Route::slice(vector<Point2D*> *ruta){$/;"	f	class:Route
+toString	Point2D.cpp	/^string Point2D::toString(){$/;"	f	class:Point2D
+toString	Route.cpp	/^string Route::toString(){$/;"	f	class:Route
+verificarEntradas	main.cpp	/^bool verificarEntradas(int argc, char** argv){$/;"	f
+writePpm	Config.cpp	/^void Config::writePpm(string input){$/;"	f	class:Config
+~Config	Config.cpp	/^Config::~Config() {$/;"	f	class:Config
+~Map	Map.cpp	/^Map::~Map() {$/;"	f	class:Map
+~Point2D	Point2D.cpp	/^Point2D::~Point2D() {$/;"	f	class:Point2D
+~Route	Route.cpp	/^Route::~Route() {$/;"	f	class:Route
