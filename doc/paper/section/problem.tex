@@ -82,7 +82,7 @@ La función objetivo por lo tanto  queda expresada como
 		Min: F(\ell) = \ell + Pn(\ell)
 	\end{equation}
 
-$lenght(r)$ es el largo de la ruta, que en este caso, como la distancia entre lugares es  constante entre lugares adyacentes y vale $d_{min}=1$, esta funcion es equivalente a la cantidad de elementos del vector $p$.
+$\ell$ es el largo de la ruta, que en este caso, como la distancia entre lugares es  constante entre lugares adyacentes y vale $d_{min}=1$, esta funcion es equivalente a la cantidad de elementos del vector $p$.
 
 $Pn(p)$ es una función de penalizaci\'on que vale $0$ si es una ruta sin colisiones, es decir, 
 no pasa por ningun lugar marcado como obst\'aculo, en caso contrario, esta funci\'on se define:
@@ -93,7 +93,7 @@ no pasa por ningun lugar marcado como obst\'aculo, en caso contrario, esta funci
 
 $NC =$ n\'umero de colisiones\\
 
-El razonamiento detr\'as de de esta funci\'on de penalizacion garantiza que se penalice por cada casilla marcada como obstáculo que intenta pasar, contándola dos veces, una vez al contar el largo del vector, y una segunda vez si la casilla es un obst\'aculo. Adem\'as penaliza de manera proporcional a la cantidad de colisiones y potencialmente al largo de la ruta, por lo que si $\alpha < 0$ se puede penalizar de manera m\'as fuerte a las rutas cortas, debido a que la ruta mas corta entre el punto de inicio $a = C_{i,j}$ y el punto de meta $b=C_{k,\ell}$ mide: $lenght(p) = |i-k| + |j-l|$, la cual es una ruta directa la cual probablemente pase por m\'as de alg\'un obst\'aculo y al ser muy corta, puede quedar como candidata en vez de privilegiar a aquellas que son mas largas pero que no tienen colisiones.
+El razonamiento detr\'as de de esta funci\'on de penalizacion garantiza que se penalice por cada casilla marcada como obstáculo que intenta pasar, contándola dos veces, una vez al contar el largo del vector, y una segunda vez si la casilla es un obst\'aculo. Adem\'as penaliza de manera proporcional a la cantidad de colisiones y de manera potencial al largo de la ruta, por lo que si $\alpha > 0$ se puede penalizar de manera m\'as fuerte a las rutas cortas, debido a que la ruta mas corta entre el punto de inicio $a = C_{i,j}$ y el punto de meta $b=C_{k,\ell}$ mide: $\ell = |i-k| + |j-l|$, la cual es una ruta directa la cual probablemente pase por m\'as de alg\'un obst\'aculo y al ser muy corta, puede quedar como candidata en vez de privilegiar a aquellas que son mas largas pero que no tienen colisiones.
 
 
 
