@@ -102,10 +102,10 @@ template <class T> void Swarm<T>::setOmega(float omega) {
 }
 
 template <class T> void Swarm<T>::printBestParticle(){
-    int index = this->bestParticleIndex;
-    T position = T();
-    position = this->population[index].getBestPosition();
-    !position;
+	int index = this->bestParticleIndex;
+	T position = T();
+	position = this->population[index].getBestPosition();
+	!position;
 }
 
 /* setters for initializer functions */
@@ -192,6 +192,11 @@ template <class T> void Swarm<T>::initialize(){
 
     //cout << "Swarm::initialize(): inicializando particulas..." << endl;
 
+	std::ostringstream ss;
+
+	//debug informe CSV
+    ss << "particle,fitness" << endl;
+
     //inicializar cada particula de la poblacion
     for(unsigned int i=0; i < this->population.size(); i++){
 
@@ -225,7 +230,13 @@ template <class T> void Swarm<T>::initialize(){
         p.setBestVelocity(velocity);
         p.setBestFitness(fitness);
 
-        //cout << "Swarm::initialize(): particula " << i << ", fitness: "<< p.getFitness() << endl;
+		//imprimir posicion
+        //!position;
+
+		//cout << "Swarm::initialize(): particula " << i << ", fitness: "<< p.getFitness() << endl;
+
+		//debug para informe CSV
+		ss << i << "," << p.getFitness() << endl;
 
 		//cout << "Swarm::initialize(): data:" << endl;
 		//cout << p.toString() << endl;
@@ -238,6 +249,11 @@ template <class T> void Swarm<T>::initialize(){
         }
     }
 
+    string filename = "initialization";
+    string input = ss.str();
+    Config &config = Config::getInstance();
+	config.writeCsv(filename, input);
+
 }
 
 
@@ -246,6 +262,11 @@ template <class T> void Swarm<T>::iterate()
 {
 	//criterio de parada: numero de iteraciones.
 	int iteration = 0;
+
+	std::ostringstream ss;
+
+	//debug informe CSV
+    ss << "iteration,particle,fitness" << endl;
 
 	while (iteration < this->iterations)
 	{
@@ -299,9 +320,18 @@ template <class T> void Swarm<T>::iterate()
 		//cout << " mejor particula: " << this->getBestParticleIndex();
 		//cout << " mejor fitness: " << this->fitness << endl;
 
+		//debug para informe CSV
+		ss << iteration << ","  << this->getBestParticleIndex() << "," << this->fitness << endl;
+
 		//next iteration
 		iteration++;
 	}
+
+	string filename = "iteration";
+    string input = ss.str();
+    Config &config = Config::getInstance();
+	config.writeCsv(filename, input);
+
 }
 
 

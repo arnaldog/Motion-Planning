@@ -1,56 +1,85 @@
 \section{Experimentos}
-Los experimentos son realizados sobre un conjunto de instancias que caracterizan situaciones de diferentes dificultades para el agente. Uno de lo objetivos de realizar la experimentación sobre distintas instancias es el de poder encontrar los parámetros adecuados para cada tipo de instancia (nivel de dificultad) y establecer un razonamiento adecuado para la futura utilización del algoritmo (heurísticas). Otro objetivo muy importante es medir la calidad de las soluciones encontradas y poder hacer un breve análisis de éstas conjunto con los tiempos de ejecución del algoritmo y evaluar el tiempo de convergencia respecto a los parámetros. 
+Los experimentos son realizados sobre un conjunto de instancias que caracterizan situaciones de diferentes dificultades para el agente. Uno de lo objetivos de realizar la experimentación sobre distintas instancias es el de poder encontrar parámetros adecuados o criterios ad-hoc para cada tipo de instancia (nivel de dificultad) y así establecer un razonamiento adecuado para la futura utilización del algoritmo (heurísticas). Otro objetivo muy importante es medir la calidad de las soluciones encontradas y poder hacer un breve análisis de éstas conjunto con los tiempos de ejecución del algoritmo y evaluar el tiempo de convergencia respecto a los parámetros. 
+
+La búsqueda de parámetros adecuados significa realizar análisis exploratorio de datos. Para analizar los datos, pueden ser utilizadas diferentes técnicas, una técnica a considerar es estudiar los datos desde la perspectiva de un modelo, donde los parámetros del problema son las variables explicativas (o características) del modelo y medidas como el fitness o el tiempo de ejecución son la salida del modelo.
+
+La idea de estudiar el fitness explicado a través de los parámetros puede ser considerada porque la relación entre ambos no es fuertemente causal, dado que el algoritmo inicializa pseudo aleatoreamente a las partículas y existen incertidumbres asociadas al valor final de la función objetivo lo que permite realizar análisis estadístico para estudiar tal situación.
+
+Con un modelo estadístico asociado al problema es posible realizar simulaciones y así ampliar la perspectiva desde el punto de vista de las ejecuciones dado que la obtención de un conjunto variado de soluciones constituye consumir largos períodos de tiempo.
+
+Es importante señalar que el objetivo del análisis no es el de determinar o proponer un modelo de regresión u otra clase de ajuste, sino el de estudiar el comportamiento generando modelos empíricos como las redes neuronales artificiales.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columntextwidth]{\imagepath{ann.png}} 
+\caption{Modelo de red neuronal para parametros vs salida del PSO}
+\end{center}
+\end{figure}
+El uso de modelos empíricos es más adecuado dado que estos pueden aproximar funciones no lineales y provienen directamente de la data, sin embargo no son explícitos, lo que no permite una visualización instantanea entre la salida y la variable explicativa a utilizar.
+
 
 \subsection{Organización de los Experimentos}
 Se realiza por cada instancia una serie de experimentos probando diferentes parámetros, midiendo la calidad de las soluciones y observando el tiempo de ejecución del algoritmo. Otro dato importante de observar es la convergencia del valor de la función objetivo durante las iteraciones del algoritmo lo que permite ver a posteriori el comportamiento de la velocidad del enjambre de partículas.
 
-%%% Incluir Instancias a resolver %%%%
-Tablas con experimentos 
+El procedimiento de la experimentación de este algoritmo consiste en considerar el siguiente escenario.
 
+\paragraph{Ejemplo de ejecuci\'on del algoritmo} El algoritmo especifica todos los par\'ametros antes mencionados
+y adem\'as especificar el modo de interpolaci\'on y la instancia.
+
+\begin{verbatim}
+./psomp.bin -iteraciones 50  -particulas 500 
+	-alpha 2 -omega 2  -phip 20 -phig50
+	-map %../psomp/maps/rooms_easychico.dat
+	-pivotes 8 -mode bezier
+%\end{verbatim}
+
+
+%%% Incluir Instancias a resolver %%%%
 \begin{table}[ht]
 	\begin{center}
-	\begin{tabular}{lllllllll}
+	\begin{tabular}{lllll}
 	\toprule
-	Instancia	& $|S|$	& $\alpha$	&$\omega$	& $\phi_g$	& $\phi_p$	& $q$	& Método	& Muestras	\\
+	Entradas		& Valores		&			&					&				\\
 	\hline
-	Bugtrap		& 10	& 2			& 1			& 10		& 20		& 100	& Hermité   & 100\\ 	
-	Bugtrap		& 10	& 2			& 0			& 10		& 20		& 100	& Bezier    & 100\\ 
-	T			& 10	& 0			& 1			& 10		& 20		& 100	& Hermité   & 100\\ 
-	T			& 10	& 0			& 0			& 10		& 20		& 100	& Bezier    & 100\\ 
-	Rooms		& 10	& 0			& 1			& 10		& 20		& 100	& Hermité   & 100\\ 
-	Rooms		& 10	& 0			& 0			& 10		& 20		& 100	& Bezier    & 100\\ 
-	Complex		& 500	& 2			& 1			& 50		& 20		& 100	& Bezier    & 100\\
-	Complex		& 500	& 2			& 0			& 50		& 20		& 100	& Bezier    & 100\\
+	Instancia		& \scriptsize bugtrap		& \scriptsize T		& \scriptsize rooms\_easychico	& \scriptsize complexchico  \\
+	\hline
+	$|S|$			& 50			& 250		&					&				\\ \hline
+	$\alpha$		& 2				& 2.5		& 3					&				\\ \hline
+	$\omega$		& 0.7			& 1.5		&					&				\\ \hline
+	$\phi_g$		& 0.6			& 1			& 1.4				&				\\	 \hline		
+	$\phi_p$		& 0.6			& 1			& 1.4				&				\\ \hline
+	$q$				& 1				& 2			& 4					& 6				\\ \hline
+	Método			& \scriptsize Hermité		& \scriptsize Bezier	&					&				\\ \hline
+	Iteraciones 	& 5				& 10		& 30				&				\\ \hline
+	Ejecuciones		& 3				&			&					&				\\ \hline
+	Bases Hermite	& 1				& 10		& 20				&				\\ 
 	\bottomrule
 	\end{tabular}
 	\caption{Parametros PSO utilizados según instancia}
 	\end{center}
 \end{table}
 
+En total son 3456 ejecuciones para el PSO utilizando Bezier y 7588 usando Hermite
+Cada configuracion se realiza 3 veces, lo que significa un total de 220368 ejecuciones del algoritmo.
+
+
+
+
+
 
 
 
 	
-\begin{figure}
-  \centering
-  \subfloat[Bugtrap]{\label{fig:bugtrap}\includegraphics[width=0.20\textwidth]{\imagepath{bugtrap.png}}}                
-  \subfloat[Complex]{\label{fig:complex}\includegraphics[width=0.20\textwidth]{\imagepath{complex.png}}} \\
-  \subfloat[T]{\label{fig:t}\includegraphics[width=0.20\textwidth]{\imagepath{t.png}}}
-  \subfloat[Rooms]{\label{fig:rooms}\includegraphics[width=0.20\textwidth]{\imagepath{rooms.png}}}
+%\begin{figure}
+%  \centering
+%  \subfloat[Bugtrap]{\label{fig:bugtrap}\includegraphics[width=0.20\textwidth]{\imagepath{bugtrap.png}}}                
+%  \subfloat[Complex]{\label{fig:complex}\includegraphics[width=0.20\textwidth]{\imagepath{complex.png}}} \\
+%  \subfloat[T]{\label{fig:t}\includegraphics[width=0.20\textwidth]{\imagepath{t.png}}}
+%  \subfloat[Rooms]{\label{fig:rooms}\includegraphics[width=0.20\textwidth]{\imagepath{rooms.png}}}
  
-  \caption{Instancias Global Path Planning}
-  \label{fig:animals}
-\end{figure}
-
-
-
-
-
-
-
-%\begin{verbatim}
-%./psomp.bin -iteraciones 50  -particulas 500  -alpha 2 -omega 2  -phip 20 -phig50 -map %../psomp/maps/rooms_easychico.dat  -pivotes 8 -mode bezier
-%\end{verbatim}
+%  \caption{Instancias Global Path Planning}
+%  \label{fig:animals}
+%\end{figure}
 
 
 \begin{table}[ht]
@@ -64,6 +93,9 @@ Tablas con experimentos
 	\caption{Resultados PSO utilizados según instancia}
 	\end{center}
 \end{table}
+
+
+
 
 
 \subsection{Resultados}
