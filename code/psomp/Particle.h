@@ -1,69 +1,57 @@
-using namespace std;
-
-#include <vector>
-
-#include "Point.h"
-#include "Config.h"
+/*
+ * File:   Particle.h
+ * Author: alejandrasuarez
+ *
+ * Created on 3 de junio de 2011, 1:30
+ */
 
 #ifndef PARTICLE_H
 #define	PARTICLE_H
 
-typedef vector<Point*> vector_punteros_a_punto;
+#include "Route.h"
 
-class Particle {
-	public:
-		Particle();
-		Particle(const Particle& orig);
-		Particle(vector <Point*> position);
+template <class T> class Particle {
 
-		virtual ~Particle();
+public:
+    /* Constructors and others*/
+    Particle();
+    Particle(const Particle& orig);
+    virtual ~Particle();
 
-		//crea una ruta random entre el punto de inicio y la meta, segun indique el mapa
-		void initialize();
+    /* Concrete Methods */
+    void updatePosition();
 
-		void updatePosition(); /* Actualiza posicion */
-                void initVelocity();
-                vector_punteros_a_punto createRandomRoute(Point* origin, Point* target);
 
-		void updateVelocity(vector_punteros_a_punto bestGlobalVelocity);
-		void evaluateFitness();
+    /*  Getters and Setters */
+    void setBestFitness(float bestFitness);
+    float getBestFitness() ;
 
-		void printPosition();
-		void printVelocity();
+    void setFitness(float fitness);
+    float getFitness() ;
 
-		// Getters and setters ...
-                /* setters */
-		void setPosition(vector_punteros_a_punto newPosition);
-		void setBestPosition(vector_punteros_a_punto newBestPosition);
+    void setBestVelocity(T const& bestVelocity);
+    T const& getBestVelocity() ;
 
-		void setVelocity(vector_punteros_a_punto newVelocity);
-                void setBestVelocity(vector_punteros_a_punto newVelocity);
+    void setBestPosition(T const& bestPosition);
+    T const& getBestPosition() ;
 
-		void setFitness(float newFitness);
-		void setBestFitness(float newFitness);
+    void setVelocity(T const& velocity);
+    T const& getVelocity() ;
 
-                 /* getters */
-		vector_punteros_a_punto getPosition();
-		vector_punteros_a_punto getBestPosition();
+    void setPosition(T const& position);
+    T const& getPosition();
 
-		vector_punteros_a_punto getVelocity();
-                vector_punteros_a_punto getBestVelocity();
+	string toString();
 
-		float getFitness();
-		float getBestFitness();
+private:
+    T position;
+    T velocity;
+    T bestPosition;
+    T bestVelocity;
+    float fitness;
+    float bestFitness;
 
-	private:
-		vector_punteros_a_punto position; /* vector de posiciones que definen la ruta */
-		vector_punteros_a_punto bestPosition; /* vector que guarda la mejor posicion */
-		vector_punteros_a_punto velocity; /* vector de velocidades */
-		vector_punteros_a_punto bestVelocity;
-
-		float fitness; /* valor de la funcion objetivo actual */
-		float bestFitness; /* el valor de la f.o. de la mejor posicion */
-
-		//hace in corte en la primera interseccion de si misma,
-		//para acortar la ruta y obtener un resultado mejor
-		void slice(vector_punteros_a_punto* ruta_ineficiente);
 };
 
 #endif	/* PARTICLE_H */
+

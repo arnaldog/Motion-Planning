@@ -1,99 +1,147 @@
+/*
+ * File:   main.cpp
+ * Author: alejandrasuarez
+ *
+ * Created on 3 de junio de 2011, 0:23
+ */
+
+
+
 using namespace std;
-
 #include <cstdlib>
-#include <iostream>
-#include <string>
-#include <algorithm>
-
-#include "Config.h"
-#include "Map.h"
+#include <vector>
 #include "Swarm.h"
-#include "Particle.h"
+#include "Route.h"
+#include "Point2D.h"
+#include "Map.h"
+#include "Config.h"
+
+typedef  float (Route::*fnRoute)(Route &r);
+typedef  void (Route::*fnpRoute)(Route &r);
 
 bool verificarEntradas(int argc,char** argv);
 
 int main(int argc, char** argv) {
 
-	//verificar que se ingresaron 5 parámetros de entrada
-	if(!verificarEntradas(argc,argv)) return 0;
+    if(!verificarEntradas(argc,argv)) return 0;
 
-	//usar clase Config
-	Config &config = Config::getInstance();
+    Config &config = Config::getInstance();
 
-	//si no hay errores en las entradas imprimir configuracion
-	config.printConfiguration();
+    //si no hay errores en las entradas imprimir configuracion
+    //config.printConfiguration();
 
-	//crear mapa
-	Map mapa = Map(config.getMapFile());
+    //crear mapa en la configuracion
+    string mapfilename = config.getMapFile();
+    Map map = Map(mapfilename);
+    config.setMap(&map);
 
-	//imprimir mapa (opcional)
-	//mapa.printMap();
+    //imprimir informacion del mapa
+   // map.printInformation();
 
-	//agregar mapa a los datos de configuracion global
-	config.setMap(&mapa);
+    // ROUTE Swarm(size, iterations, fitness);
+    int swarmSize = config.getQuantity();
+    int swarmIterations = config.getIterations();
+    float swarmFitness = 99999999999999;
+    Swarm<Route> swarm = Swarm<Route>(swarmSize, swarmIterations, swarmFitness);
 
-	//crear enjambre de particulas
-	Swarm swarm = Swarm();
+    int particleSize = config.getPivots();
+    swarm.setParticleSize(particleSize);
 
-	//inicialización de la población de particulas
-	vector <Particle> newPopulation = vector<Particle>(config.getParticleQuantity());
+    // setting the objective function
+    fnRoute objectiveFunction = &Route::fitnessEvaluation;
+    fnpRoute initPositionFunction = &Route::initRandomRoute;
+    fnpRoute initVelocityFunction = &Route::initRandomVelocity;
 
-	swarm.setPopulation(newPopulation);
-	swarm.setBestFitness(99999999); //infinite's for noobs
-	swarm.setIterations(config.getIterations());
+    swarm.setFitnessFunction(objectiveFunction);
+    swarm.setInitPositionFunction(initPositionFunction);
+    swarm.setInitVelocityFunction(initVelocityFunction);
 
-	//inicializar
-	swarm.initialize();
+    swarm.setPhig(config.getPhi_g());
+    swarm.setPhip(config.getPhi_p());
+    swarm.setOmega(config.getOmega());
+    swarm.setRhog(0.1);
+    swarm.setRhop(0.1);
 
-	//debug
-	cout << endl;
-	cout << "main(): Mejor fitness obtenido despues de inicializar = " << swarm.getBestFitness() << endl;
-	cout << endl;
+    double tstart, tstop, ttime;
 
-	//comenzar PSO
-	swarm.iterate();
+    tstart = (double)clock()/CLOCKS_PER_SEC;
 
-	//terminado el PSO, imprimir la mejor posicion de las particulas (opcional)
-	//swarm.printBestPosition();
+    /* YOUR CODES */
 
-	cout << "PRINTING THE BEST PARTICLE NUMBER: " << swarm.getBestParticleIndex() << endl;
-	cout << "PRINTING THE BEST FITNESS FITNESS:  " << swarm.getFitness() << endl;
-	cout << "FINISH OF PSO" << endl;
+    //swarm initialization
+    swarm.initialize();
 
-	//imprimir la mejor particula del swarm, en forma de matriz
-	swarm.printBestParticleAsMatrix();
+    float prevfitness = swarm.getFitness();
 
-	return 0;
+	//cout << "main(): La ruta resultante al inicializar: " << endl;
+	swarm.printBestParticle();
+
+	//swarm iteration
+    swarm.iterate();
+
+    tstop = (double)clock()/CLOCKS_PER_SEC;
+    ttime= tstop-tstart; /*ttime is how long your code run */
+
+	//imprimir informe de tiempo en csv
+	std::ostringstream ss;
+
+	ss << "time" << "," << "init" << "," << "end" << endl;
+	ss << ttime << "," << prevfitness << "," << swarm.getFitness() << endl;
+
+    string filename = "log";
+    string input = ss.str();
+	config.writeCsv(filename, input);
+
+    //cout << "main(): La ruta resultante es: " << endl;
+    swarm.printBestParticle();
+
+    return 0;
 }
 
+
 bool verificarEntradas(int argc, char** argv){
-	//verificar numero de entradas
-	int argumentos_esperados = (1 + 2*1);
-	if(argc < argumentos_esperados){
-		cout << "ERROR: numero de parametros de entrada incorrectos, se esperaba " << argumentos_esperados << endl;
-		cout << "formato: ./psomp.bin <archivo de mapa>" << endl;
-		return false;
-	}
+    //verificar numero de entradas
 
-	//set defaults
-	Config &config = Config::getInstance();
+    int nargs = (1 + 2*1);
+    if(argc < nargs){
+	cout << "ERROR: numero de parametros de entrada incorrectos, debe ser ";
+	cout << nargs << endl;
+	cout << "formato: ./psomp.bin <archivo de mapa>" << endl;
+	return false;
+    }
 
-	config.setIterations(1);
-	config.setParticleQuantity(1);
-	config.setOmega(1);
-	config.setPhiG(2);
-	config.setPhiP(2);
-	config.setAlpha(0.5);
-	config.setPivots(3);
+    //set defaults
+    Config &config = Config::getInstance();
 
-	//revisar cada argumento dado
-	for(int i=1; i<argc; i++){
-		//cout << "main(): argv[" << i << "] = " << argv[i] << endl;
+    config.setIterations(1);
+    config.setQuantity(1); // particle cuantity
+    config.setOmega(1);
+    config.setPhi_g(2);
+    config.setPhi_p(2);
+    config.setAlpha(0.5);
+    config.setPivots(3);
+    config.setResultfile(".");
+
+    //hermite inputs
+	config.setMode("hermite");
+	config.setHermiteBase(1);
+
+    //revisar cada argumento dado
+    for(int i=1; i<argc; i++){
 
 		if(string(argv[i]) == "-map"){
 			//cout << "main::verificarEntradas(): mapa = " << argv[i+1] << endl;
 			string t = string(argv[i+1]);
 			config.setMapFile(t);
+		}
+
+		if(string(argv[i]) == "-mode"){
+			string t = string(argv[i+1]);
+			config.setMode(t);
+		}
+
+		if(string(argv[i]) == "-hbase"){
+			config.setHermiteBase(atoi(argv[i+1]));
 		}
 
 		if(string(argv[i]) == "-iteraciones"){
@@ -103,7 +151,7 @@ bool verificarEntradas(int argc, char** argv){
 
 		if(string(argv[i]) == "-particulas"){
 			//cout << "main::verificarEntradas(): particulas = " << argv[i+1] << endl;
-			config.setParticleQuantity(atoi(argv[i+1]));
+			config.setQuantity(atoi(argv[i+1]));
 		}
 
 		if(string(argv[i]) == "-pivotes"){
@@ -113,25 +161,41 @@ bool verificarEntradas(int argc, char** argv){
 
 		if(string(argv[i]) == "-alpha"){
 			//cout << "main::verificarEntradas(): alpha = " << argv[i+1] << endl;
-			config.setAlpha(atoi(argv[i+1]));
+			config.setAlpha(atof(argv[i+1]));
 		}
 
 		if(string(argv[i]) == "-omega"){
 			//cout << "main::verificarEntradas(): omega = " << argv[i+1] << endl;
-			config.setOmega(atoi(argv[i+1]));
+			config.setOmega(atof(argv[i+1]));
 		}
 
 		if(string(argv[i]) == "-phip"){
 			//cout << "main::verificarEntradas(): phip = " << argv[i+1] << endl;
-			config.setPhiP(atoi(argv[i+1]));
+			config.setPhi_p(atof(argv[i+1]));
 		}
 
 		if(string(argv[i]) == "-phig"){
 			//cout << "main::verificarEntradas(): phig = " << argv[i+1] << endl;
-			config.setPhiG(atoi(argv[i+1]));
+			config.setPhi_g(atof(argv[i+1]));
 		}
-		
-	}
+		if(string(argv[i]) == "-f"){
+			//cout << "main::verificarEntradas(): resultfile = " << argv[i+1] << endl;
+			config.setResultfile(argv[i+1]);
+		}
+    }
+
+	//DEPRECATED
+	//normalizacion
+	//phip + phig + omega = 1
+	/*
+	float omega = config.getOmega();
+	float phip = config.getPhi_p();
+	float phig = config.getPhi_g();
+
+	config.setOmega( omega/(phip+phig+omega) );
+	config.setPhi_p( phip/(phip+phig+omega) );
+	config.setPhi_g( phig/(phip+phig+omega) );
+	*/
 
 	return true;
 }

@@ -1,190 +1,219 @@
-#include "Config.h"
-
-//Config* Config::pinstance = NULL;
-
 /*
-Config* Config::Instance() {
-	if (!pinstance)
-		pinstance = new Config;
+ * File:   Config.cpp
+ * Author: alejandrasuarez
+ *
+ * Created on 5 de junio de 2011, 21:23
+ */
 
-	return pinstance;
-}
-*/
+#include "Config.h"
 
 Config* Config::pInstance_ = NULL;
 
-float Config::getPhiP(){
-	return this->phi_p;
-}
-float Config::getPhiG(){
-	return this->phi_g;
-}
-float Config::getOmega(){
-	return this->omega;
+
+Config::~Config() {
 }
 
-string Config::getMapFile(){
-	return this->map_file;
+void Config::writePpm(string input){
+
+    Map *map = this->getMap();
+    int width  = map->getWidth();
+    int height = map->getHeight();
+
+    std::ostringstream ss;
+
+    ofstream myfile;
+    /* File name conventions
+     * date_instance_particles_alpha_omega_phip_phig_pivotes_mehod_[init|end]
+     *
+     */
+
+    ss << this->resultfile << "/";
+    //ss << nfile << "_";
+    ss << this->getInitDate() << "_";
+    ss << this->getMapFileName() << "_";
+    ss << this->quantity << "_";
+    ss << this->alpha << "_";
+    ss << this->omega << "_";
+    ss << this->phi_p << "_";
+    ss << this->phi_g << "_";
+    ss << this->pivots << "_";
+    ss << this->mode << "_";
+
+    string resultfile = ss.str();
+
+    //remove(resultfile.begin(), resultfile.end(), '.');
+
+    resultfile = (nfile == 0) ? resultfile + "init.ppm": resultfile + "end.ppm";
+    const char* filename = resultfile.c_str ();
+    myfile.open(filename);
+    // format for pnm
+    myfile << "P3" << endl;
+    myfile << height <<  " " << width << endl;
+    myfile << "255" << endl;
+    myfile << input ;
+    myfile.close();
+    nfile++;
+    return;
 }
 
-Map* Config::getMap(){
-	return this->map;
-}
+void Config::writeCsv(string filename, string input){
 
-int Config::getIterations(){
-	return this->iterations;
-}
+	ofstream myfile;
 
-int Config::getParticleQuantity(){
-	return this->quantity;
-}
+	string fileurl;
 
-void Config::setIterations(int iterations){
-	this->iterations = iterations;
+	std::ostringstream ss;
+
+	ss << this->resultfile << "/";
+	ss << this->getInitDate() << "_";
+	ss << this->getMapFileName() << "_";
+	ss << this->quantity << "_";
+	ss << this->alpha << "_";
+	ss << this->omega << "_";
+	ss << this->phi_p << "_";
+	ss << this->phi_g << "_";
+	ss << this->pivots << "_";
+	ss << this->mode << "_";
+	ss << filename << ".csv";
+
+	fileurl = ss.str();
+
+	const char* filestr = fileurl.c_str();
+
+	myfile.open(filestr);
+	myfile << input ;
+	myfile.close();
+
 	return;
 }
 
-int Config::getPivots(){
-    return this->pivots;
-}
+string Config::getDate(){
 
-void Config::setPivots(int pivots){
+  time_t tiempo;
+  char cad[80];
+  struct tm *tmPtr;
+
+  tiempo = time(NULL);
+  tmPtr = localtime(&tiempo);
+  strftime( cad, 80, "%Y_%B_%A_%H%M%S", tmPtr );
+
+//  printf( "La hora local es: %s\n", asctime(tmPtr) );
+//  printf( "La hora y fecha locales son: %s\n", cad );
+
+  string date = cad;
+
+  //set the initial date
+  this->setInitDate(date);
+  return date;
+
+}
+void Config::setInitDate(const string s){
+	if(this->initDate.empty()){
+		if(s.empty()){
+			this->initDate.assign(this->getDate());
+		} else {
+			this->initDate.assign(s);
+		}
+	}
+}
+string Config::getInitDate(){
+	if(this->initDate.empty()){
+		this->initDate.assign(this->getDate());
+	}
+	return this->initDate;
+}
+void Config::setPivots(int pivots) {
     this->pivots = pivots;
-    return;
 }
-
-void Config::setPhiP(float phi_p){
-	this->phi_p = phi_p;
-	return;
+int Config::getPivots() const {
+    return pivots;
 }
-void Config::setPhiG(float phi_g){
-	this->phi_g = phi_g;
-	return;
-}
-void Config::setOmega(int omega){
-	this->omega=omega;
-	return;
-}
-
-void Config::setParticleQuantity(unsigned int quantity){
-	this->quantity=quantity;
-	return;
-}
-
-void Config::setMapFile(string map_file){
-	this->map_file=map_file;
-	return;
-}
-
-void Config::setMap(Map* map){
-	this->map=map;
-	return;
-}
-
-int Config::getRandomInt(int max){
-	return rand()%max + 1;
-}
-
-void Config::setAlpha(float alpha){
+void Config::setAlpha(float alpha) {
     this->alpha = alpha;
-    return;
+}
+float Config::getAlpha() const {
+    return alpha;
+}
+void Config::setMap(Map* map) {
+    this->map = map;
+}
+Map* Config::getMap() const {
+    return map;
+}
+void Config::setMapFile(string mapFile) {
+    this->mapFile = mapFile;
+}
+string Config::getMapFile() const {
+    return mapFile;
+}
+string Config::getMapFileName() const {
+	size_t pos;
+	pos = this->mapFile.find_last_of("/\\");;
+	return this->mapFile.substr(pos+1);
+}
+void Config::setQuantity(unsigned int quantity) {
+    this->quantity = quantity;
+}
+unsigned int Config::getQuantity() const {
+    return quantity;
+}
+void Config::setOmega(float omega) {
+    this->omega = omega;
+}
+float Config::getOmega() const {
+    return omega;
+}
+void Config::setPhi_g(float phi_g) {
+    this->phi_g = phi_g;
+}
+float Config::getPhi_g() const {
+    return phi_g;
+}
+void Config::setPhi_p(float phi_p) {
+    this->phi_p = phi_p;
+}
+float Config::getPhi_p() const {
+    return phi_p;
+}
+void Config::setIterations(int iterations) {
+    this->iterations = iterations;
+}
+int Config::getIterations() const {
+    return iterations;
 }
 
-float Config::getAlpha(){
-    return this->alpha;
+void Config::setMode(string _mode){
+	this->mode = _mode;
+}
+string Config::getMode(){
+	return this->mode;
 }
 
-int Config::getWeightedRandomInt(vector<int> distancias){
-	//crear vector de probabilidades
-	vector<float> probabilidades;
-
-	//calcular suma de las distancias
-	int suma_distancias = 0;
-	int min_distancia = 1000;
-	int factor_distancia = 1;
-
-	// calculo de la distancia mínima
-	for(unsigned int i=0; i<distancias.size(); i++){
-		if (distancias[i] < min_distancia){
-			min_distancia = distancias[i];
-		}
-	}
-
-	for(unsigned int i=0; i<distancias.size(); i++){
-		distancias[i] -= min_distancia;
-		distancias[i] *= factor_distancia;
-		
-		suma_distancias += distancias[i];
-	}
-
-	// cout << "Config::getWeightedRandomInt(): suma_distancias = " << suma_distancias << endl;
-
-	//calcular las ponderaciones nuevas
-
-	//como vamos a privilegiar a las distancias mas cortas hay que hacer otro vector
-	//que le de mas valor a las distancias cortas en la misma posicion
-	vector<int> ponderaciones;
-
-	for(unsigned int i=0; i<distancias.size(); i++){
-		ponderaciones.push_back(suma_distancias - distancias[i]);
-	}
-
-	//calcular la suma de las ponderaciones
-	int suma_ponderaciones = 0;
-	for(unsigned int i=0; i<ponderaciones.size(); i++){
-		suma_ponderaciones += ponderaciones[i];
-	}
-
-	//cout << "Config::getWeightedRandomInt(): suma_ponderaciones = " << suma_ponderaciones << endl;
-
-	//calcular las probabilidades de cada una de las distancias
-	float p;
-	for(unsigned int i=0; i<distancias.size(); i++){
-		p = (1.0/suma_ponderaciones) * (ponderaciones[i]) ;
-		
-	//cout << "Config::getWeightedRandomInt(): distancias[" << i << "] = " << distancias[i] << endl;
-		
-//cout << "Config::getWeightedRandomInt(): ponderaciones[" << i << "] = " << ponderaciones[i] << endl;
-		
-		//cout << "Config::getWeightedRandomInt(): (suma_ponderaciones - ponderaciones[i]) = " << (suma_ponderaciones - ponderaciones[i]) << endl;
-
-		probabilidades.push_back(p);
-
-		//cout << "Config::getWeightedRandomInt(): probabilidad calculada = " << p << endl;
-	}
-
-	//lanzar numero random
-	float random = this->getRandomInt(1000)/1000.0;
-
-	//cout << "Config::getWeightedRandomInt(): random = " << random << endl;
-
-	//ver cual de todos los elementos sale sorteado
-	float suma_probabilidades = 0.0;
-	int indice_escogido = 0;
-	for(unsigned int i=0; i<probabilidades.size(); i++){
-		suma_probabilidades += probabilidades[i];
-
-		//cout << "Config::getWeightedRandomInt(): suma_probabilidades = " << suma_probabilidades << endl;
-
-		if(random <= suma_probabilidades){
-			indice_escogido = i;
-
-			//cout << "Config::getWeightedRandomInt(): indice_escogido = " << indice_escogido << endl;
-
-			break;
-		}
-	}
-
-	return indice_escogido;
+void Config::setHermiteBase(unsigned int _base){
+	this->hermite_base = _base;
+}
+unsigned int Config::getHermiteBase(){
+	return this->hermite_base;
 }
 
 void Config::printConfiguration(){
 	cout << endl;
-	cout << "Config:printConfiguration(): archivo de mapa = " << this->map_file << endl;
+	cout << "Config:printConfiguration(): archivo de mapa = " << this->mapFile << endl;
 	cout << "Config:printConfiguration(): numero particulas = " << this->quantity << endl;
 	cout << "Config:printConfiguration(): numero iteraciones = " << this->iterations << endl;
 	cout << "Config:printConfiguration(): numero pivotes = " << this->pivots << endl;
+	cout << "Config:printConfiguration(): alpha = " << this->alpha << endl;
+	cout << "Config:printConfiguration(): omega = " << this->omega << endl;
+	cout << "Config:printConfiguration(): phi_p = " << this->phi_p << endl;
+	cout << "Config:printConfiguration(): phi_g = " << this->phi_g << endl;
+
 	//cout << "Config:printConfiguration():  = " << this-> << endl;
 
 	cout << endl;
+}
+void Config::setResultfile(string resultfile) {
+    this->resultfile = resultfile;
+}
+string Config::getResultfile() const {
+    return resultfile;
 }

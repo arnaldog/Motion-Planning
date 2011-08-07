@@ -45,7 +45,7 @@ mkdir $out_dir
 										for b in  ${bases[*]}
 										do
 											echo 'echo "[map: '$1' | method: '$2' | #: '$3'] iteracion: '$iteracion_actual' de '$total_ejecuciones' ('$(($iteracion_actual*100/$total_ejecuciones))'%)"';
-											echo './psomp.bin  -iteraciones '$i ' -particulas '$s'  -alpha '$a' -omega '$w'  -phip '$p' -phig '$g' -map '../psomp/maps/$f'.dat -pivotes '$q' -mode '$m' -hbase '$b' -f '$out_dir'/';
+											echo './psomp.bin  -iteraciones '$i ' -particulas '$s'  -alpha '$a' -omega '$w'  -phip '$p' -phig '$g' -map 'maps/$f'.dat -pivotes '$q' -mode '$m' -hbase '$b' -f '$out_dir'/';
 											let iteracion_actual=$iteracion_actual+1;
 										done
 									done
