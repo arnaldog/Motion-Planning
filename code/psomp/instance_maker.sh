@@ -10,7 +10,12 @@ pivots=(2 5 8) #3n+2, n=0,1,2,...
 methods=($2)
 iterations=(5 10 30)
 alphas=(2 2.5 3)
-bases=(1 30 60)
+bases=(1)
+
+#si es hermite, ocupar bases
+if [ $2 = "hermite" ] ; then
+	bases=(1 30 60)
+fi
 
 #directorio salida
 out_dir='out_'$1'_'$2'_'$3
