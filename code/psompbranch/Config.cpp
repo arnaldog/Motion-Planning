@@ -43,7 +43,7 @@ void Config::writePpm(string input){
 
     //remove(resultfile.begin(), resultfile.end(), '.');
 
-    resultfile = (nfile == 0) ? resultfile + "_init.ppm": resultfile + "_end.ppm";
+    resultfile = (nfile == 0) ? resultfile + "init.ppm": resultfile + "end.ppm";
     const char* filename = resultfile.c_str ();
     myfile.open(filename);
     // format for pnm
@@ -62,12 +62,21 @@ void Config::writeCsv(string filename, string input){
 
 	string fileurl;
 
-	fileurl.append(this->resultfile);
-	fileurl.append("/");
-	fileurl.append(this->getInitDate());
-	fileurl.append("_");
-	fileurl.append(filename);
-	fileurl.append(".csv");
+	std::ostringstream ss;
+
+	ss << this->resultfile << "/";
+	ss << this->getInitDate() << "_";
+	ss << this->getMapFileName() << "_";
+	ss << this->quantity << "_";
+	ss << this->alpha << "_";
+	ss << this->omega << "_";
+	ss << this->phi_p << "_";
+	ss << this->phi_g << "_";
+	ss << this->pivots << "_";
+	ss << this->mode << "_";
+	ss << filename << ".csv";
+
+	fileurl = ss.str();
 
 	const char* filestr = fileurl.c_str();
 
