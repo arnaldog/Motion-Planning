@@ -3,8 +3,10 @@
 %%% INTRODUCCION PRIMERO
 
 En esta investigación, se usó el algoritmo de ``Optimización por Enjambre de Partículas'' (Particle Swarm Optimization)\cite{KennedyEberhart}, el cual consiste en buscar una solución óptima a un problema dentro de un espacio de búsqueda grande, usando un enjambre de partículas, las que individualmente representan una solución distinta según en la posición en que se encuentran.\\
+
 	Éstas partículas tienen la capacidad de moverse por este espacio de búsqueda, y hacerlo con una cierta velocidad que pueden variar según su entorno. Además estas partículas tienen una memoria que les permite saber siempre cual ha sido su mejor ubicación dentro del espacio de búsqueda.\\
-	Luego, las partículas se comunican entre ellas para informar la calidad de su posición para conocer cuál tiene la mejor posicion, con esta informacion las demás partículas deben decidir si moverse en dirección de la mejor partícula, dirigirse hacia su mejor posicion individual según su memoria, o moverse aleatoriamente a otra posición\\
+	Luego, las partículas se comunican entre ellas para informar la calidad de su posición para conocer cuál tiene la mejor posicion, con esta informacion las demás partículas deben decidir si moverse en dirección de la mejor partícula, dirigirse hacia su mejor posicion individual según su memoria, o moverse aleatoriamente a otra posición.\\
+
 	La decisión o probabilidad de acercarse a la mejor de todas las partículas o no, depende de ciertos parámetros configurables del algoritmo los cuales, en este documento se presentan de la siguiente manera:\\
 
 	\begin{small}
@@ -26,24 +28,64 @@ El objetivo del Global Path Planning PSO es que cada partícula tome movimientos 
 
 %PARTICULA
 \subsection{Representación de la partícula y de las soluciones}
-Una partícula corresponde a una eventual solución del problema, es decir una partícula $s$ es una ruta que describe el camino a seguir desde un nodo de inicio $s_{s}$ al nodo de término $s_{g}$ dentro de un espacio bidimensional $C$ de tamaño $m \times n$. Así, las rutas se definen como:
+Una partícula corresponde a una eventual solución del problema, es decir una partícula $p$ es una ruta que describe el camino a seguir desde un nodo de inicio $p_{s}$ al nodo de término $p_{g}$ dentro de un espacio bidimensional $C$ de tamaño $m \times n$. Así, las rutas se definen como:
 
 	\begin{eqnarray}
-		s = \{ s_0, s_1, ..., s_n : s_i \in C, s_0 = s_{s}, s_n = s_{g}, n \leq mn\}
+		p = \{ p_0, p_1, ..., p_n : p_i \in C, p_0 = p_{s}, p_n = p_{g}, n \leq mn\}
 	\end{eqnarray}
 
 Luego, una ruta, debido a la naturaleza del problema tiene una longitud variable ya que distintas rutas pueden ser de distinta longitud.\\
 
-	Esto crea el problema de formular una representación óptima para PSO ya que se necesita el concepto de velocidad, y con ello, el concepto de dos soluciones se puedan ``acercar'' para de cierta manera ``parecerse'' a la cual se está acercando.\\
+	Esto crea el problema de formular una representación óptima para PSO ya que se necesita introducir el concepto de velocidad, y con ello, el concepto de dos soluciones se puedan ``acercar'' para de cierta manera ``parecerse'' a la cual se está acercando.\\
 
 	Para explicar mejor el problema de la representación, se supone el siguiente ejemplo:\\
-	Se tienen 2 rutas del mismo largo $n$, cada elemento de la partícula representa una casilla del mapa a recorrer, además ambas deben tener el mismo elemento al principio y al final ya que representan el inicio y el final del recorrido.
+	Se tienen 2 rutas del mismo largo $n=4$, cada elemento de la partícula representa una casilla del mapa a recorrer, además ambas deben tener el mismo elemento al principio y al final ya que representan el inicio y el final del recorrido.
 
 	\begin{eqnarray}
-		x_{1} = \{ a, q_2, \ldots q_{k-1}, b \} \\
-		x_{2} = \{ v_0, \ldots, v_k \}
+		r_{1} = \{ 1, 2, 4, 5\} \\
+		r_{2} = \{ 1, 7, 8, 5\}
 	\end{eqnarray}
 
+	Si la particula representada por la ruta $r_{2}$ reporta un camino de mejor calidad que $r_{1}$, una forma para hacer que la particula $r_{1}$ se acerque para parecerse a $r_{2}$ y con ello intentar mejorar su calidad, se puede modificar cada elemento de $r_{1}$ para que tome el valor, como ejemplo:\\
+
+	\begin{eqnarray}
+		r_{1}_{i} = \left \lceil \frac{(r_{1}_{i} + r_{2}_{i})}{2} \right \rceil, \forall i = 1 : 4
+	\end{eqnarray}
+
+	Es decir, el promedio entre los valores individuales (aproximado hacia arriba para mantener concordancia con el espacio discreto), con esto las rutas finalmente quedan como:\\
+
+	\begin{eqnarray}
+		r_{1}' = \{ 1, 5, 6, 5\} \\
+		r_{2} = \{ 1, 7, 8, 5\}
+	\end{eqnarray}
+
+	Así, la particula $r_{1}$ está mas cerca de $r_{2}$.
+
+	El real problema nace debido a la naturaleza del problema, no se puede suponer que las rutas sean todas de la misma longitud, algunas seran más largas que otras y serán mejores ya que evitan mas obstáculos.\\
+
+	Para solucionar esta problemática se introduce el concepto de ``puntos de apoyo'' o ``pivotes'', para poder redefinir el concepto de partícula.
+
+	Usando pivotes, se crean submetas por las cuales las rutas deben pasar obligatoriamente antes de seguir a la siguiente submeta (siguiente pivote), una vez visitados todos los pivotes, se debe buscar una ultima subruta que comience en el ultimo pivote y el punto final deseado.
+
+	Gracias a los pivotes la creacion de rutas completas es simplificada a la busqueda de rutas mas cortas y fáciles de resolver cuya característica más importante es que una partícula $p$ puede ser definida como una secuencia de pivotes $P_{v}$ de longitud constante $n$:
+
+	\begin{eqnarray}
+		p = \{ p_0, p_1, ..., p_n : p_i \in P_{v}, p_0 = p_{s}, p_n = p_{g}, n = #P_{v}\}
+	\end{eqnarray}
+
+	Con esta representación, las partículas efectivamente pueden moverse dentro de una dimension fija, y acercarse para poder imitar a otras partículas con mejores características.\\
+
+	Por ejemplo, una particula $p1$  representando una ruta mas corta que una partícula $p2$, la partícula $p2$ puede acercar sus pivotes a los de la partícula $p1$ para poder asi, mejorar su calidad al parecerse a $p1$, generando una particula $p3$ representada como una ruta de largo intermedio entre $p1$ y $p2$, como se muestra en la Figura \ref{fig:pivots_explained}.
+
+	\begin{figure}
+		\includegraphics[width = 250]{img/pivots_explained.pdf} % Or .pdf
+		\caption{Acercamiento de partículas usando pivotes}
+		\label{fig:pivots_explained}
+	\end{figure}
+
+%%%%%% ARNALDO: COMPLETA ACA TU PARTE DE BEZIER Y HERMITE, pondre como titulo tentativo "generacion de rutas, etc..."
+
+\subsection{Generacion de rutas mediante pivotes}
 
 de longitud fija $k$ de puntos $q \in \mathbb{N}^2$ con su velocidad $v$ de igual longitud $k$ corresponde a la configuración $s = (x, p, v)$ donde $x$ es la posición instantanea, $p$ la mejor posición histórica y $v$ la velocidad de la partícula.
 	\begin{eqnarray}
