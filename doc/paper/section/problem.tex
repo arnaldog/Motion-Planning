@@ -31,7 +31,7 @@ El principal objetivo del GPP es encontrar rutas factibles que se encuentren en 
 
 La forma más simple de representar rutas dada una instancia descrita por un mapa en forma matriz es a través de una secuencia de posiciones adyacentes que vayan desde el punto inicial hasta el objetivo.
 
-Cada ruta generada constituye una variable de decisión y el dominio corresponde a los puntos o areas del mapa para constituir la ruta. Esta forma considera la generación de soluciones iniciales infactibles las cuales van mejorando durante el transcurso de la ejecución del algoritmo que implementa una metaheurística para este caso.
+Cada ruta generada constituye una variable de decisión y el dominio corresponde a los puntos o areas del mapa para constituir la ruta. De esta forma considera la generación de soluciones iniciales infactibles las cuales van mejorando durante el transcurso de la ejecución del algoritmo que implementa una metaheurística para este caso.
 
 %%%% RESTRICCIONES INVOLUCRADAS %%%%
 
@@ -39,7 +39,7 @@ La principal restricción es que la ruta generada esté confinada a los márgenes d
 
 Desde la perspectiva de la optimización, se consideran las colisiones como restricciones blandas que se penalizan en la función objetivo dado que su consideración dura podría no generar soluciones iniciales de acuerdo a las diferentes instancias que puedan ser estudiadas.
 
-También existen restricciones desde la perspectiva del contexto en el que se encuentre; por ejemplo en la robótica se consideran restricciones como la energía utilizada, la inercia, geometría, etc.
+También existen restricciones según el contexto en el que se encuentre; por ejemplo en la robótica se consideran restricciones como la energía utilizada, la inercia, geometría, etc.
 
 Para efectos prácticos e investigativos de la técnica utilizada en este artículo se consideran solamente las restricciones más generales del GPP y en especial, para esta investigación, no se consideran regiones a visitar.
 
@@ -47,7 +47,7 @@ Para efectos prácticos e investigativos de la técnica utilizada en este artículo
 
 Se espera encontrar rutas las cuales no pasen por obstáculos y que tengan la menor longitud posible. Otra característica de la solución a evaluar puede ser la suavidad de la ruta generada.  Muchas representaciones consideran la inicialización de las partículas o soluciones iniciales como rutas generadas pseudo aleatoreamente de forma constructiva (agregación de puntos consecutivamente), lo cual no garantiza suavidad aunque existan intenciones de suavización post generación de rutas factibles. Otra forma de abarcar el problema es considerando la interpolación paramétrica entre pares de puntos garantizando suavidad de movimiento para el agente.
 
-En términos generales el algoritmo debe dar resolución a problemas que puedan tender a converger prematuramente, por esa razón, además de penalizar la cantidad de colisiones y el largo de la ruta, se considera el hecho de que existan rutas muy cortas de solución las cuales no representen una solución adecuada al problema, situación que se ha considerado, y que tambien sufre castigos reflejados en la función objetivo.
+En términos generales el algoritmo debe dar resolución a un problema que pueda tender a converger prematuramente, por esa razón, además de penalizar la cantidad de colisiones y el largo de la ruta, se considera el hecho de que existan rutas muy cortas de solución las cuales no representen una solución adecuada al problema, situación que se ha considerado, y que tambien sufre castigos reflejados en la función objetivo.
 
 %%%% MODELO MATEMÁTICO %%%%%
 La representación del problema planteado en forma matemática se puede expresar para cualquier dimensión según el espacio de operación, sin embargo en el presente estudio se considera la resolución en el plano, siendo $C \in \mathbb{R}^2$ el espacio de operaci\'on, donde el conjunto de $O$ de $|O|=m$ obstaculos $o_i$ se define como

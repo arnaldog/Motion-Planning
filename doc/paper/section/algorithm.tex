@@ -21,17 +21,17 @@ En esta investigación, se usó el algoritmo de ``Optimización por Enjambre de Par
 
 % ENJAMBRE
 \subsection{Representación del enjambre}
-El enjambre de partículas corresponde al conjunto de $S$ partículas, donde partícula es una eventual solución y corresponde a una ruta a la que se le calcula una velocidad de movimiento respecto a su mejor posición histórica y respecto a la mejor posición global determinada la inicialización y posteriormente determinado durante la iteración.
+El enjambre de partículas corresponde al conjunto de $S$ partículas, donde cada partícula es una eventual solución (ruta) y corresponde a una ruta a la que se le calcula una velocidad de movimiento respecto a su mejor posición histórica y respecto a la mejor posición global determinada en la inicialización y posteriormente determinada durante la iteración.
 El objetivo del Global Path Planning PSO es que cada partícula tome movimientos relativos al mejor del grupo y a su propia información de mejor posición.\\
 
 	El enjambre además de la lista de partículas, tiene en memoria cuál ha sido la mejor partícula de todo el proceso de búsqueda, con ello, su posición (la solución) y su velocidad.
 
 %PARTICULA
 \subsection{Representación de la partícula y de las soluciones}
-Una partícula corresponde a una eventual solución del problema, es decir una partícula $p$ es una ruta que describe el camino a seguir desde un nodo de inicio $p_{s}$ al nodo de término $p_{g}$ dentro de un espacio bidimensional $C$ de tamaño $m \times n$. Así, las rutas se definen como:
+Una partícula corresponde a una eventual solución del problema, es decir una partícula $s$ es una ruta que describe el camino a seguir desde un nodo de inicio $p_{0} = a$ al nodo de término $p_{l} = b$ dentro de un espacio bidimensional $C$ de tamaño $m \times n$. Así, las rutas se definen como:
 
 	\begin{eqnarray}
-		p = \{ p_0, p_1, ..., p_n : p_i \in C, p_0 = p_{s}, p_n = p_{g}, n \leq mn\}
+		p = \{ p_0, p_1, ..., p_n : p_i \in C, p_0 = a, p_n = p_{l} = b, n \leq mn\}
 	\end{eqnarray}
 
 Luego, una ruta, debido a la naturaleza del problema tiene una longitud variable ya que distintas rutas pueden ser de distinta longitud.\\
@@ -46,7 +46,7 @@ Luego, una ruta, debido a la naturaleza del problema tiene una longitud variable
 		r_{2} = \{ 1, 7, 8, 5\}
 	\end{eqnarray}
 
-	Si la particula representada por la ruta $r_{2}$ reporta un camino de mejor calidad que $r_{1}$, una forma para hacer que la particula $r_{1}$ se acerque para parecerse a $r_{2}$ y con ello intentar mejorar su calidad, se puede modificar cada elemento de $r_{1}$ para que tome el valor, como ejemplo:\\
+	Si la particula representada por la ruta $r_{2}$ reporta un camino de mejor calidad que $r_{1}$, una forma para hacer que la particula $r_{1}$ se acerque para parecerse a $r_{2}$ y con ello intentar mejorar su calidad es modificando cada elemento de $r_{1}$ para que tome el valor, como ejemplo:\\
 
 	\begin{eqnarray}
 		r_{1}_{i} = \left \lceil \frac{(r_{1}_{i} + r_{2}_{i})}{2} \right \rceil, \forall i = 1 : 4
@@ -67,15 +67,15 @@ Luego, una ruta, debido a la naturaleza del problema tiene una longitud variable
 
 	Usando pivotes, se crean submetas por las cuales las rutas deben pasar obligatoriamente antes de seguir a la siguiente submeta (siguiente pivote), una vez visitados todos los pivotes, se debe buscar una ultima subruta que comience en el ultimo pivote y el punto final deseado.
 
-	Gracias a los pivotes la creacion de rutas completas es simplificada a la busqueda de rutas mas cortas y fáciles de resolver cuya característica más importante es que una partícula $p$ puede ser definida como una secuencia de pivotes $P_{v}$ de longitud constante $n$:
+	Gracias a los pivotes la creacion de rutas completas es simplificada a la busqueda de rutas mas cortas y fáciles de resolver cuya característica más importante es que una partícula $s$ puede ser definida como una secuencia de pivotes $P_{v}$ de longitud constante $n$:
 
 	\begin{eqnarray}
-		p = \{ p_0, p_1, ..., p_n : p_i \in P_{v}, p_0 = p_{s}, p_n = p_{g}, n = #P_{v}\}
+		p = \{ p_0, p_1, ..., p_n : p_i \in P_{v}, p_0 = a, p_n = p_{l} = b, n = #P_{v}\}
 	\end{eqnarray}
 
 	Con esta representación, las partículas efectivamente pueden moverse dentro de una dimension fija, y acercarse para poder imitar a otras partículas con mejores características.\\
 
-	Por ejemplo, una particula $p1$  representando una ruta mas corta que una partícula $p2$, la partícula $p2$ puede acercar sus pivotes a los de la partícula $p1$ para poder asi, mejorar su calidad al parecerse a $p1$, generando una particula $p3$ representada como una ruta de largo intermedio entre $p1$ y $p2$, como se muestra en la Figura \ref{fig:pivots_explained}.
+	Por ejemplo, una particula $s1$  representando una ruta mas corta que una partícula $s2$, la partícula $s2$ puede acercar sus pivotes ($p_{0}$, $p_{1}$, $p_{2}$, $p_{3}$) a los de la partícula $s1$ para poder asi, mejorar su calidad al parecerse a $s1$, generando una particula $s3$ representada como una ruta de largo intermedio entre $s1$ y $s2$, como se muestra en la Figura \ref{fig:pivots_explained}.
 
 	\begin{figure}
 		\includegraphics[width = 250]{img/pivots_explained.pdf} % Or .pdf
