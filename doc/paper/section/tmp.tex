@@ -1,0 +1,197 @@
+\section{Descripción del Algoritmo}
+
+%%% REPRESENTACION PARA EL ENJAMBRE
+	
+% ENJAMBRE
+El enjambre de partículas corresponde al conjunto de $S$ partículas, donde partícula es una eventual solución y corresponde a una ruta a la que se le calcula una velocidad de movimiento respecto a su mejor posición histórica y respecto a la mejor posición global, determinada durante la inicialización y posteriormente determinado durante la iteración.
+El objetivo del Global Path Planning PSO es que cada partícula tome movimientos relativos al mejor del grupo y a su propia información de mejor posición.
+
+%PARTICULA
+Una partícula corresponde a una eventual solución del problema, es decir una partícula $s$ de longitud fija $k$ de puntos $q \in \mathbb{N}^2$ con su velocidad $v$ de igual longitud $k$ corresponde a la configuración $s = (x, p, v)$ donde $x$ es la posición instantanea, $p$ la mejor posición histórica y $v$ la velocidad de la partícula. 
+	\begin{eqnarray}
+		x = \{ a, q_2, \ldots q_{k-1}, b \} \\
+		v = \{ v_0, \ldots, v_k \} 
+	\end{eqnarray}
+En este caso $x$ y $p$ obviamente tienen los mísmos puntos al comienzo y al final dado que representan una solución candidata donde los puntos de origen y final representan a las regiones inicial y objetivo respectivamente.
+
+La posición $x$ de la partícula $s \in S$ corresponde a un conjunto de puntos que interpolados o aproximados entre sí constituyen la ruta $r$ mediante diferentes métodos de interpolación o aproximación. Para esta investigación se realizaron implementaciones de los métodos de interpolación paramétrica Cubic Hermité Splines y Cubic Bezier Splines, dado los puntos sugeridos por cada particula. 
+
+El método general de interpolación corresponde a aproximar un conjunto de puntos (o pares de puntos) mediante un polinomio de grado no muy alto (para evitar grandes oscilaciones), donde en el caso de la resolución del Global Path Planning corresponde a utilizar la representación paramétrica 
+
+\begin{equation}
+P(t) = a t^3 + b t^2 + c t + d
+\end{equation}
+
+donde $P(t)$ corresponde a una función vectorial de la forma $P(t) = x(t)\hat{i} + y(t)\hat{j}$, tal que
+
+\begin{eqnarray}
+x(t) = a_x t^3 + b_x t^2 + c_x t + d_x \\
+y(t) = a_y t^3 + b_y t^2 + c_x t + d_y
+\end{eqnarray}
+
+La forma general de describir la parametrización mediante Splines entre pares o conjuntos de puntos subsiguientes es de la forma
+\begin{equation}
+[x(t) \quad y(t)] = [t^3\quad t^2\quad t\quad 1] M G
+\end{equation}
+Donde $M$ es una matriz de $4\times 4$ deducida del método en específico y $G$  una matriz de $4\times 2$ con puntos y/o gradientes (según el método). El resultado de la ecuación anterior genera una matriz de $2\times 1$ donde cada columna representa a la parametrización de $x$ e $y$. La forma más sencilla de hallar las matrices $M$ y $G$ son las de generar los polinomios dentro del intervalo $t \in [0, 1]$ por razones prácticas de planteamiento.
+
+Se realizaron experimentos con B Splines pero se descartaron porque no aproxima desde la región inicial ni a la región objetivo aunque pueden ser utilizadas otras técnicas para satisfacer tal condición pero introducen complejidad  adicional para realizar comparaciones de los métodos. 
+
+La representación de la ruta está dada entonces por el conjunto de polinomios interpoladores o aproximadores sobre los pares sucesivos de los $k$ puntos $q$ definidos como posición en la partícula $s$. Las formas 
+\paragraph{Cubic Bezier Splines}  Esta aproximación es utilizada para mantener la propiedad de cobertura de area mínima (convex hull) de los polinomios generados por cada par de puntos asegurando que las rutas generadas satisfagan la restricción de preservar la frontera de entorno de operación. Cada polinomio $i$ generado entre los puntos $i$ e $i+1$ se genera a partir de la expresión
+
+
+
+\begin{small}
+\begin{equation}
+[x_i(t), y_i(t)] = \left[\begin{array}{c}
+			t^3 \\ t^2 \\ t \\ 1
+			\end{array}
+			\right]^T \underbrace{\left[ 
+			\begin{array}{rrrr}
+			-1 &  3 & -3 &  1 \\
+			 3 & -6 &  3 &  0 \\
+			-3 &  3 &  0 &  0 \\
+			 1 &  0 &  0 &  0 
+			\end{array}
+		\right]}_{M_{\text{bezier}}}  \underbrace{\left[
+			\begin{array}{c}
+			 q_{i-1} \\
+			 q_{i} \\
+			 q_{i+1} \\
+			 q_{i+2}
+			 \end{array}
+		\right]}_{G_{\text{bezier}}} 
+\end{equation}
+\end{small}
+
+\begin{figure}
+	\begin{center}
+		\begin{pspicture}[showgrid=true](8,6)
+			\psbcurve[showpoints=true](1,1)(2,2)(3,1)(4,2)
+			\pscurve[showpoints=true]{<->}(0,1.3)(0.7,1.8) (3.3,0.5)(4,1.6)(0.4,0.4)
+		\end{pspicture}	
+		\caption{Ejemplo de interpolación de los puntos...}
+	\end{center}
+\end{figure}
+
+\paragraph{Cubic Hermite Splines} Esta interpolación consta además de una variante en la representación de la partícula $s$ la cual considera, además de los puntos en el entorno de operación, la gradiente de cada punto $(\nabla q)$ para determinar la forma de la ruta generada, por tanto $x_h = (x, \nabla x)$. Cada polinomio $i$ generado entre los puntos $i$ e $i+1$ se genera a partir de la expresión:
+\begin{small} 
+\begin{equation}
+[x_i(t), y_i(t)] = \left[\begin{array}{c}
+			t^3 \\ t^2 \\ t \\ 1
+			\end{array}
+			\right]^T \underbrace{ \left[ 
+			\begin{array}{rrrr}
+			 2 & -2 &  1 &  1 \\
+			-3 &  3 & -2 & -1 \\
+			 0 &  0 &  1 &  0 \\
+			 1 &  0 &  0 &  0 
+			\end{array}
+		\right]}_{M_{\text{hermite}}} \underbrace{\left[
+			\begin{array}{r}
+			 q_{i} \\
+			 q_{i+1} \\
+			 \nabla q_{i} \\
+			 \nabla q_{i+1}
+			 \end{array}
+		\right]}_{G_{\text{hermite}}}
+\end{equation}
+\end{small}
+
+\begin{figure}
+	\begin{center}
+		\begin{pspicture}[showgrid=true](8,6)
+		\psbcurve[linecolor=blue,linewidth=0.01](1,1)%
+		(2,2)(3,1)(4,2)
+		\psset{showpoints=true}
+		\psbcurve(1,1)(2,2)L(2,1)(3,1)(4,2)
+		\uput[-90](2,1){$\vec{l}_{2}$}
+		\uput[0](2,2){$\vec{p}_{1}$}
+		\uput[0](2,3){$\vec{r}_{1}$}
+		\psbezier[linewidth=2pt,showpoints=true]{->}(0,0)(1,4)(2,1)(4,3.5)
+		\end{pspicture}	
+		\caption{Ejemplo de interpolación de los puntos...}
+	\end{center}
+\end{figure}
+
+Todas las combinaciones de rutas posibles dentro del mapa representan el dominio de cada 
+ruta ya que estas son generadas a partir de puntos y gradientes descritas por la partícula.
+
+La longitud de la ruta está dada por
+\begin{equation}
+\ell =\sum_{i=1}^{k-1} \int_{0}^{1}\sqrt{\left[x_{i}'(t)\right]^2 + \left[y_{i}'(t)\right]^2} dt
+\end{equation}
+
+Cada posición $x$ y velocidad $v$ es generada pseudo aleatoreamente dentro del encuadre del entorno de operación y son entendidas como pivotes o puntos de control (según el método utilizado). 
+
+La actualización de la posición corresponde a la generación de nuevas rutas que pasen por los pivotes o puntos de control modificados respecto a la información que se tenga en el enjambre.
+La función objetivo 
+	\begin{equation}
+		\min F(\ell) = \ell + NC(1 + {\ell}^\alpha)
+	\end{equation}
+donde  $ C$ es el número de colisiones y $\alpha$ es el nivel de penalización por rutas cortas con colisiones.
+
+Bajo esta representación todas las rutas tienen largos distintos pero las longitudes de las posiciones y velocidades permanecen constantes lo que significa gran comodidad para operar durante la ejecución del algoritmo
+
+La actualización de la velocidad de la partícula $s$ está dada por
+	\begin{eqnarray}
+	 v_{i+1} = \omega v_i + \rho_g\phi_g (g - x_i) + \rho_p\phi_g (p_i- x_i) \\
+	  x_{i+1} =  x_i +  v_i 
+	\end{eqnarray}
+donde los parámetros mencionados son: $\omega$ que pondera el efecto de la velocidad actual, $\phi_g$ parámetro para favorecer la explotación,  $\phi_p$ parámetro para favorecer la exploración, $\rho_g, \rho_p \sim U(0,1)$, $g$ la mejor posición global, $p_i$ la mejor posición de la partícula $i$, $x_i$ posición de la partícula $i$. 
+
+%%%% OPERADORES DE RUTA
+Para realizar las operaciones se consideró una definición especial para restar, sumar y multiplicar posiciones y velocidades las que se realizan punto a punto, lo que produce incrementos o decrementos en los puntos dentro del entorno de operación para realizar la exploración y explotación necesaria para el algoritmo.
+
+%%% ALGORITMO PSO
+El algoritmo PSO consta de una fase de inicialización, luego una fase de iteración para terminar con la finalización
+Inicialización del enjambre
+\begin{center}
+\begin{algorithm}[H]% <- necesario
+\SetLine \KwData{$S, \omega, \Phi_g, \Phi_p$, $g \leftarrow $ MAX\_INT}
+\KwResult{Mejor particula $s_i$. }
+\linesnumbered
+\SetVline
+\For{$i=1$ \KwTo $S$ }
+{
+	$x_i = $ \text{Inicializar posición aleatoreamente}\;
+	$p_i \leftarrow x_i$\;
+	$v_i = $ \text{Inicializar velocidad aleatoreamente}\;
+	\If{$f(p_i) < f(g)$}{
+		$g \leftarrow p_i$
+	}
+	
+}
+\caption{Inicialización PSO}
+\end{algorithm}
+\end{center}
+
+Iteración del enjambre
+\begin{center}
+\begin{algorithm}[H]% <- necesario
+\SetLine \KwData{$S, \omega, \Phi_g, \Phi_p, I$}
+\KwResult{Mejor particula $g$. }
+\linesnumbered
+$i = 0$
+\While{$ i < I $}{
+	\For{$i=1$ \KwTo $S$}
+	{
+		$ r_p, r_g \sim U(0,1)$\;
+		$ v_i \leftarrow \omega v_i + \Phi_p r_p (p_i - x_i) + \Phi_g r_g(g - x_i)$\;
+		$ x_i \leftarrow x_i + v_i $\;
+		\If{$ f(r_i) < f(p_i)$}
+		{
+			$p_i \leftarrow x_i$\;
+			\If{$f(p_i) < f(g)$}
+			{
+				$g \leftarrow p_i$\;
+			}
+		}
+	}
+	$i=i+1$\;
+}
+\Return $g$ \;
+\caption{Iteración PSO}
+\end{algorithm}
+\end{center}

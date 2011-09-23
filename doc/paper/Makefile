@@ -1,6 +1,7 @@
 #Compilador
 PDFLATEX=pdflatex
 #binarios esperados
+FLAGS=--shell-escape
 BIN=main.pdf
 #fuentes
 SRC = main.tex
@@ -8,7 +9,7 @@ SRC = main.tex
 OBJ=*.acn *.aux *.glo *.ist *.log
 
 all: $(SRC)
-	$(PDFLATEX)  $(SRC)
+	$(PDFLATEX) $(FLAGS) $(SRC)
 
 clean:
-	rm -rf $(BIN) $(OBJ) 
+	rm -rf $(OBJ) 
