@@ -4,7 +4,7 @@ El objetivo principal de esta experimentación es el de evaluar la utilización de
 
 También es importante medir la calidad (en relación a la tendencia central) de las soluciones encontradas para posteriormente hacer un breve análisis de éstas o evaluar la convergencia según las instancias y sus formas de resolverlas.
 
-La estratégia entonces es la de realizar  experimentos asociados a diferentes combinaciones de parámetros y así observar el comportamiento de la función objetivo en función de estos. 
+La estrategia entonces es la de realizar  experimentos asociados a diferentes combinaciones de parámetros y así observar el comportamiento de la función objetivo en función de estos.
 
 Una vez analizado el comportamiento de los parámetros respecto a la función objetivo, es importante estudiar el comportamiento particular de aquellos parámetros seleccionados por cada instancia, y utilizar un conjunto de realizaciones con parámetros conocidos (del paso anterior)  que dan buena respuesta a cada instancia (conocimiento a priori) y luego realizar un análisis de hipótesis de los parámetros apreciados.
 
@@ -14,11 +14,11 @@ La hipótesis estructural entonces en una primera instancia es la del modelo de r
 \begin{equation}
 y_{j} = \beta_0 + \sum_{i=1}^{k}\beta_{i} x_{ij} + u_{j}, \quad j=1\ldots n
 \end{equation}
-donde los supuestos básicos son de lo anterior corresponde a  
+donde los supuestos básicos son de lo anterior corresponde a
 \begin{itemize}
-\item $y_{j}$ y $u_{j}$ como variables dependientes o explicadas 
+\item $y_{j}$ y $u_{j}$ como variables dependientes o explicadas
 \item $x_{i}$ variable explicativa estocástica
-\item $\beta_0, \beta_i$ el parámetro que pondera el efecto de la variable  explicativa 
+\item $\beta_0, \beta_i$ el parámetro que pondera el efecto de la variable  explicativa
 \end{itemize}
 y además se considera que  $u_{ij} \sim N(0,\sigma)$ (error aleatoreo Gaussiano) donde el valor esperado es
 \begin{equation}
@@ -46,8 +46,8 @@ Es importante señalar que por bajo que sea el valor de la función objetivo, no s
 
 Sin embargo, pueden haber legítimas sospechas de que la relación entre los parámetros y la función objetivo no sea del tipo lineal, por lo tanto, en tales casos convendría más utilizar modelos empíricos de redes neuronales artificiales (ANN),  pero, para este trabajo se considera el modelo de regresión multiple lineal pues es una primera aproximación a comprender el efecto de los parámetros en el fitness y los modelos empíricos ANN no otorgan una visualización directa de estos efectos.
 
-Con un modelo estadístico asociado al problema es posible realizar simulaciones y así ampliar la perspectiva desde el punto de vista de las ejecuciones, dado que la obtención de un conjunto variado de soluciones constituye consumir largos períodos de tiempo, sin embargo, 
-es importante señalar que el objetivo del análisis no es el de determinar o proponer un modelo de regresión u otra clase de ajuste, sino el de estudiar los efectos de los parámetros en el valor de función objetivo, que no establece estrictamente si el problema ha sido resuelto o nó, por lo tanto, el modelo en ningún caso representa la resolución efectiva problema que estamos estudiando en esencia.
+Con un modelo estadístico asociado al problema es posible realizar simulaciones y así ampliar la perspectiva desde el punto de vista de las ejecuciones, dado que la obtención de un conjunto variado de soluciones constituye consumir largos períodos de tiempo, sin embargo,
+es importante señalar que el objetivo del análisis no es el de determinar o proponer un modelo de regresión u otra clase de ajuste, sino el de estudiar los efectos de los parámetros en el valor de función objetivo, que no establece estrictamente si el problema ha sido resuelto o no, por lo tanto, el modelo en ningún caso representa la resolución efectiva problema que estamos estudiando en escencia.
 
 Una vez estudiados los parámetros, se utilizan en realizaciones para comprobar la hipótesis de que dichos parámetros resuelven efectivamente
 el problema midiendo un parámetro como el valor medio $\mu$ de la resolución efectiva del problema.
@@ -80,7 +80,7 @@ y adem\'as especificar el modo de interpolaci\'on y la instancia.
 
 \begin{center}
 \begin{Verbatim}[fontfamily=helvetica, fontsize=\small, frame=single]
-	./psomp.bin -iteraciones 50  -particulas 500 
+	./psomp.bin -iteraciones 50  -particulas 500
 	-alpha 2 -omega 2  -phip 20 -phig50
 	-map rooms_easychico.dat
 	-pivotes 8 -mode bezier
@@ -97,7 +97,7 @@ instancias con las que se probó para este caso utilizando el siguiente repositor
 \end{center}
 
 \subsubsection{Fase 1: Realización del algoritmo con combinaciones de parámetros}
-Los parámetros a utilizar inicialmente corresponden a parámetros probados anteriormente que dan cuenta de resultados exitosos en intentos puntuales. 
+Los parámetros a utilizar inicialmente corresponden a parámetros probados anteriormente que dan cuenta de resultados exitosos en intentos puntuales.
 
 El procedimiento de la experimentación de este algoritmo consiste en considerar el siguiente escenario.
 \begin{itemize}
@@ -105,7 +105,7 @@ El procedimiento de la experimentación de este algoritmo consiste en considerar 
 	\item $|S| = \{50; 250 \}$
 	\item $\alpha = \{2; 2.5; 3 \}$
 	\item $\omega = \{0.7; 1.5 \}$
-	\item $\phi_g = \{0.6; 1; 1.4 \}$ 
+	\item $\phi_g = \{0.6; 1; 1.4 \}$
 	\item $\phi_p = \{0.6; 1; 1.4 \}$
 	\item $q = \{1; 2; 4; 6 \}$
 	\item Metodos de interpolación: Hermite y Bezier
@@ -127,11 +127,11 @@ Los parámetros que varían son especificamente los de el tamaño del enjambre (can
 
 %\begin{figure}[H]
 %  \centering
-%  \subfloat[Bugtrap]{\label{fig:bugtrap}\includegraphics[width=0.20\textwidth]{\imagepath{bugtrap.png}}}                
+%  \subfloat[Bugtrap]{\label{fig:bugtrap}\includegraphics[width=0.20\textwidth]{\imagepath{bugtrap.png}}}
 % \subfloat[Complex]{\label{fig:complex}\includegraphics[width=0.20\textwidth]{\imagepath{complex.png}}} \\
 %  \subfloat[T]{\label{fig:t}\includegraphics[width=0.20\textwidth]{\imagepath{t.png}}}
 %  \subfloat[Rooms]{\label{fig:rooms}\includegraphics[width=0.20\textwidth]{\imagepath{rooms.png}}}
- 
+
 %  \caption{Instancias Global Path Planning}
 %  \label{fig:animals}
 %\end{figure}
@@ -145,21 +145,21 @@ Del total de las ejecuciones para esta fase, se obtuvieron los valores de la fun
 
 \begin{itemize}
 	\item Gráfico de convergencia para cada método
-	\item Tablas con los resúmenes de los datos para el valor de la función objetivo 
+	\item Tablas con los resúmenes de los datos para el valor de la función objetivo
 	\item Tabla con los resumenes para el tiempo de ejecución  usando bezier
 	\item Gráfico de distribución según parametros propios del algoritmo para cada instancia usando bezier
 	\item  Gráfico de distribución según parametros propios del algoritmo para cada instancia usando hermite
 \end{itemize}
 
 
-Dado el alto volumen de datos generados para involucrar una tabla descriptiva, se presentan los datos en sus respectivos histogramas 
-para visualizar la distribución de los valores de la función objetivo respecto a los parámetros de interés.  
+Dado el volumen de datos generados para involucrar una tabla descriptiva, se presentan los datos en sus respectivos histogramas
+para visualizar la distribución de los valores de la función objetivo respecto a los parámetros de interés.
 
 \paragraph{Gráficos de convergencia del algoritmo}
 Se presentan los gráficos que describen el promedio y las desviaciones estándar de la función objetivo
-durante cáda iteración del algoritmo para cada una de las instancias en las figuras \ref{convergencia:bezier} y \ref{convergencia:hermite}. 
+durante cáda iteración del algoritmo para cada una de las instancias en las figuras \ref{convergencia:bezier} y \ref{convergencia:hermite}.
 
-La información otorgada en los gráficos corresponde al valor promedio de la convergencia por iteración, y se lee como el fitness promedio obtenido para la instancia en particular versus el número de iteración donde se consideran todos los datos obtenidos de las ejecuciones. 
+La información otorgada en los gráficos corresponde al valor promedio de la convergencia por iteración, y se lee como el fitness promedio obtenido para la instancia en particular versus el número de iteración donde se consideran todos los datos obtenidos de las ejecuciones.
 
 La convergencia del algoritmo usando el método de aproximación Bezier muestra mas variabilidad debido a que se realizaron las ejecuciónes cinco veces por cada una de las configuraciones de los parámetros en total, vale decir que cada procedimiento se generó en cinco oportunidades.
 
@@ -195,7 +195,7 @@ Pese a aquello, la convergencia del algoritmo es muy rápida, teniendo una forma 
 
 \paragraph{Resúmen de datos de tiempo de ejecución y valor de la función objetivo}
 A continuación se presentan los resúmenes de los resultados y los histogramas para cada una de las instancias, considerando el total de los experimentos. Se separan en resúmenes para los experimentos hechos para bezier y hermité. \\
- 
+
 %% INCLUIR HISTOGRAMAS
 Los resultados obtenidos mediante la utilización del algoritmo mediante el método Bezier para el valor de la función objetivo son los siguientes.
 	\begin{table}[H]
@@ -216,7 +216,7 @@ Los resultados obtenidos mediante la utilización del algoritmo mediante el métod
 	\end{scriptsize}
 
 	\end{table}
-	
+
 	\begin{table}[H]
 		\begin{center}
 			\begin{tabular}{llllllll}
@@ -232,7 +232,7 @@ Los resultados obtenidos mediante la utilización del algoritmo mediante el métod
 			\caption{Tabla con los resúmenes para el tiempo de respuesta usando método Bezier}
 		\end{center}
 	\end{table}
-	
+
 	\begin{table}[H]
 	\begin{scriptsize}
 		\begin{center}
@@ -251,7 +251,7 @@ Los resultados obtenidos mediante la utilización del algoritmo mediante el métod
 	\end{scriptsize}
 
 	\end{table}
-	
+
 	\begin{table}[H]
 		\begin{center}
 			\begin{tabular}{llllllll}
@@ -267,7 +267,7 @@ Los resultados obtenidos mediante la utilización del algoritmo mediante el métod
 			\caption{Tabla con los resúmenes para el tiempo de respuesta usando método Hermite}
 		\end{center}
 	\end{table}
-	
+
 \paragraph{Resúmenes de histograma para los resultados}
 En las figuras \ref{convergencia:bezier} y \ref{convergencia:hermite} se presenta la distribución de los valores de la función objetivo por cada parámetro particular del problema (cantidad de pivotes, valores de $\alpha$ y tamaño del enjambre). En esta oportunidad no se muestran los gráficos de densidad respecto a los demás parámetros porque al estos variar muy poco en la realización del experimento no manifiestan diferencias significativas respecto a la distribución del valor de la función objetivo.
 
@@ -315,7 +315,7 @@ Al respecto, a través de los gráficos de densidad se visualiza la influencia de 
 	\end{center}
 \end{figure}
 \subsubsection{Resultados del algoritmo con parámetros estimados de la fase 1}
-Del procedimento anteior se proceden a obtener los parámetros puntuales para esta fase. 
+Del procedimento anteior se proceden a obtener los parámetros puntuales para esta fase.
 Por ejemplo la mayor cantidad de valores bajos (en cifras significativas) de la función objetivo para ``Rooms'' utilizando el método de aproximación Bezier,  corresponde a la utilización de dos pivotes, valor de alpha de 2.5 y 250 partículas en el enjambre.
 El cuadro \ref{parametros:fase2} muestra los parámetros sugeridos por el análisis realizado en la fase 1, por considerarlos más influyentes y sobre ellos se generan las nuevas ejecuciones para revisar el comportamiento de estos.
 
@@ -378,7 +378,7 @@ valor de la función objetivo.
 		%Coeficientes			& \multicolumn{2}{|c|}{Bugtrap} &	Mediana	& Tercer Cuartil	& Maximo \\
 		p & Bugtrap		& Complex		& Rooms			& T \\
 		\hline
-		
+
 		B0& -9.580e+06	& -5.266e+07		& -2.856e+07		& -1.765e+07 \\
 		1 & -1.225e+04	& -1.857e+03		& -1.929e+03		& 6.232e+03 \\
 		2 & 4.477e+06	& 1.542e+07		& 1.175e+07		& 7.198e+06 \\
@@ -389,7 +389,7 @@ valor de la función objetivo.
 		7 &3.112e-01		& 3.852e-01		& 1.917e-01		& 4.026e-01 \\
 		R &0.7163		& 0.8697			& 0.8733			& 0.853 \\
 		R2&0.7158		& 0.8695			& 0.8731 		& 0.8528 \\
-		\bottomrule	
+		\bottomrule
 		\end{tabular}
 		\caption{Coeficientes estimados de la regresión Lineal Múltiple para cada Problema utilizando Bezier Splines.}
 	\end{center}
@@ -402,7 +402,7 @@ valor de la función objetivo.
 		%Coeficientes			& \multicolumn{2}{|c|}{Bugtrap} &	Mediana	& Tercer Cuartil	& Maximo \\
 		p & Bugtrap		& Complex		& Rooms			& T \\
 		\hline
-		
+
 		B0& -6.723e+06 	& -1.187e+08 	& 3.265e+14		& -4.149e+06 \\
 		1 & -4.659e+04	& -5.599e+04		& 1.994e+11		& -1.990e+04 \\
 		2 & 8.022e+06	& 5.119e+07		& 7.479e+13		& 6.404e+06 \\
@@ -413,29 +413,30 @@ valor de la función objetivo.
 		7 & 3.988e-02	& 1.449e-01		& 2.815e+00		& 2.595e-02 \\
 		R & 0.3565		&  0.743			& 0.7373			& 0.3945 \\
 		R2& 0.3549		& 0.7427 		& 0.7366			& 0.393  \\
-		\bottomrule	
+		\bottomrule
 		\end{tabular}
 		\caption{Coeficientes estimados de la regresión Lineal Múltiple para cada Problema utilizando Hermite Splines.}
 	\end{center}
 \end{table}
 
-De los resultados se desprenden datos interesantes 
+%desde aca en adelante, falto tiempo
+%TODO: revisar si se incluye esto o no
 
-\subsubsection{Resultados para la Fase 2}
-A continuación se establece el análisis para el segundo caso.
+%\subsubsection{Resultados para la Fase 2}
+%A continuación se establece el análisis para el segundo caso.
 
-\paragraph{Test de hipótesis} Se realiza un test de hipótesis para cada una de las resoluciones y bla bla baa
+%\paragraph{Test de hipótesis} Se realiza un test de hipótesis para cada una de las resoluciones y bla bla baa
 
-\subsection{Resultados Generales}
-Tabla con los resultados generales del experimento
-\begin{table}[ht]
-	\begin{center}
-	\begin{tabular}{lllll}
-	\toprule
-	Instancia & Calidad & Calidad Promedio & Tiempo & Entregable \\
-	T Chico	  &  32		 & 12		& 3124	   & 230 \\
-	\bottomrule
-	\end{tabular}
-	\caption{Resultados PSO utilizados según instancia}
-	\end{center}
-\end{table}
+%\subsection{Resultados Generales}
+%Tabla con los resultados generales del experimento
+%\begin{table}[ht]
+%	\begin{center}
+%	\begin{tabular}{lllll}
+%	\toprule
+%	Instancia & Calidad & Calidad Promedio & Tiempo & Entregable \\
+%	T Chico	  &  32		 & 12		& 3124	   & 230 \\
+%	\bottomrule
+%	\end{tabular}
+%	\caption{Resultados PSO utilizados según instancia}
+%	\end{center}
+%\end{table}

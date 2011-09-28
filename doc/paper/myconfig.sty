@@ -4,6 +4,9 @@
 \usepackage{auto-pst-pdf}
 \usepackage{pst-bezier}
 
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+
 \newcommand{\theauthors}{Arnaldo Gaspar and Joe Cabezas}
 \newcommand{\theemails}{agaspar@alumnos.inf.utfsm.cl and jcabezas@alumnos.inf.utfsm.cl}
 \newcommand{\theteacher}{Elizabeth Montero}
@@ -11,7 +14,7 @@
 \newcommand{\theuniversity}{Universidad T\'ecnica Federico Santa Mar\'ia}
 \newcommand{\themaintitle}{
 	%Particle Swarm Optimizatión On Global Path Planning with Hermite and Bezier Splines
-	Optimización por Enjambre de Partículas Para Planificación Global de Rutas basado en 
+	Optimización por Enjambre de Partículas Para Planificación Global de Rutas basado en
 	Interpolación Polinomial
 	}
 
@@ -27,11 +30,9 @@
 			numberedsection,
 			acronym,
 			toc]{glossaries}
-			
+
 \usepackage{amsmath}
 \usepackage{amsfonts}
-\usepackage[latin1]{inputenc}
-\usepackage[spanish]{babel}
 \usepackage{booktabs}
 \usepackage{algorithm2e}
 \usepackage{subfig}
@@ -39,7 +40,7 @@
 \usepackage{epstopdf}
 
 \usepackage{float}
-\floatstyle{boxed} 
+\floatstyle{boxed}
 \restylefloat{figure}
 
 \usepackage{wrapfig}
@@ -50,10 +51,10 @@
 	%% COMANDO 		: AGREGA AL GLOSARIO Y A LA LISTA DE ACRONIMOS
 	%% ARGUMENTOS %%
 	%% #1 : referencia de glosario = nombre en acronimo
-	%% #2 : referencia en acronimos 
+	%% #2 : referencia en acronimos
 	%% #3 : entrada de acronimo
 	%% #4 : descripcion del acronimo
-	
+
 	\newcommand{\newglossarycrossentry}[4]
 	{
 		\newglossaryentry{#1}
@@ -63,5 +64,5 @@
 			description={#4}
 		}
 		\newacronym[description={\glslink{#1}{#3}}] % link reference and description
-		{#2}{#2}{#3} %% explained 
+		{#2}{#2}{#3} %% explained
 	}

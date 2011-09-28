@@ -1,15 +1,15 @@
 \section{Conclusiones}
 
-Se concluye que
+Luego del proceso de experimentación, ajustando parámetros, conociendo en profundidad el algoritmo de optimización, trabajar con distintas instancias, y ver en los resultados, los efectos de los parámetros, se puede concluir, que, para esta implementación, tienen más peso la cantidad de partículas (o tamaño del enjambre), el factor de penalización $\alpha$ y el largo de las particulas (dimension de las particulas, o cantidad de pivotes), el resto de los parámetros, no revelaron ser explicativos para los efectos de cambio en la función ojetivo, ni tampoco en los tiempos de ejecución, tambien debido a los metodos de interpolación implementados. En particular, el método de Hermité, cuyo comportamiento en conjunto con el modelo de partículas usado, mostró que el paso más importante en el algoritmo, es la inicialización misma, por ser un paso explorativo, pseudo-aleatorio, que al pasar al proceso de iteración (parte mas explotativa, dependiendo de los parametros $\phi$), simplemente comienza a aproximarse a la mejor partícula, con una tendencia de mejora muy baja, ya que, debido muy fuertemente a la complejidad del mapa, el movimiento de las particulas causa que las particulas aumenten su fitness ya que al mover los pivotes, generan rutas no factibles, aumentando el castigo y por lo tanto, no mejorando el mejor fitness.\\
 
-\begin{itemize}
-	\item Se debe elegir un número apropiado de particula
-	\item El algoritmo converge muy rápido
-	\item Es muy fácil de implementar
-	\item Con Bezier mejora el rendimiento
-	\item Con Hermite cuesta el doble de tiempo procesar (por los pivotes)
-	\item El parametro más influyente es: 
-	\item Las ténicas de interpolacion son muy efectivas
-	\item La implementación es independiente del tamaño de la grilla, solo juega en contra el rendimiento
-	\item Otras.
-\end{itemize}
+Es por esto, que el algoritmo converge en todos los casos de manera temprana, es más, necesitó solo el 10\% de las iteraciones en cada una de las ejecuciones para llegar a un punto de convergencia.\\
+
+Además, esto explica las razones por la que la cantidad de partículas es tan relevante, pues, mientras más partículas existan en la inicialización, mayor exploración del dominio de búsqueda existe de manera inmediata al inicio, y por lo tanto, una probabilidad mayor de encontrar una solución óptima.\\
+
+Las técnicas de interpolacion usadas, ayudaron mucho a simplificar el problema de la dimensionalidad de las particulas, haciendo que el algoritmo sea completamente independiente del tamaño del mapa, y sólo afectando el rendimiento al calcular el fitness, debido a los cálculos de la interpolación misma.\\
+
+Gracias a esta independencia del tamaño del mapa, facilmente puede implementarse un algoritmo que antes de procesar el mapa, lo escale a un factor mayor (configurable), para que así el objeto móvil sea mas pequeño en relación al mapa (ya que en este caso se le considera sólo un punto), teniendo más espacio por donde pueden pasar las rutas generadas sin generar colisiones. Una vez realizada la escala, se procesa el algoritmo normalmente, y luego se entrega la ruta a la escala original.
+
+Como potencial trabajo a futuro, se pueden hacer implementaciones constructivistas de las rutas, es decir, que la generacion de rutas se haga desde el punto de partida y tratando de llegar al punto de llegada considerando los obtáculos, para así tener siempre soluciones factibles, pues, en esta implementación, se aceptaron soluciones no factibles, con la esperanza de que el algoritmo de optimización por ejambre de partículas mejorase durante todas las iteraciones, usando la información de las demás partículas.
+
+Una implementación constructivista permitiría simular de mejor manera la motivación original del algoritmo de optimizacion por enjambre de partículas, ya que todas las partículas estarian ``discutiendo'' el ``donde está la salida'', y no ``que forma debe tener la ruta''.\\
